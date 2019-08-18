@@ -1,5 +1,7 @@
 # XuShicheng's Homepage
 
+http://PetePro.github.io
+
 ### Feathures:
 
 **Post**
