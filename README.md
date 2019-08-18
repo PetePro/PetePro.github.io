@@ -1,10 +1,6 @@
-## Voyager
-
-Just another jekyll theme. Demo: <http://redvi.github.io/voyager>
+# XuShicheng's Homepage
 
 ### Feathures:
-
-All HTML files are compressed (see `_layouts/compress.html`).
 
 **Post**
 
@@ -66,8 +62,3 @@ If your blog is not in the root directory, you can include images with a relativ
 ![my_image]({{ site.images | relative_url }}/image.jpg)
 ```
 
-## Production environment
-
-Build for production:
-
-`JEKYLL_ENV=production jekyll build`

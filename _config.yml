@@ -7,16 +7,16 @@
 
 
 # Site settings
-title: WngLMng
-email: wnglmng@qq.com
-author: WngLMng
-keywords: "王立明, WngLMng"
+title: XuShicheng
+email: peter-xsc@foxmail.com
+author: XuShicheng
+keywords: "徐世诚, XuShicheng, Peter"
 description: A coder.
 baseurl: "" # the subpath of your site, e.g. /blog
 lang: "zh-cn"
 url: "https://wnglmng.com" # the base hostname & protocol for your site
 twitter_username:
-github_username: wnglmng
+github_username: PetePro
 disqus_username:
 
 
