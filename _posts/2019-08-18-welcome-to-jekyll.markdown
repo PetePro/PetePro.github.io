@@ -3,10 +3,10 @@ layout: post
 title:  "Welcome to Jekyll!"
 crawlertitle: "How to use jekyll"
 summary: "Welcome to Jekyll!"
-date:   2016-06-28 23:09:47 +0800
+date:   2019-08-18 10:00:00 +0800
 categories: posts
-tags: 'jekyll'
-author: redVi
+tags: '理论'
+author: xusc
 ---
 You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
 
