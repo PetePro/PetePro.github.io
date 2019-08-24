@@ -1,6 +1,5 @@
 ---
 layout: post
-bg: '201908/jekyll.jpg'
 title:  "Welcome to Jekyll!"
 crawlertitle: "How to use jekyll"
 summary: "Welcome to Jekyll!"
