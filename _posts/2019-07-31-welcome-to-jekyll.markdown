@@ -3,7 +3,7 @@ layout: post
 title:  "Welcome to Jekyll!"
 crawlertitle: "How to use jekyll"
 summary: "Welcome to Jekyll!"
-date:   2019-08-18 10:00:00 +0800
+date:   2019-07-31 10:00:00 +0800
 categories: posts
 tags: '理论'
 author: xusc
