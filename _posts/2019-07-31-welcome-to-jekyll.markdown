@@ -86,7 +86,7 @@ a3   | b3   | c3
 ```
 
 文件/目录 | 描述
----------|------------
+-|-
 _config.yml | 保存配置数据。
 _drafts | 未发布的文章。这些文件的格式中都没有 title.MARKUP 数据。
 _includes | 你可以加载这些包含部分到你的布局或者文章中以方便重用。可以用这个标签 {% include file.ext %} 来把文件 _includes/file.ext 包含进来。
