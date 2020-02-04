@@ -85,7 +85,10 @@ a3   | b3   | c3
 └── index.html
 ```
 
-
+文件/目录 | 描述
+-|-
+_config.yml | 保存配置数据。
+_drafts | 未发布的文章。这些文件的格式中都没有 title.MARKUP 数据。
 
 #### Jekyll 常用语法
 
