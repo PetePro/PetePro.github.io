@@ -112,12 +112,10 @@ a3   | b3   | c3
 
 #### markdown 高亮代码
 
-```
-{% highlight java %}
+```Java
 public static void main(String[] args) {
     System.out.println("Hello World!");
 }
-{% endhighlight %}
 ```
 
 查阅 [Jekyll docs][jekyll-docs] 了解更多信息，Jekyll的Github的主页： [Jekyll’s Github repo][jekyll-gh] ，如有问题可访问 [Jekyll Talk][jekyll-talk] 进行讨论。
