@@ -3,7 +3,7 @@ layout: post
 title:  "软件工程著作读书笔记"
 crawlertitle: "编程，一个许多人痛苦挣扎的焦油坑以及一种乐趣和苦恼共存的创造性活动"
 summary: "软件工程著作整理"
-date:   2019-09-22 09:00:00 +0800
+date:   2019-09-01 09:00:00 +0800
 categories: posts
 tags: '理论'
 author: xusc

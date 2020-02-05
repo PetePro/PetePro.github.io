@@ -46,6 +46,12 @@ index.html and other HTML, Markdown, Textile files | 如果这些文件中包含
 
 #### Jekyll 常用语法
 
+Jekyll 会遍历网站搜寻要处理的文件。任何有 YAML 头信息的文件都是要处理的对象。对于每一个这样的文件，Jekyll 都会通过 Liquid 模板工具来生成一系列的数据。[Jekyll 常用变量](http://jekyllcn.com/docs/variables/)
+
+[集合（Collections）](http://jekyllcn.com/docs/collections/) 允许定义一种新的文档类型，它既可以像页面和文章那样工作，也可以拥有它们特有的属性和命名空间。
+
+除了内建变量之外，还可以指定用于 Liquid 模板系统的自定义[数据](http://jekyllcn.com/docs/datafiles/)。Jekyll 支持从 _data 目录下的 YAML、JSON 和 CSV 载入数据，注意 CSV 文件必须包含表头行。
+
 ## markdown 
 
 #### markdown 头信息
@@ -112,11 +118,11 @@ a3   | b3   | c3
 
 #### markdown 高亮代码
 
-```Java
+{ % hightlight java linenos % }
 public static void main(String[] args) {
     System.out.println("Hello World!");
 }
-```
+{ % endhighlight % }
 
 查阅 [Jekyll docs][jekyll-docs] 了解更多信息，Jekyll的Github的主页： [Jekyll’s Github repo][jekyll-gh] ，如有问题可访问 [Jekyll Talk][jekyll-talk] 进行讨论。
 

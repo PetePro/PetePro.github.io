@@ -27,26 +27,27 @@ IR方法在创建追踪链的过程中，使用不同的粒度从文本软件制
 
 ## 计算相似度
 
-### IR基本模型
+#### IR基本模型
 概率模型（Probabilistic Model，PM）、向量空间模型（Vector-Space Model，VSM）和潜在语义索引（Latent Semantic Indexing，LSI或Latent Semantic Analysis，LSA）是三种最常用的创建追踪链的基本IR模型。
+
 PM通过计算一个文档属于“相关”或者“不相关”的概率来为文档排序，从而计算文档之间相似度。LSI是使用奇异值分解（SVD）的方法来获取文本的主题，从而提取出单词与单词或文档与文档之间潜在的语义结构，并在表示词和文档关系时利用这种潜在的语义结构。VSM将制品中的单词抽象表示为术语向量，通过计算向量之间的相似度来分析文档之间的相似程度，而两个向量之间的角度的余弦值计算作相似度的数值。
 ```
 余弦公式计算相似度：
 sim(D,Q) = (D∙Q) / (|D|∙|Q|)
 ```
 
-### 向量空间模型
+#### 向量空间模型
 我们把从文档中提取的术语存储在一个m*n矩阵中，并称之为词频/文档（term-by-document）矩阵，其中m是文档中出现的所有的唯一的术语的数量，n是文档的数量。向量的计算涉及到以下三个因素：
-1.术语频率（term frequency，tf值）：该因素描述的是一个术语在一个文档中出现的次数；
-2.文档频率（document frequency，df值）：它指的是针对某一术语，在整个数据集中有多少个文档包含这个术语；
-3.逆文档频率（inverse document frequency，idf值）：df计算简单，但是并不能很好地指示文档内容，基于df的加权方法称为逆文档频率idf。
+1. 术语频率（term frequency，tf值）：该因素描述的是一个术语在一个文档中出现的次数；
+2. 文档频率（document frequency，df值）：它指的是针对某一术语，在整个数据集中有多少个文档包含这个术语；
+3. 逆文档频率（inverse document frequency，idf值）：df计算简单，但是并不能很好地指示文档内容，基于df的加权方法称为逆文档频率idf。
 ```
 tf-idf值的计算：
 tf-idf(i,j) = tf(i,j) * idf(i)
 ```
 将文档向量化并形成词频/文档矩阵，需要给文档中的每个术语赋一个实数值，这个实数值，就是tf-idf值。tf-idf（term frequency-inverse document frequency）的值就是术语频率和文档频率的乘积。
 
-### 语义信息
+#### 语义信息
 语义信息的存在会影响追踪的准确性，对于需求文档之类的描述性文档，可酌情分析其中的同义词、多义词、段落结构的影响。对于代码文档，编程语言、代码结构信息是需要重点考虑的，Scitools发行的[Understand][Understand]是该领域的有效工具。
 
 [Understand]: https://scitools.com/
