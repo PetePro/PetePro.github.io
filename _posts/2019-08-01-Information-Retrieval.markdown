@@ -41,10 +41,12 @@ sim(D,Q) = (D∙Q) / (|D|∙|Q|)
 1. 术语频率（term frequency，tf值）：该因素描述的是一个术语在一个文档中出现的次数；
 2. 文档频率（document frequency，df值）：它指的是针对某一术语，在整个数据集中有多少个文档包含这个术语；
 3. 逆文档频率（inverse document frequency，idf值）：df计算简单，但是并不能很好地指示文档内容，基于df的加权方法称为逆文档频率idf。
+
 ```
 tf-idf值的计算：
 tf-idf(i,j) = tf(i,j) * idf(i)
 ```
+
 将文档向量化并形成词频/文档矩阵，需要给文档中的每个术语赋一个实数值，这个实数值，就是tf-idf值。tf-idf（term frequency-inverse document frequency）的值就是术语频率和文档频率的乘积。
 
 #### 语义信息
