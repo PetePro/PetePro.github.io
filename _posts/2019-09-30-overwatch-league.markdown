@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "守望先锋联赛 OWL"
-crawlertitle: "“我受到了召唤，我必须回应”"
+title:  "【守望先锋】守望先锋联赛OWL"
+crawlertitle: "电竞历史上最辉煌的一章"
 summary: "守望先锋联赛纪录"
 date:   2019-09-30 05:30:00 +0800
 categories: posts

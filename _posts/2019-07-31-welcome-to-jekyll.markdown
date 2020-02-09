@@ -1,11 +1,11 @@
 ---
 layout: post
-title:  "Welcome to Jekyll!"
+title:  "【Coding】Welcome to Jekyll! "
 crawlertitle: "Jekyll常用方法"
 summary: "Welcome to Jekyll!"
 date:   2019-07-31 10:00:00 +0800
 categories: posts
-tags: '理论'
+tags: '科研'
 author: xusc
 ---
 

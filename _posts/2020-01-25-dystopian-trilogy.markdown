@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "反乌托邦三部曲"
+title:  "【科幻作品】反乌托邦三部曲"
 crawlertitle: "失去了自由，人就不能成为完整意义上的人"
-summary: "反乌托邦作品读后感"
+summary: "反乌托邦三部曲简评"
 date:   2020-01-25 09:00:00 +0800
 categories: posts
 tags: '阅读'
