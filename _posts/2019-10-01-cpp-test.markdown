@@ -1,0 +1,44 @@
+---
+layout: post
+title:  "【Testing】C++单元测试调研分析"
+crawlertitle: "C++单元测试"
+summary: "C++单元测试测试调研分析"
+date:   2019-10-01 10:00:00 +0800
+categories: posts
+tags: '科研'
+author: xusc
+---
+
+本文总结介绍了C++单元测试的相关工具。
+
+### 测试环境
+目前市场上一些开发完整的C++单元测试环境，包括用作Eclipse插件的[CUTE](https://cute-test.com/)，免费软件；VS插件和命令行都可用的[Testwell](http://www.testwell.fi/index.html)，该软件还处在评估当中，尚未完全开放。
+
+### 测试框架
+极限编程（XP）引发了软件开发方法从传统的瀑布模型转向以测试为驱动的敏捷开发模式的革命，在这场软件开发方法革命中，以[xUnit](https://xunit.net/)系列的单元测试框架是一切的中心。[C++单元测试框架](https://en.wikipedia.org/wiki/List_of_unit_testing_frameworks#C++)数量繁多，但不像Java一样有[JUnit](https://junit.org/junit5/)这种成熟稳定、拥有极高市场率的产品。主流测试框架如下所示，另有其它一些测试框架的[对比](https://accu.org/index.php/journals/1326)。
+
+- [`CppUnit`](https://sourceforge.net/projects/cppunit/) 是xUnit家族中的一员，它是一个专门面向C++的单元测试框架。
+- [`CppUTest`](http://cpputest.github.io/) 是一个基于C/C++的单元xUnit测试框架，用于单元测试和代码测试驱动。它是用C++编写的，但用于C和C++项目，并且经常在嵌入式系统中使用，但是它适用于任何C/C++项目。CppUTest的核心设计原则是：设计简单、使用简单；可移植性好；为测试驱动的开发人员构建测试驱动的开发。
+- [`GoogleTest`](https://github.com/google/googletest) 是由测试技术团队根据Google的特定要求和约束开发的测试框架，是一个xUnit测试框架。无论是在Linux、Windows还是Mac上工作，只要编写C++代码，googletest都可以提供测试帮助。它支持任何类型的测试，而不仅仅是单元测试。
+- [`CxxTest`](http://cxxtest.com/) 是C++的单元测试框架，其实质与JUnit，CppUnit和xUnit相似。CxxTest易于使用，因为它不需要预编译CxxTest测试库，它不使用C++的高级功能，并且支持非常灵活的测试发现形式。需要Python环境。
+- [`Boost.Test`](https://www.boost.org/) 库提供了既易于使用又灵活的接口集，用于编写测试程序，组织测试到测试用例和测试套件，并且能控制它们的运行。一些Boost.Test接口对于产品（非测试）环境也可使用。依赖于Boost库。
+
+### 覆盖工具
+覆盖率是单元测试中主要的讨论要素，包括语句覆盖、分支覆盖、函数覆盖等等。由于语言的特殊性，这些工具大多移植于unix系统，少数仅支持unix/Linux系统。一些常见的覆盖工具[对比](http://www.uml.org.cn/Test/201208311.asp)，以下是部分的介绍。
+
+- [`GCOV`](https://gcc.gnu.org/onlinedocs/gcc/Gcov.html) 是一个GNU的本地覆盖测试工具, 伴随GCC发布，配合GCC共同实现对C或者C++文件的语句覆盖和分支覆盖测试。是一个命令行方式的控制台程序。需要工具链的支持。
+- [`llvm-cov`](http://releases.llvm.org/5.0.0/docs/CommandGuide/llvm-cov.html) 是用于检测发出概要文件数据的程序的代码覆盖率信息。它可以用于gcov风格的覆盖范围或基于clang的基于检测的性能分析。llvm-cov gcov工具读取代码coverage数据文件，并显示指定源文件的coverage信息。它与GCC 4.2版中的gcov工具兼容，也可能与某些更高版本的gcov兼容。
+- [`xCover`](http://xcover.sourceforge.net/) 是用C编写的C和C++的代码覆盖库。xCover本身是与平台无关的库。它已经在UNIX和Windows上进行了测试和使用-原则上，它应该可以在存在兼容C/C++编译器的任何操作系统上运行。
+- [`OpenCppCoverage`](https://github.com/OpenCppCoverage/OpenCppCoverage) 是Windows下C++的开源代码覆盖工具。主要用途是用于单元测试，但是也可以使用它来了解程序中已执行的行以进行调试。有Visual Studio插件。
+- 商业工具：Coverage validator、BullseyeCoverage、Pure coverage
+
+### 变异工具
+变异测试通过引入错误来创造更好的代码。Java中有著名的[PITest](http://pitest.org/)，C++中的变异工具基本都处在开发研究中，适配多系统的更是少之又少。[Awesome Mutation testing](https://github.com/theofidry/awesome-mutation-testing)跟踪了当前开发的突变测试工具和相关资源。
+
+- [`llvm-mutate`](https://eschulte.github.io/llvm-mutate/) LLVM Mutate是LLVM编译器的Pass。Pass执行构成编译器的转换和优化，它们构建这些转换使用的分析结果，并且最重要的是，它们是编译器代码的结构化技术。
+- [`Mull`](https://github.com/mull-project/mull) 是用于变异测试的基于LLVM的工具，重点关注C和C++语言。Mull在LLVM的bitcode级别上依靠调试信息显示结果，因此应该使用-fembed-bitcode指令并启用调试信息的情况下构建项目。但是Mull还未支持Windows系统。
+- [`mutate_cpp`](https://github.com/nlohmann/mutate_cpp) 是C ++程序的突变测试环境。需要Python 3或通过操作系统的软件包管理器进行安装。电脑上需要已经安装git，CMake，make和一个C++编译器。
+- [`MuCPP`](https://ucase.uca.es/mucpp/) 是一个专门用于将变异测试应用到C++的系统。
+- [`MUSIC`](https://github.com/swtv-kaist/MUSIC) MUtation analySIs tool with High Configurability and Extensibility。MUSIC建立在Clang/LLVM之上。
+- [`Dextool`](http://joakim-brannstrom.github.io/dextool/) 是使用libclang编写插件的框架。主要重点是测试和静态分析工具。
+- [`MART`](https://github.com/thierry-tct/mart) LLVM Mutation Artisant。是基于LLVM编译器基础结构的多程序语言突变测试的框架。
