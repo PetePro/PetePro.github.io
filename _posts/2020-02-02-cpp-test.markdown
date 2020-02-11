@@ -14,7 +14,7 @@ author: xusc
 ### 测试框架
 极限编程（XP）引发了软件开发方法从传统的瀑布模型转向以测试为驱动的敏捷开发模式的革命，在这场软件开发方法革命中，以xUnit系列的单元测试框架是一切的中心。
 
-- `[CppUnit](https://sourceforge.net/projects/cppunit/)` 是xUnit家族中的一员，它是一个专门面向C++的单元测试框架。
+- [`CppUnit`](https://sourceforge.net/projects/cppunit/) 是xUnit家族中的一员，它是一个专门面向C++的单元测试框架。
 - `[CppUTest](http://cpputest.github.io/)` 是一个基于C/C++的单元xUnit测试框架，用于单元测试和代码测试驱动。它是用C++编写的，但用于C和C++项目，并且经常在嵌入式系统中使用，但是它适用于任何C/C++项目。CppUTest的核心设计原则是：设计简单、使用简单；可移植性好；为测试驱动的开发人员构建测试驱动的开发。
 - `[GoogleTest](https://github.com/google/googletest)` 是由测试技术团队根据Google的特定要求和约束开发的测试框架，是一个xUnit测试框架。无论是在Linux、Windows还是Mac上工作，只要编写C++代码，googletest都可以提供测试帮助。它支持任何类型的测试，而不仅仅是单元测试。
 - `[CxxTest](http://cxxtest.com/)` 是C++的单元测试框架，其实质与JUnit，CppUnit和xUnit相似。CxxTest易于使用，因为它不需要预编译CxxTest测试库，它不使用C ++的高级功能（例如RTTI），并且支持非常灵活的测试发现形式。需要Python环境。
