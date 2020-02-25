@@ -1,0 +1,45 @@
+---
+layout: post
+title:  "【Java】"
+crawlertitle: "Java"
+summary: "Java知识点总结"
+date:   2020-02-08 09:00:00 +0800
+categories: posts
+tags: 'CSSE'
+author: xusc
+---
+
+Java基础
+
+### 数据类型
+基本类型|包装类型|缓冲池
+-|-|-
+int（4字节）|Integer|-128~127
+byte（1字节）|Byte|
+short（2字节）|Short|-128~127
+long（8字节）|Long|
+float（4字节）|Float|
+double（8字节）|Double|
+char（2字节）|Character|\u0000~\u007F
+boolean（~）|Boolean|true&false
+
+- JVM 会在编译时期将 boolean 类型的数据转换为 int，使用 1 来表示 true，0 表示 false。boolean 数组是通过读写 byte 数组来实现的。
+
+```Java
+// 装箱，自动将基本数据类型转换为包装器类型 调用了 Integer.valueOf(1)
+Integer x = 1;
+// 拆箱，自动将包装器类型转换为基本数据类型 调用了 X.intValue()
+int y = x;
+```
+
+- new Integer(1) 每次都会新建一个对象；
+- Integer.valueOf(1) 会使用缓存池中的对象，多次调用会取得同一个对象的引用，valueOf() 先判断值是否在缓存池中，如果在的话就直接返回缓存池的内容。
+
+```Java
+Integer a = new Integer(1);
+Integer b = new Integer(1);
+System.out.println(a == b);//false
+Integer c = Integer.valueOf(1);
+Integer d = Integer.valueOf(1);
+System.out.println(c == d);//true
+```
