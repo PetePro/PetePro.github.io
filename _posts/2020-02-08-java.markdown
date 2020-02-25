@@ -12,6 +12,7 @@ author: xusc
 Java基础
 
 ### 数据类型
+
 基本类型|包装类型|缓冲池
 -|-|-
 int（4字节）|Integer|-128~127
@@ -43,3 +44,15 @@ Integer c = Integer.valueOf(1);
 Integer d = Integer.valueOf(1);
 System.out.println(c == d);//true
 ```
+
+String 被声明为 final，因此它不可被继承。在 Java 8 中，String 内部使用 char 数组存储数据。在 Java 9 之后，String 类的实现改用 byte 数组存储字符串，同时使用 coder 来标识使用了哪种编码。
+String 不可变的好处
+1. 可以缓存 hash 值
+2. String Pool 的需要
+3. 安全性
+4. 线程安全
+
+|String|StringBuffer|StringBuilder
+-|-|-|-
+可变性|不可变|可变|可变
+线程安全|安全|安全|不安全
