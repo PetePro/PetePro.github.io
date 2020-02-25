@@ -52,7 +52,7 @@ String 不可变的好处
 3. 安全性
 4. 线程安全
 
-|String|StringBuffer|StringBuilder
+-|String|StringBuffer|StringBuilder
 -|-|-|-
 可变性|不可变|可变|可变
 线程安全|安全|安全|不安全
