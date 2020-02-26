@@ -14,7 +14,7 @@ Java基础
 ### 数据类型
 
 基本类型|包装类型|缓冲池
--|-|-
+:-:|:-:|:-:
 int（4字节）|Integer|-128~127
 byte（1字节）|Byte|
 short（2字节）|Short|-128~127
@@ -39,11 +39,13 @@ int y = x;
 ```Java
 Integer a = new Integer(1);
 Integer b = new Integer(1);
-System.out.println(a == b);//false
+System.out.println(a == b);             //false
 Integer c = Integer.valueOf(1);
 Integer d = Integer.valueOf(1);
-System.out.println(c == d);//true
+System.out.println(c == d);             //true
 ```
+
+### String
 
 String 被声明为 final，因此它不可被继承。在 Java 8 中，String 内部使用 char 数组存储数据。在 Java 9 之后，String 类的实现改用 byte 数组存储字符串，同时使用 coder 来标识使用了哪种编码。
 String 不可变的好处
@@ -52,7 +54,98 @@ String 不可变的好处
 3. 安全性
 4. 线程安全
 
-/|String|StringBuffer|StringBuilder
--|-|-|-
+—|String|StringBuffer|StringBuilder
+:-:|:-:|:-:|:-:
 可变性|不可变|可变|可变
 线程安全|安全|安全|不安全
+
+- 字符串常量池（String Pool）保存着所有字符串字面量（literal strings），这些字面量在编译时期就确定。
+- 在 Java 7，String Pool 被移到堆中，因为永久代的空间有限。
+- 使用这种方式一共会创建两个字符串对象（前提是 String Pool 中还没有 "abc" 字符串对象）。
+  - "abc" 属于字符串字面量，因此编译时期会在 String Pool 中创建一个字符串对象，指向这个 "abc" 字符串字面量；
+  - 而使用 new 的方式会在堆中创建一个字符串对象。
+
+```Java
+// new String() 的方式新建了两个不同字符串
+String s1 = new String("abc");
+String s2 = new String("abc");
+System.out.println(s1 == s2);               // false
+// s.intern() 方法取得一个字符串引用。intern() 首先把 s 引用的字符串放到 String Pool 中，然后返回这个字符串引用。
+String s3 = s1.intern();
+String s4 = s1.intern();
+System.out.println(s3 == s4);               // true
+// 字面量的形式创建字符串，会自动地将字符串放入 String Pool 中
+String s5 = "abc";
+String s6 = "abc";
+System.out.println(s5 == s6);               // true
+```
+
+### 运算
+
+#### 传递
+- 基本类型
+  - 值就直接保存在变量中。
+  - 赋值运算符会直接改变变量的值，原来的值被覆盖掉。
+- 引用类型
+  - 变量中保存的只是实际对象的地址。一般称这种变量为"引用"，引用指向实际对象，实际对象中保存着内容。
+  - 赋值运算符会改变引用中所保存的地址，原来的地址被覆盖掉。但是原来的对象不会被改变。
+
+参数传递基本上就是赋值操作。
+```Java
+// eg1: 基本类型
+void foo(int value) {
+    value = 1;
+}
+foo(num); // num 没有被改变
+
+// eg2: 没有提供改变自身方法的引用类型
+void foo(String text) {
+    text = "abc";
+}
+foo(str); // str 也没有被改变
+
+// eg3: 提供了改变自身方法的引用类型
+StringBuilder sb = new StringBuilder("abc");
+void foo(StringBuilder builder) {
+    builder.append("1");
+}
+foo(sb); // sb 被改变了，变成了"abc1"。
+
+// eg4: 提供了改变自身方法的引用类型，但是不使用，而是使用赋值运算符。
+StringBuilder sb = new StringBuilder("abc");
+void foo(StringBuilder builder) {
+    builder = new StringBuilder("def");
+}
+foo(sb); // sb 没有被改变，还是 "abc"。
+```
+
+Java 的参数是以值传递的形式传入方法中，而不是引用传递。
+
+#### 类型转换
+- 1.1 字面量属于 double 类型，不能直接将 1.1 直接赋值给 float 变量，因为这是向下转型。1.1f 字面量才是 float 类型。
+- 字面量 1 是 int 类型，它比 short 类型精度要高，因此不能隐式地将 int 类型向下转型为 short 类型。但是使用 += 或者 ++ 运算符会执行隐式类型转换。
+
+### 关键字
+- final
+  - 对于基本类型，final 使数值不变；对于引用类型，final 使引用不变。
+  - 声明方法不能被子类重写。private 方法隐式地被指定为 final。如果子类中定义的方法和基类中 private 签名相同，则是新方法。
+  - 声明类不允许被继承。
+- static
+  - 静态变量
+    - 静态变量：又称为类变量，变量属于类，类所有的实例都共享静态变量，可以直接通过类名来访问它。静态变量在内存中只存在一份。
+    - 实例变量：每创建一个实例就会产生一个实例变量。
+  - 静态方法在类加载的时候就存在了，它不依赖于任何实例。所以静态方法必须有实现。只能访问所属类的静态字段和静态方法，方法中不能有 this 和 super 关键字。
+  - 静态语句块在类初始化时运行一次。
+  - 静态内部类
+    - 非静态内部类依赖于外部类的实例，也就是说需要先创建外部类实例，才能用这个实例去创建非静态内部类。
+    - 静态内部类不需要。静态内部类不能访问外部类的非静态的变量和方法。
+  - 在使用静态变量和方法时不用再指明 ClassName，从而简化代码，但可读性大大降低。
+- 存在继承的情况下，初始化顺序为：
+  1. 父类（静态变量、静态语句块）
+  2. 子类（静态变量、静态语句块）
+  3. 父类（实例变量、普通语句块）
+  4. 父类（构造函数）
+  5. 子类（实例变量、普通语句块）
+  6. 子类（构造函数）
+
+[知乎](https://www.zhihu.com/question/31203609)
