@@ -238,20 +238,48 @@ JDK 是用于开发 Java 程序的 JRE ，JRE +工具的超集。例如，它提
     - HashSet：基于哈希表实现，支持快速查找，但不支持有序性操作，并且失去了元素的插入顺序信息。查找的时间复杂度为 O(1)。
     - LinkedHashSet：具有 HashSet 的查找效率，并且内部使用双向链表维护元素的插入顺序。
   - List
-    - ArrayList：基于动态数组实现，支持随机访问。
-    - Vector：和 ArrayList 类似，但它是线程安全的。
-    - LinkedList：基于双向链表实现，只能顺序访问，但是可以快速地在链表中间插入和删除元素。还可以用作栈、队列和双向队列。
+    - [ArrayList](#arraylist)：基于动态数组实现，支持随机访问。
+    - [Vector](#vector)：和 ArrayList 类似，但它是线程安全的。
+    - [LinkedList](#linkedlist)：基于双向链表实现，只能顺序访问，但是可以快速地在链表中间插入和删除元素。还可以用作栈、队列和双向队列。
   - Queue
-    - LinkedList：可以用它来实现双向队列。
+    - [LinkedList](#linkedlist)：可以用它来实现双向队列。
     - PriorityQueue：基于堆结构实现，可以用它来实现优先队列。
 - Map
   - TreeMap：基于红黑树实现。
-  - HashMap：基于哈希表实现。
-  - HashTable：和 HashMap 类似，但它是线程安全的。它是遗留类，不应该去使用它，而是使用 ConcurrentHashMap 来支持线程安全，ConcurrentHashMap 的效率会更高，因为 ConcurrentHashMap 引入了分段锁。
-  - LinkedHashMap：使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。
+  - [HashMap](#hashmap)：基于哈希表实现。
+  - HashTable：和 HashMap 类似，但它是线程安全的。它是遗留类，不应该去使用它，而是使用 ConcurrentHashMap 来支持线程安全。使用 synchronized 来进行同步。
+  - LinkedHashMap：继承自 HashMap。使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。
 
 ### ArrayList
 - 数组的默认大小为 10
 - 添加元素时使用 ensureCapacityInternal() 方法来保证容量足够，如果不够时，需要使用 grow() 方法进行扩容，新容量的大小为旧容量的 1.5 倍。扩容操作需要调用 Arrays.copyOf() 把原数组整个复制到新数组中，这个操作代价很高，因此最好在创建 ArrayList 对象时就指定大概的容量大小，减少扩容操作的次数。
 - 删除元素需要调用 System.arraycopy() 将 index+1 后面的元素都复制到 index 位置上。
-- 
+- ArrayList 只序列化数组中有元素填充那部分内容。
+
+### Vector
+- 它的实现与 ArrayList 类似，但是使用了 synchronized 进行同步。
+- Vector 的构造函数可以传入 capacityIncrement 参数，它的作用是在扩容时使容量 capacity 增长 capacityIncrement。默认情况下 Vector 每次扩容时容量都会翻倍。
+- Vector 是同步的，因此开销就比 ArrayList 要大，访问速度更慢。
+
+### CopyOnWriteArrayList
+- 读写分离，写操作在一个复制的数组上进行，读操作还是在原始数组中进行。
+- 适合读多写少的应用场景。不适合内存敏感以及对实时性要求很高的场景。
+
+### LinkedList
+- 基于双向链表实现，使用 Node 存储链表节点信息。
+- 每个链表存储了 first 和 last 指针。
+
+### HashMap
+- 内部包含了一个 Entry 类型的数组 table。Entry 存储着键值对。它包含了四个字段，是一个链表。
+- put 操作使用链表的头插法，使用拉链法来解决冲突。
+- HashMap 允许插入键为 null 的键值对，使用第 0 个桶存放键为 null 的键值对。
+- HashMap 采用动态扩容来根据当前的 N 值（需要存储的键值对数量）来调整 M 值（ table 容量，必须保证为 2 的 n 次方），每次扩容时容量都会翻倍。扩容操作需要把 oldTable 的所有键值对重新插入 newTable 中。
+- 从 JDK 1.8 开始，一个桶存储的链表长度大于等于 8 时会将链表转换为红黑树。
+
+### ConcurrentHashMap
+- ConcurrentHashMap 和 HashMap 实现上类似，ConcurrentHashMap 采用了分段锁（Segment），每个分段锁维护着几个桶（HashEntry），多个线程可以同时访问不同分段锁上的桶，从而使其并发度更高。默认的并发级别为 16，也就是说默认创建 16 个 Segment。
+
+### WeakHashMap
+- WeakHashMap 主要用来实现缓存，通过使用 WeakHashMap 来引用缓存对象，由 JVM 对这部分缓存进行回收。
+
+## Java并发
