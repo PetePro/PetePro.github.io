@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "【Java】"
+title:  "【Java】Java知识点总结"
 crawlertitle: "Java"
 summary: "Java知识点总结"
 date:   2020-02-08 09:00:00 +0800
@@ -20,13 +20,15 @@ Java基础
     - [传递](#传递)
     - [类型转换](#类型转换)
   - [关键字](#关键字)
+  - [异常](#异常)
+  - [JDK与JRE](#JDK与JRE)
+- Java面向对象
   - [Object](#Object)
   - [继承](#继承)
+- Java进阶
+  - [Java容器](#Java容器)
   - [反射](#反射)
-  - [异常](#异常)
   - [泛型](#泛型)
-  - [JDK与JRE](#JDK与JRE)
-- [Java容器](#Java容器)
 
 ## Java基础
 
@@ -233,11 +235,11 @@ JDK 是用于开发 Java 程序的 JRE ，JRE +工具的超集。例如，它提
 
 ## Java容器
 - Collection：Collection 继承了 Iterable 接口，其中 iterator() 方法能够产生一个 Iterator 对象，通过这个对象就可以迭代遍历 Collection 中的元素。属于`迭代器模式`。
-  - Set
+  - Set：无序、数据不重复
     - TreeSet：基于红黑树实现，支持有序性操作，查找的时间复杂度为 O(logN)。
     - HashSet：基于哈希表实现，支持快速查找，但不支持有序性操作，并且失去了元素的插入顺序信息。查找的时间复杂度为 O(1)。
     - LinkedHashSet：具有 HashSet 的查找效率，并且内部使用双向链表维护元素的插入顺序。
-  - List
+  - List：有序、数据可重复
     - [ArrayList](#arraylist)：基于动态数组实现，支持随机访问。
     - [Vector](#vector)：和 ArrayList 类似，但它是线程安全的。
     - [LinkedList](#linkedlist)：基于双向链表实现，只能顺序访问，但是可以快速地在链表中间插入和删除元素。还可以用作栈、队列和双向队列。
