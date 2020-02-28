@@ -285,3 +285,33 @@ JDK 是用于开发 Java 程序的 JRE ，JRE +工具的超集。例如，它提
 - WeakHashMap 主要用来实现缓存，通过使用 WeakHashMap 来引用缓存对象，由 JVM 对这部分缓存进行回收。
 
 ## Java并发
+
+### 线程
+- 有三种使用线程的方法：
+  1. 实现 Runnable 接口——使用 Runnable 实例再创建一个 Thread 实例，然后调用 Thread 实例的 start() 方法来启动线程。；
+  2. 实现 Callable 接口；
+  3. 继承 Thread 类—— Thread 类也实现了 Runable 接口。
+- 实现接口优于继承 Thread：
+  - Java 不支持多重继承，因此继承了 Thread 类就无法继承其它类，但是可以实现多个接口；
+  - 类可能只要求可执行就行，继承整个 Thread 类开销过大。
+- Executor 管理多个异步任务的执行，而无需程序员显式地管理线程的生命周期。
+- Daemon 守护线程是程序运行时在后台提供服务的线程。当所有非守护线程结束时，程序也就终止，同时会杀死所有守护线程。main() 属于非守护线程。
+- Thread.sleep(millisec) 方法会休眠当前正在执行的线程。
+- 线程中抛出的异常需要在本地进行处理。
+
+### 中断
+通过调用一个线程的 interrupt() 来中断该线程，如果该线程处于阻塞、限期等待或者无限期等待状态，那么就会抛出 InterruptedException，从而提前结束该线程。但是不能中断 I/O 阻塞和 synchronized 锁阻塞。调用 interrupt() 方法会设置线程的中断标记。
+调用 Executor 的 shutdown() 方法会等待线程都执行完毕之后再关闭，但是如果调用的是 shutdownNow() 方法，则相当于调用每个线程的 interrupt() 方法。
+
+### 互斥同步
+
+——|synchronized|ReentrantLock
+:-:|:-:|:-:
+实现|JVM|JDK
+可否中断|不可|可以
+是否公平锁|非公平|非公平，也可以公平
+
+synchronized
+- 同步一个代码块或方法——作用于同一个对象
+- 同步一个类或静态方法——作用于整个类
+
