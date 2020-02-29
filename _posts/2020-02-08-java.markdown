@@ -47,6 +47,7 @@ Java知识点总结
 ### 数据类型
 
 #### 基本类型
+
 基本类型|包装类型|缓冲池
 :-:|:-:|:-:
 int（4字节）|Integer|-128~127
@@ -312,14 +313,14 @@ Java I/O 使用了装饰者模式来实现。
 - 序列化：ObjectOutputStream.writeObject()
 - 反序列化：ObjectInputStream.readObject()
 
-序列化的类需要实现 Serializable 接口
-transient 关键字可以使一些属性不会被序列化。
+- 序列化的类需要实现 Serializable 接口
+- transient 关键字可以使一些属性不会被序列化。
 
 #### 网络支持
-InetAddress：用于表示网络上的硬件资源，即 IP 地址；
-URL：统一资源定位符；
-Sockets：使用 TCP 协议实现网络通信；
-Datagram：使用 UDP 协议实现网络通信。
+- InetAddress：用于表示网络上的硬件资源，即 IP 地址；
+- URL：统一资源定位符；
+- Sockets：使用 TCP 协议实现网络通信；
+- Datagram：使用 UDP 协议实现网络通信。
 
 #### NIO
 ——|I/O|NIO
@@ -371,6 +372,7 @@ Throwable 可以用来表示任何可以作为异常抛出的类，分为两种�
 - 调用 Executor 的 shutdown() 方法会等待线程都执行完毕之后再关闭，但是如果调用的是 shutdownNow() 方法，则相当于调用每个线程的 interrupt() 方法。
 
 #### 互斥同步
+
 —|synchronized|ReentrantLock
 :-:|:-:|:-:
 实现|JVM|JDK
