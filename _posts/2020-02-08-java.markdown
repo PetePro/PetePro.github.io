@@ -9,33 +9,44 @@ tags: 'CSSE'
 author: xusc
 ---
 
-Java基础
+Java知识点总结
 
-### 目录
-- [Java基础](#Java基础)
-  - [数据类型](#数据类型)
-    - [基本类型](#基本类型)
-    - [String](#String)
-  - [运算](#运算)
-    - [传递](#传递)
-    - [类型转换](#类型转换)
-  - [关键字](#关键字)
-  - [异常](#异常)
-  - [JDK与JRE](#JDK与JRE)
-- Java面向对象
-  - [Object](#Object)
-  - [继承](#继承)
-- Java进阶
-  - [Java容器](#Java容器)
-  - [反射](#反射)
-  - [泛型](#泛型)
+## 目录
+- [***Java基础***](#Java基础)
+  - [**数据类型**](#数据类型)
+    - [*基本类型*](#基本类型)
+    - [*String*](#String)
+  - [**Java容器**](#Java容器)
+  - [**运算**](#运算)
+    - [*传递*](#传递)
+    - [*类型转换*](#类型转换)
+  - [**关键字**](#关键字)
+  - [**JDK与JRE**](#JDK与JRE)
+- [***Java面向对象***](#Java面向对象)
+  - [**Object**](#Object)
+  - [**继承**](#继承)
+- [***Java进阶***](#Java进阶)
+  - [**I/O**](#I/O)
+    - [**编码与解码**](#编码与解码)
+    - [**序列化**](#序列化)
+  - [**异常**](#异常)
+  - [**反射**](#反射)
+  - [**泛型**](#泛型)
+  - [**Java并发**](#Java并发)
+    - [**线程**](#线程)
+    - [**中断**](#线程)
+    - [**互斥同步**](#线程)
+    - [**协作**](#线程)
+    - [**线程状态**](#线程)
+    - [**线程安全**](#线程)
+  - [**Java内存模型**](#Java内存模型)
+  - **JVM**
 
 ## Java基础
 
 ### 数据类型
 
 #### 基本类型
-
 基本类型|包装类型|缓冲池
 :-:|:-:|:-:
 int（4字节）|Integer|-128~127
@@ -50,28 +61,26 @@ boolean（~）|Boolean|true&false
 - JVM 会在编译时期将 boolean 类型的数据转换为 int，使用 1 来表示 true，0 表示 false。boolean 数组是通过读写 byte 数组来实现的。
 
 ```Java
-// 装箱，自动将基本数据类型转换为包装器类型 调用了 Integer.valueOf(1)
-Integer x = 1;
-// 拆箱，自动将包装器类型转换为基本数据类型 调用了 X.intValue()
-int y = x;
-```
+Integer x = 1;    // 装箱，自动将基本数据类型转换为包装器类型 调用了 Integer.valueOf(1)
+int y = x;        // 拆箱，自动将包装器类型转换为基本数据类型 调用了 X.intValue()
 
-- new Integer(1) 每次都会新建一个对象；
-- Integer.valueOf(1) 会使用缓存池中的对象，多次调用会取得同一个对象的引用，valueOf() 先判断值是否在缓存池中，如果在的话就直接返回缓存池的内容。
-
-```Java
+// 每次都会新建一个对象
 Integer a = new Integer(1);
 Integer b = new Integer(1);
 System.out.println(a == b);             //false
+// 使用缓存池中的对象，多次调用会取得同一个对象的引用，valueOf() 先判断值是否在缓存池中，如果在的话就直接返回缓存池的内容。
 Integer c = Integer.valueOf(1);
 Integer d = Integer.valueOf(1);
 System.out.println(c == d);             //true
 ```
 
 #### String
+String 被声明为 final，因此它不可被继承。
+- 在 Java 8 中，String 内部使用 char 数组存储数据。
+- 在 Java 9 之后，String 类的实现改用 byte 数组存储字符串，同时使用 coder 来标识使用了哪种编码。
+- 字符串常量池（String Pool）保存着所有字符串字面量（literal strings），这些字面量在编译时期就确定。在 Java 7，String Pool 被移到堆中，因为永久代的空间有限。
 
-String 被声明为 final，因此它不可被继承。在 Java 8 中，String 内部使用 char 数组存储数据。在 Java 9 之后，String 类的实现改用 byte 数组存储字符串，同时使用 coder 来标识使用了哪种编码。
-String 不可变的好处
+String 不可变的好处：
 1. 可以缓存 hash 值
 2. String Pool 的需要
 3. 安全性
@@ -82,14 +91,10 @@ String 不可变的好处
 可变性|不可变|可变|可变
 线程安全|安全|安全|不安全
 
-- 字符串常量池（String Pool）保存着所有字符串字面量（literal strings），这些字面量在编译时期就确定。
-- 在 Java 7，String Pool 被移到堆中，因为永久代的空间有限。
-- 使用这种方式一共会创建两个字符串对象（前提是 String Pool 中还没有 "abc" 字符串对象）。
-  - "abc" 属于字符串字面量，因此编译时期会在 String Pool 中创建一个字符串对象，指向这个 "abc" 字符串字面量；
-  - 而使用 new 的方式会在堆中创建一个字符串对象。
-
 ```Java
-// new String() 的方式新建了两个不同字符串
+// new String() 该方式一共会创建两个字符串对象（前提是 String Pool 中还没有 "abc" 字符串对象）
+// 1. 在 String Pool 中创建一个字符串对象，指向这个 "abc" 字符串字面量
+// 2. 在堆中创建一个字符串对象
 String s1 = new String("abc");
 String s2 = new String("abc");
 System.out.println(s1 == s2);               // false
@@ -102,6 +107,54 @@ String s5 = "abc";
 String s6 = "abc";
 System.out.println(s5 == s6);               // true
 ```
+
+
+
+### Java容器
+- `Collection`：Collection 继承了 Iterable 接口，其中 iterator() 方法能够产生一个 Iterator 对象，通过这个对象就可以迭代遍历 Collection 中的元素。属于`迭代器模式`。
+  - Set：无序、数据不重复
+    - `TreeSet`：基于红黑树实现，支持有序性操作，查找的时间复杂度为 O(logN)。
+    - `HashSet`：基于哈希表实现，支持快速查找，但不支持有序性操作，并且失去了元素的插入顺序信息。查找的时间复杂度为 O(1)。
+    - `LinkedHashSet`：具有 HashSet 的查找效率，并且内部使用双向链表维护元素的插入顺序。
+  - List：有序、数据可重复
+    - [`ArrayList`](#arraylist)：基于动态数组实现，支持随机访问。
+    - [`Vector`](#vector)：和 ArrayList 类似，但它是线程安全的。
+    - `CopyOnWriteArrayList`：读写分离，写操作在一个复制的数组上进行，读操作还是在原始数组中进行。
+    - [`LinkedList`](#linkedlist)：基于双向链表实现，只能顺序访问，但是可以快速地在链表中间插入和删除元素。还可以用作栈、队列和双向队列。
+  - Queue
+    - [`LinkedList`](#linkedlist)：可以用它来实现双向队列。
+    - PriorityQueue：基于堆结构实现，可以用它来实现优先队列。
+- Map
+  - `TreeMap`：基于红黑树实现。
+  - [`HashMap`](#hashmap)：基于哈希表实现。
+  - `ConcurrentHashMap`：和 HashMap 实现上类似，采用了分段锁（Segment），每个分段锁维护着几个桶（HashEntry），多个线程可以同时访问不同分段锁上的桶，从而使其并发度更高。
+  - `HashTable`：和 HashMap 类似，但它是线程安全的。它是遗留类，不应该去使用它，而是使用 ConcurrentHashMap 来支持线程安全。使用 synchronized 来进行同步。
+  - `LinkedHashMap`：继承自 HashMap。使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。
+  - `WeakHashMap`：主要用来实现缓存，通过使用 WeakHashMap 来引用缓存对象，由 JVM 对这部分缓存进行回收。
+
+#### ArrayList
+- 数组的默认大小为 10
+- 添加元素时使用 ensureCapacityInternal() 方法来保证容量足够，如果不够时，需要使用 grow() 方法进行扩容，新容量的大小为旧容量的 1.5 倍。扩容操作需要调用 Arrays.copyOf() 把原数组整个复制到新数组中，这个操作代价很高，因此最好在创建 ArrayList 对象时就指定大概的容量大小，减少扩容操作的次数。
+- 删除元素需要调用 System.arraycopy() 将 index+1 后面的元素都复制到 index 位置上。
+- ArrayList 只序列化数组中有元素填充那部分内容。
+
+#### Vector
+- 它的实现与 ArrayList 类似，但是使用了 synchronized 进行同步。
+- Vector 的构造函数可以传入 capacityIncrement 参数，它的作用是在扩容时使容量 capacity 增长 capacityIncrement。默认情况下 Vector 每次扩容时容量都会翻倍。
+- Vector 是同步的，因此开销就比 ArrayList 要大，访问速度更慢。
+
+#### LinkedList
+- 基于双向链表实现，使用 Node 存储链表节点信息。
+- 每个链表存储了 first 和 last 指针。
+
+#### HashMap
+- 内部包含了一个 Entry 类型的数组 table。Entry 存储着键值对。它包含了四个字段，是一个链表。
+- put 操作使用链表的头插法，使用拉链法来解决冲突。
+- HashMap 允许插入键为 null 的键值对，使用第 0 个桶存放键为 null 的键值对。
+- HashMap 采用动态扩容来根据当前的 N 值（需要存储的键值对数量）来调整 M 值（ table 容量，必须保证为 2 的 n 次方），每次扩容时容量都会翻倍。扩容操作需要把 oldTable 的所有键值对重新插入 newTable 中。
+- 从 JDK 1.8 开始，一个桶存储的链表长度大于等于 8 时会将链表转换为红黑树。
+
+
 
 ### 运算
 
@@ -144,12 +197,14 @@ foo(sb); // sb 没有被改变，还是 "abc"。
 - 1.1 字面量属于 double 类型，不能直接将 1.1 直接赋值给 float 变量，因为这是向下转型。1.1f 字面量才是 float 类型。
 - 字面量 1 是 int 类型，它比 short 类型精度要高，因此不能隐式地将 int 类型向下转型为 short 类型。但是使用 += 或者 ++ 运算符会执行隐式类型转换。
 
+
+
 ### 关键字
-- final
+- `final`
   - 对于基本类型，final 使数值不变；对于引用类型，final 使引用不变。
   - 声明方法不能被子类重写。private 方法隐式地被指定为 final。如果子类中定义的方法和基类中 private 签名相同，则是新方法。
   - 声明类不允许被继承。
-- static
+- `static`
   - 静态变量
     - 静态变量：又称为类变量，变量属于类，类所有的实例都共享静态变量，可以直接通过类名来访问它。静态变量在内存中只存在一份。
     - 实例变量：每创建一个实例就会产生一个实例变量。
@@ -159,13 +214,25 @@ foo(sb); // sb 没有被改变，还是 "abc"。
     - 非静态内部类依赖于外部类的实例，也就是说需要先创建外部类实例，才能用这个实例去创建非静态内部类。
     - 静态内部类不需要。静态内部类不能访问外部类的非静态的变量和方法。
   - 在使用静态变量和方法时不用再指明 ClassName，从而简化代码，但可读性大大降低。
-- 存在继承的情况下，初始化顺序为：
-  1. 父类（静态变量、静态语句块）
-  2. 子类（静态变量、静态语句块）
-  3. 父类（实例变量、普通语句块）
-  4. 父类（构造函数）
-  5. 子类（实例变量、普通语句块）
-  6. 子类（构造函数）
+
+#### 初始化顺序
+存在继承的情况下，初始化顺序为：
+1. 父类（静态变量、静态语句块）
+2. 子类（静态变量、静态语句块）
+3. 父类（实例变量、普通语句块）
+4. 父类（构造函数）
+5. 子类（实例变量、普通语句块）
+6. 子类（构造函数）
+
+### JDK与JRE
+- JRE 是 JVM 程序，Java 应用程序需要在 JRE 上运行。
+- JDK 是用于开发 Java 程序的 JRE ，JRE +工具的超集。例如，它提供了编译器“ javac”
+
+
+
+
+
+## Java面向对象
 
 ### Object
 1. equals() 等价与相等
@@ -183,8 +250,10 @@ foo(sb); // sb 没有被改变，还是 "abc"。
      - 对于引用类型，深拷贝会新建一个对象空间，然后拷贝里面的内容，所以它们指向了不同的内存空间。改变其中一个，不会对另外一个也产生影响。
      - 对于有多层对象的，每个对象都需要实现 Cloneable 并重写 clone() 方法。
 
+
+
 ### 继承
-- 抽象类和普通类最大的区别是，抽象类不能被实例化，只能被继承。
+- 抽象类的特点：抽象类不能被实例化，只能被继承。
 - 接口是抽象类的延伸。
 
 —|抽象类|接口
@@ -214,79 +283,76 @@ foo(sb); // sb 没有被改变，还是 "abc"。
      4. super.func(super)
 
 
-### 反射
-每个类都有一个 Class 对象，包含了与类有关的信息。当编译一个新类时，会产生一个同名的 .class 文件，该文件内容保存着 Class 对象。类加载相当于 Class 对象的加载，类在第一次使用时才动态加载到 JVM 中。反射可以提供运行时的类信息，并且这个类可以在运行时才加载进来，甚至在编译时期该类的 .class 不存在也可以加载进来。Class 和 java.lang.reflect 一起对反射提供了支持。
-- 反射的优点：可扩展性、类浏览器和可视化开发环境、调试器和测试工具
-- 反射的缺点：性能开销、安全限制、内部暴露
+
+
+
+## Java进阶
+
+### I/O
+Java I/O 使用了装饰者模式来实现。
+1. 磁盘操作：File
+2. 字节操作：InputStream 和 OutputStream
+3. 字符操作：Reader 和 Writer
+4. 对象操作：Serializable
+5. 网络操作：Socket
+6. 新的输入/输出：NIO
+
+#### 编码与解码
+编码就是把字符转换为字节，而解码是把字节重新组合成字符。
+- GBK 编码中，中文字符占 2 个字节，英文字符占 1 个字节；
+- UTF-8 编码中，中文字符占 3 个字节，英文字符占 1 个字节；
+- UTF-16be 编码中，中文字符和英文字符都占 2 个字节。Java 的内存编码使用双字节编码 UTF-16be。
+
+不管是磁盘还是网络传输，最小的存储单元都是字节
+- InputStreamReader 实现从字节流解码成字符流；
+- OutputStreamWriter 实现字符流编码成为字节流。
+
+#### 序列化
+序列化就是将一个对象转换成字节序列，方便存储和传输。不会对静态变量进行序列化。
+- 序列化：ObjectOutputStream.writeObject()
+- 反序列化：ObjectInputStream.readObject()
+
+序列化的类需要实现 Serializable 接口
+transient 关键字可以使一些属性不会被序列化。
+
+#### 网络支持
+InetAddress：用于表示网络上的硬件资源，即 IP 地址；
+URL：统一资源定位符；
+Sockets：使用 TCP 协议实现网络通信；
+Datagram：使用 UDP 协议实现网络通信。
+
+#### NIO
+——|I/O|NIO
+:-:|:-:|:-:
+数据处理|流（字节）|块
+
+- 通道 Channel 是对原 I/O 包中的流的模拟，可以通过它读取和写入数据。
+- 缓冲区实质上是一个数组，缓冲区提供了对数据的结构化访问。
+
+
 
 ### 异常
 Throwable 可以用来表示任何可以作为异常抛出的类，分为两种： Error 和 Exception。其中 Error 用来表示 JVM 无法处理的错误，Exception 分为两种：
 - 受检异常 ：需要用 try...catch... 语句捕获并进行处理，并且可以从异常中恢复；
 - 非受检异常 ：是程序运行时错误，例如除 0 ，此时程序崩溃并且无法恢复。
 
+
+
+### 反射
+每个类都有一个 Class 对象，包含了与类有关的信息。当编译一个新类时，会产生一个同名的 .class 文件，该文件内容保存着 Class 对象。类加载相当于 Class 对象的加载，类在第一次使用时才动态加载到 JVM 中。反射可以提供运行时的类信息，并且这个类可以在运行时才加载进来，甚至在编译时期该类的 .class 不存在也可以加载进来。Class 和 java.lang.reflect 一起对反射提供了支持。
+- 反射的优点：可扩展性、类浏览器和可视化开发环境、调试器和测试工具
+- 反射的缺点：性能开销、安全限制、内部暴露
+
+
+
 ### 泛型
 泛型提供了编译时类型安全监测机制，该机制允许程序员在编译时监测非法的类型。泛型的本质是参数化类型，也就是所操作的数据类型被指定为一个参数。
 
-### JDK与JRE
-JRE 是 JVM 程序，Java 应用程序需要在 JRE 上运行。
-JDK 是用于开发 Java 程序的 JRE ，JRE +工具的超集。例如，它提供了编译器“ javac”
 
-[知乎](https://www.zhihu.com/question/31203609)
 
-## Java容器
-- Collection：Collection 继承了 Iterable 接口，其中 iterator() 方法能够产生一个 Iterator 对象，通过这个对象就可以迭代遍历 Collection 中的元素。属于`迭代器模式`。
-  - Set：无序、数据不重复
-    - TreeSet：基于红黑树实现，支持有序性操作，查找的时间复杂度为 O(logN)。
-    - HashSet：基于哈希表实现，支持快速查找，但不支持有序性操作，并且失去了元素的插入顺序信息。查找的时间复杂度为 O(1)。
-    - LinkedHashSet：具有 HashSet 的查找效率，并且内部使用双向链表维护元素的插入顺序。
-  - List：有序、数据可重复
-    - [ArrayList](#arraylist)：基于动态数组实现，支持随机访问。
-    - [Vector](#vector)：和 ArrayList 类似，但它是线程安全的。
-    - [LinkedList](#linkedlist)：基于双向链表实现，只能顺序访问，但是可以快速地在链表中间插入和删除元素。还可以用作栈、队列和双向队列。
-  - Queue
-    - [LinkedList](#linkedlist)：可以用它来实现双向队列。
-    - PriorityQueue：基于堆结构实现，可以用它来实现优先队列。
-- Map
-  - TreeMap：基于红黑树实现。
-  - [HashMap](#hashmap)：基于哈希表实现。
-  - HashTable：和 HashMap 类似，但它是线程安全的。它是遗留类，不应该去使用它，而是使用 ConcurrentHashMap 来支持线程安全。使用 synchronized 来进行同步。
-  - LinkedHashMap：继承自 HashMap。使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。
+### Java并发
 
-### ArrayList
-- 数组的默认大小为 10
-- 添加元素时使用 ensureCapacityInternal() 方法来保证容量足够，如果不够时，需要使用 grow() 方法进行扩容，新容量的大小为旧容量的 1.5 倍。扩容操作需要调用 Arrays.copyOf() 把原数组整个复制到新数组中，这个操作代价很高，因此最好在创建 ArrayList 对象时就指定大概的容量大小，减少扩容操作的次数。
-- 删除元素需要调用 System.arraycopy() 将 index+1 后面的元素都复制到 index 位置上。
-- ArrayList 只序列化数组中有元素填充那部分内容。
-
-### Vector
-- 它的实现与 ArrayList 类似，但是使用了 synchronized 进行同步。
-- Vector 的构造函数可以传入 capacityIncrement 参数，它的作用是在扩容时使容量 capacity 增长 capacityIncrement。默认情况下 Vector 每次扩容时容量都会翻倍。
-- Vector 是同步的，因此开销就比 ArrayList 要大，访问速度更慢。
-
-### CopyOnWriteArrayList
-- 读写分离，写操作在一个复制的数组上进行，读操作还是在原始数组中进行。
-- 适合读多写少的应用场景。不适合内存敏感以及对实时性要求很高的场景。
-
-### LinkedList
-- 基于双向链表实现，使用 Node 存储链表节点信息。
-- 每个链表存储了 first 和 last 指针。
-
-### HashMap
-- 内部包含了一个 Entry 类型的数组 table。Entry 存储着键值对。它包含了四个字段，是一个链表。
-- put 操作使用链表的头插法，使用拉链法来解决冲突。
-- HashMap 允许插入键为 null 的键值对，使用第 0 个桶存放键为 null 的键值对。
-- HashMap 采用动态扩容来根据当前的 N 值（需要存储的键值对数量）来调整 M 值（ table 容量，必须保证为 2 的 n 次方），每次扩容时容量都会翻倍。扩容操作需要把 oldTable 的所有键值对重新插入 newTable 中。
-- 从 JDK 1.8 开始，一个桶存储的链表长度大于等于 8 时会将链表转换为红黑树。
-
-### ConcurrentHashMap
-- ConcurrentHashMap 和 HashMap 实现上类似，ConcurrentHashMap 采用了分段锁（Segment），每个分段锁维护着几个桶（HashEntry），多个线程可以同时访问不同分段锁上的桶，从而使其并发度更高。默认的并发级别为 16，也就是说默认创建 16 个 Segment。
-
-### WeakHashMap
-- WeakHashMap 主要用来实现缓存，通过使用 WeakHashMap 来引用缓存对象，由 JVM 对这部分缓存进行回收。
-
-## Java并发
-
-### 线程
+#### 线程
 - 有三种使用线程的方法：
   1. 实现 Runnable 接口——使用 Runnable 实例再创建一个 Thread 实例，然后调用 Thread 实例的 start() 方法来启动线程。；
   2. 实现 Callable 接口；
@@ -300,13 +366,12 @@ JDK 是用于开发 Java 程序的 JRE ，JRE +工具的超集。例如，它提
 - 线程中抛出的异常需要在本地进行处理。
 - J.U.C 即java.util .concurrent工具包，这是一个处理线程的工具包，大大提高了并发性能，AQS 是 J.U.C 的核心。
 
-### 中断
-通过调用一个线程的 interrupt() 来中断该线程，如果该线程处于阻塞、限期等待或者无限期等待状态，那么就会抛出 InterruptedException，从而提前结束该线程。但是不能中断 I/O 阻塞和 synchronized 锁阻塞。调用 interrupt() 方法会设置线程的中断标记。
-调用 Executor 的 shutdown() 方法会等待线程都执行完毕之后再关闭，但是如果调用的是 shutdownNow() 方法，则相当于调用每个线程的 interrupt() 方法。
+#### 中断
+- 通过调用一个线程的 interrupt() 来中断该线程，如果该线程处于阻塞、限期等待或者无限期等待状态，那么就会抛出 - InterruptedException，从而提前结束该线程。但是不能中断 I/O 阻塞和 synchronized 锁阻塞。调用 interrupt() 方法会设置线程的中断标记。
+- 调用 Executor 的 shutdown() 方法会等待线程都执行完毕之后再关闭，但是如果调用的是 shutdownNow() 方法，则相当于调用每个线程的 interrupt() 方法。
 
-### 互斥同步
-
-——|synchronized|ReentrantLock
+#### 互斥同步
+—|synchronized|ReentrantLock
 :-:|:-:|:-:
 实现|JVM|JDK
 可否中断|不可|可以
@@ -316,14 +381,14 @@ synchronized
 - 同步一个代码块或方法——作用于同一个对象
 - 同步一个类或静态方法——作用于整个类
 
-### 协作
+#### 协作
 - join() 在线程中调用另一个线程的 join() 方法，会将当前线程挂起，而不是忙等待，直到目标线程结束。
 - 调用 wait() 使得线程等待某个条件满足，线程在等待时会被挂起，当其他线程的运行使得这个条件满足时，其它线程会调用 notify() 或者 notifyAll() 来唤醒挂起的线程。
   - wait() 是 Object 的方法，而 sleep() 是 Thread 的静态方法；
   - wait() 会释放锁，sleep() 不会。
 - 可以在 Condition 类上调用 await() 方法使线程等待，其它线程调用 signal() 或 signalAll() 方法唤醒等待的线程。await() 可以指定等待的条件，因此更加灵活。
 
-### 线程状态
+#### 线程状态
 - 新建（NEW）
 - 可运行（RUNABLE）：正在 Java 虚拟机中运行。在操作系统层面，它可能处于运行状态，也可能等待资源调度。
 - 阻塞（BLOCKED）：等待获取 monitor lock。阻塞是被动的
@@ -336,7 +401,7 @@ synchronized
   - 设置了 Timeout 参数的 Thread.join() 方法
 - 死亡（TERMINATED）
 
-### 线程安全
+#### 线程安全
 线程安全有以下几种实现方式：
 - 不可变（Immutable）的对象一定是线程安全的
   - final 关键字修饰的基本数据类型
@@ -346,7 +411,7 @@ synchronized
 - 互斥同步 synchronized 和 ReentrantLock。
 - 非阻塞同步：先进行操作，如果没有其它线程争用共享数据，那操作就成功了，否则采取补偿措施（不断地重试，直到成功为止）。这种并发策略的许多实现都不需要将线程阻塞。
 
-### 锁优化
+#### 锁优化
 JVM 对 synchronized 的优化
 - 自旋锁：让一个线程在请求一个共享数据的锁时执行忙循环（自旋）一段时间，如果在这段时间内能获得锁，就可以避免进入阻塞状态。
 - 锁消除：对于被检测出不可能存在竞争的共享数据的锁进行消除。
@@ -354,7 +419,7 @@ JVM 对 synchronized 的优化
 - 轻量级锁：是相对于传统的重量级锁而言，它使用 CAS（比较并交换，Compare-and-Swap）操作来避免重量级锁使用互斥量的开销。
 - 偏向锁：是偏向于让第一个获取锁对象的线程，这个线程在之后获取该锁就不再需要进行同步操作。
 
-### 建议
+#### 建议
 - 给线程起个有意义的名字；
 - 缩小同步范围，从而减少锁争用；
 - 多用同步工具少用 wait() 和 notify()；
@@ -363,11 +428,15 @@ JVM 对 synchronized 的优化
 - 使用本地变量和不可变类来保证线程安全；
 - 使用线程池而不是直接创建线程。
 
-## Java内存模型
+
+
+### Java内存模型
 Java 内存模型试图屏蔽各种硬件和操作系统的内存访问差异，以实现让 Java 程序在各种平台下都能达到一致的内存访问效果。
 - 所有的变量都存储在主内存中，每个线程还有自己的工作内存，工作内存存储在高速缓存或者寄存器中
 - 线程只能直接操作工作内存中的变量，不同线程之间的变量值传递需要通过主内存来完成。
 - Java 内存模型定义了 8 个操作来完成主内存和工作内存的交互操作：read、load、use、assign、store、write、lock、unlock
 - 内存模型三大特性：原子性、可见性、有序性
 - JVM 规定了先行发生原则，让一个操作无需控制就能先于另一个操作完成。
+
+
 
