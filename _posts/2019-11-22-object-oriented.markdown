@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "【OO】面向对象"
-crawlertitle: "Object-oriented"
+crawlertitle: "面向对象"
 summary: "Object-oriented"
 date:   2019-11-22 09:00:00 +0800
 categories: posts
@@ -9,7 +9,7 @@ tags: 'CSSE'
 author: xusc
 ---
 
-面向对象知识点总结
+面向对象知识点整理
 
 ### 三大特性
 - 封装：利用抽象数据类型将数据和基于数据的操作封装在一起，使其构成一个不可分割的独立实体。

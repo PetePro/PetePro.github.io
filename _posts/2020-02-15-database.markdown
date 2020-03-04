@@ -9,6 +9,8 @@ tags: 'CSSE'
 author: xusc
 ---
 
+数据库知识点整理
+
 事务的ACID特性：
 - 原子性（Atomicity）
 - 一致性（Consistency）——执行结果正确

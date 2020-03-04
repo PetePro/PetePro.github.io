@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "【软件工程】《人件》书摘"
-crawlertitle: "《人件》书摘"
+crawlertitle: "人件"
 summary: "Peopleware"
 date:   2019-10-10 09:00:00 +0800
 categories: posts

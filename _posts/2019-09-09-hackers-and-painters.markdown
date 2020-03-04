@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "【软件工程】《黑客与画家》书摘"
-crawlertitle: "《黑客与画家》书摘"
+crawlertitle: "黑客与画家"
 summary: "Hackers and Painters"
 date:   2019-09-09 09:00:00 +0800
 categories: posts

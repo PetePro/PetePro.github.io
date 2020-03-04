@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "【软件工程】《人月神话》书摘"
-crawlertitle: "《人月神话》书摘"
+crawlertitle: "人月神话"
 summary: "The Mythical Man-Month"
 date:   2019-08-08 09:00:00 +0800
 categories: posts

@@ -1,15 +1,15 @@
 ---
 layout: post
-title:  "【Java】Java知识点总结"
+title:  "【Java】Java知识点整理"
 crawlertitle: "Java"
-summary: "Java知识点总结"
+summary: "Java知识点整理"
 date:   2019-10-24 09:00:00 +0800
 categories: posts
 tags: 'CSSE'
 author: xusc
 ---
 
-Java知识点总结
+Java知识点整理
 
 ## 目录
 - [***Java基础***](#java%e5%9f%ba%e7%a1%80)

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "【软件工程】《大教堂与集市》书摘"
-crawlertitle: "《大教堂与集市》书摘"
+crawlertitle: "大教堂与集市"
 summary: "The Cathedral and the Bazaar"
 date:   2019-11-11 09:00:00 +0800
 categories: posts

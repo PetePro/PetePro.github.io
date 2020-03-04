@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "【计算机科学】《编程珠玑》书摘"
-crawlertitle: "《编程珠玑》书摘"
+crawlertitle: "编程珠玑"
 summary: "Programming Pearl"
 date:   2020-01-01 09:00:00 +0800
 categories: posts

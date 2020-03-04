@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "【守望先锋】守望先锋联赛OWL"
-crawlertitle: "电竞历史上最辉煌的一章"
+crawlertitle: "守望先锋联赛OWL"
 summary: "守望先锋联赛纪录"
 date:   2019-09-30 05:30:00 +0800
 categories: posts
@@ -9,7 +9,7 @@ tags: '游戏'
 author: xusc
 ---
 
-“我受到了召唤，我必须回应”
+这是电竞历史上浓墨重彩的一章。
 
 ## 2019守望先锋联赛
 > “我感受到大地的震动，我目睹着橙色的王朝，那是来自加州的海浪”——解说Alan

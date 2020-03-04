@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "【Text】Welcome to Jekyll! "
-crawlertitle: "Jekyll常用方法"
+crawlertitle: "Jekyll"
 summary: "Welcome to Jekyll!"
 date:   2019-07-31 10:00:00 +0800
 categories: posts

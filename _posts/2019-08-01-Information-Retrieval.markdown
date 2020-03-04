@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "【NLP】基于信息检索的从需求到代码的追踪"
-crawlertitle: "基于信息检索的从需求到代码的追踪"
-summary: "基于信息检索的需求到代码追踪的生成方法，其原理是利用IR方法计算软件制品之间的相似度，以此自动生成制品之间的追踪关系。"
+crawlertitle: "需求追踪"
+summary: "基于信息检索的从需求到代码的追踪"
 date:   2019-08-01 20:00:00 +0800
 categories: posts
 tags: 'CSSE'

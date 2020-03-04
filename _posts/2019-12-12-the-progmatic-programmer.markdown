@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "【软件工程】《程序员修炼之道——从小工到专家》书摘"
-crawlertitle: "《程序员修炼之道——从小工到专家》书摘"
+title:  "【软件工程】《程序员修炼之道》书摘"
+crawlertitle: "程序员修炼之道"
 summary: "The Progmatic Programmer: from Journeyman to Master"
 date:   2019-12-12 09:00:00 +0800
 categories: posts
