@@ -61,6 +61,9 @@ RHEL 7（Red Hat Enterprise Linux 7）是Red Hat公司开发的最新版本操�
 - */ 分区*：Linux系统的根目录，所有的目录都挂在这个目录下面，建议大小最少为1GB；
 - /home 分区：存放普通用户的数据，是普通用户的宿主目录，建议大小为剩下的空间。
 
+目录结构
+![](/assets/images/2019/Linux目录结构.png)
+
 在RHEL 7系统中默认使用FirewallD防火墙，FirewallD提供了支持网络/防火墙区域定义网络链接以及接口安全等级的动态防火墙管理工具。
 - 支持IPv4、IPv6防火墙设置以及以太网桥接，并且拥有运行时配置和永久配置选项；
 - 支持允许服务或者应用程序直接添加防火墙规则的接口；
@@ -112,9 +115,6 @@ vi编辑器工作模式
 - 链接文件
   - 软链接（符号链接）文件：软链接文件又叫符号链接文件，这个文件包含了另一个文件的路径名。在对软链接文件进行读写的时候，系统会自动地把该操作转换为对源文件的操作，但删除软链接文件时，系统仅仅删除软链接文件，而不删除源文件本身。
   - 硬链接（实体链接）是已存在文件的另一个文件，对硬链接文件进行读写和删除操作时，结果和软链接相同。但如果删除硬链接文件的源文件，硬链接文件仍然存在，而且保留了原有的内容。
-
-目录结构
-![](/assets/images/2019/Linux目录结构.png)
 
 ls命令 `drwxr-xr-x 3 root root 17 May 6 00:14 .config`
 
@@ -220,4 +220,95 @@ ls命令 `drwxr-xr-x 3 root root 17 May 6 00:14 .config`
 - groups：显示指定用户账户的组群成员身份；
 - id：显示用户的UID以及该用户所属组群的GID。
 
+
+
+### 磁盘分区和文件系统管理
+
+#### 磁盘
+磁盘接口
+1. IDE（ATA）全称 Advanced Technology Attachment
+2. SATA 全称 Serial ATA，也就是使用串口的 ATA 接口
+3. SCSI 全称是 Small Computer System Interface（小型机系统接口）
+4. SAS（Serial Attached SCSI）是新一代的 SCSI 技术
+
+Linux 中每个硬件都被当做一个文件，包括磁盘。磁盘以磁盘接口类型进行命名，常见磁盘的文件名如下：
+- IDE 磁盘：`/dev/hd[a-d]`
+- SATA/SCSI/SAS 磁盘：`/dev/sd[a-p]`
+
+#### 分区
+**磁盘分区**是指对硬盘物理介质的逻辑划分。分区就是磁盘的“段落”。磁盘分区一共有3种：主分区、扩展分区和逻辑驱动器。
+
+分区表
+- MBR
+  - MBR 中第一个扇区最重要，里面有主要开机记录及分区表。分区表只有 64 bytes，最多只能存储 4 个分区，这 4 个分区为主分区和扩展分区。
+  - GPT 第 1 个区块记录了主要开机记录（MBR），紧接着是 33 个区块记录分区信息，并把最后的 33 个区块用于对分区信息进行备份。GPT 没有扩展分区概念，都是主分区。
+  - MBR 不支持 2.2 TB 以上的硬盘，GPT 则最多支持到 233 TB = 8 ZB。
+
+**开机检测程序 BIOS**（Basic Input/Output System，基本输入输出系统），它是一个固件（嵌入在硬件中的软件），BIOS 程序存放在断电后内容不会丢失的只读内存中。
+
+#### 文件系统
+主流文件系统：XFS、ext4、JFS、ReiserFS、ext2、ext3、ISO9660、MSDOS，VFAT、NF。
+
+重要组成
+- inode：一个文件占用一个 inode，记录文件的属性，同时记录此文件的内容所在的 block 编号；
+- block：记录文件的内容，文件太大时，会占用多个 block。
+
+文件读取
+- 对于 Ext2 文件系统，当要读取一个文件的内容时，先在 inode 中查找文件内容所在的所有 block，然后把所有 block 的内容读出来。
+  - 在 Ext2 文件系统中所支持的 block 大小有 1K，2K 及 4K 三种。
+- FAT 文件系统，它没有 inode，每个 block 中存储着下一个 block 的编号。
+  - 包括——权限 (read/write/excute)；拥有者与群组 (owner/group)；容量；建立或状态改变的时间 (ctime)；最近读取时间 (atime)；最近修改时间 (mtime)；定义文件特性的旗标 (flag)，如 SetUID...；该文件真正内容的指向 (pointer)。
+  - 每个 inode 大小均固定为 128 bytes。
+  - 每个文件都仅会占用一个 inode。
+
+修改/etc/fstab文件实现开机自动挂载文件系统，通过提供设备名称、UUID和卷标实现
+- `/dev/sda5 /mnt/kkext4 defaults 0 0`
+- 设备:挂载目录 文件系统类型 挂载选项 转储选项 文件系统检查选项
+
+常用命令
+- fdisk：磁盘分区
+- mkfs：创建文件系统
+- mount/umount：挂载和卸载文件系统
+- df：查看磁盘分区挂载情况
+
+#### 软件包
+
+RPM（Red Hat Package Manager，Red Hat软件包管理器）
+- rpm -ivh：安装
+- rpm -e：删除
+- rpm -Uvh：升级
+- rpm -Fvh：刷新
+- rpm -q：查询
+
+yum（Yellow dog Updater Modified）
+
+创建本地软件仓库
+1. 安装软件包：安装deltarpm、python-deltarpm和createrepo软件包。
+2. 复制软件包：复制Linux系统安装光盘中的软件包。
+3. 创建软件仓库配置文件：创建软件仓库配置文件。
+4. 创建软件仓库：使用createrepo命令创建软件仓库。
+
+##### tar
+Linux系统中最常使用的归档程序是tar，使用tar程序归档的包称为tar包。tar命令可以在打包或解包的同时调用gzip、bzip2和xz等。
+
+`tar [z|j|J] [c|t|x|r]vf`
+- z ：使用 zip；
+- j ：使用 bzip2；
+- J ：使用 xz；
+- c ：新建打包文件；
+- t ：查看打包文件里面有哪些文件；
+- x ：解打包或解压缩的功能；
+- r ：往tar包里添加。
+
+扩展名|压缩程序
+:-:|:-:
+*.Z|compress
+*.zip|zip
+*.gz|gzip
+*.bz2|bzip2
+*.xz|xz
+*.tar|tar 程序打包的数据，没有经过压缩
+*.tar.gz|tar 程序打包的文件，经过 gzip 的压缩
+*.tar.bz2|tar 程序打包的文件，经过 bzip2 的压缩
+*.tar.xz|tar 程序打包的文件，经过 xz 的压缩
 
