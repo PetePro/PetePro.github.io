@@ -98,7 +98,7 @@ RHEL 7使用目标（target）替换运行级别。目标使用目标单元文�
 
 #### vi编辑器
 vi编辑器工作模式
-![](../assets/images/2019/vi.png)
+![](/assets/images/2019/vi.png)
 
 #### 文件
 
@@ -114,7 +114,7 @@ vi编辑器工作模式
   - 硬链接（实体链接）是已存在文件的另一个文件，对硬链接文件进行读写和删除操作时，结果和软链接相同。但如果删除硬链接文件的源文件，硬链接文件仍然存在，而且保留了原有的内容。
 
 目录结构
-![](../assets/images/2019/Linux目录结构.png)
+![](/assets/images/2019/Linux目录结构.png)
 
 ls命令 `drwxr-xr-x 3 root root 17 May 6 00:14 .config`
 
