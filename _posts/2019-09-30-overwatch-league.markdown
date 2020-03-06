@@ -67,4 +67,4 @@ author: xusc
 - 第一赛季常规赛MVP——纽约九霄天擎队`JJoNak`
 - 第一赛季季后赛MVP——伦敦喷火战斗机队`Profit`
 
-![](/assets/images/201909/owl.png)
+![](../assets/images/2019/owl.png)

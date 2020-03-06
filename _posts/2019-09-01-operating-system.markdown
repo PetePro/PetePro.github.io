@@ -7,6 +7,7 @@ date:   2019-09-01 10:00:00 +0800
 categories: posts
 tags: 'CSSE'
 author: xusc
+bg: "workbench.jpg"
 ---
 
 操作系统
@@ -42,7 +43,7 @@ author: xusc
 
 #### 进程状态转换
 
-![](../assets/images/202003/ProcessState.png)
+![](../assets/images/2020/ProcessState.png)
 
 #### 进程调度算法
 - 批处理系统
