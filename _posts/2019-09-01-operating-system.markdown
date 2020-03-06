@@ -43,7 +43,7 @@ bg: "workbench.jpg"
 
 #### 进程状态转换
 
-![](2020/ProcessState.png)
+![](/assets/images/2020/ProcessState.png)
 
 #### 进程调度算法
 - 批处理系统
