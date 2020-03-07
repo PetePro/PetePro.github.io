@@ -11,6 +11,29 @@ author: xusc
 
 Linux是一个免费的多用户、多任务的操作系统，Linux系统最大的特色是源代码完全公开，在符合GNU/GPL（通用公共许可证）的原则下，任何人都可以自由取得、散布甚至修改源代码。
 
+### 目录
+- [目录](#%e7%9b%ae%e5%bd%95)
+- [Linux基础](#linux%e5%9f%ba%e7%a1%80)
+  - [Linux发行版本](#linux%e5%8f%91%e8%a1%8c%e7%89%88%e6%9c%ac)
+  - [Linux安装](#linux%e5%ae%89%e8%a3%85)
+  - [字符界面](#%e5%ad%97%e7%ac%a6%e7%95%8c%e9%9d%a2)
+  - [vi编辑器](#vi%e7%bc%96%e8%be%91%e5%99%a8)
+  - [文件](#%e6%96%87%e4%bb%b6)
+  - [Shell编程](#shell%e7%bc%96%e7%a8%8b)
+  - [账户管理](#%e8%b4%a6%e6%88%b7%e7%ae%a1%e7%90%86)
+- [磁盘分区和文件系统](#%e7%a3%81%e7%9b%98%e5%88%86%e5%8c%ba%e5%92%8c%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f)
+  - [磁盘](#%e7%a3%81%e7%9b%98)
+  - [分区](#%e5%88%86%e5%8c%ba)
+  - [文件系统](#%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f)
+  - [软件包](#%e8%bd%af%e4%bb%b6%e5%8c%85)
+    - [tar](#tar)
+- [Linux管理与维护](#linux%e7%ae%a1%e7%90%86%e4%b8%8e%e7%bb%b4%e6%8a%a4)
+  - [进程](#%e8%bf%9b%e7%a8%8b)
+  - [任务计划](#%e4%bb%bb%e5%8a%a1%e8%ae%a1%e5%88%92)
+  - [网络配置](#%e7%bd%91%e7%bb%9c%e9%85%8d%e7%bd%ae)
+  - [远程连接](#%e8%bf%9c%e7%a8%8b%e8%bf%9e%e6%8e%a5)
+  - [SELinux](#selinux)
+
 ### Linux基础
 Linux系统应用领域
 1. Linux服务器
@@ -34,7 +57,7 @@ Linux系统的**组成**
 3. 文件系统
 4. 应用程序
 
-#### Linux发行版本
+#### [Linux发行版本](#目录)
 
 包管理工具|商业发行版|社区发行版
 :-:|:-:|:-:
@@ -52,13 +75,13 @@ RHEL 7（Red Hat Enterprise Linux 7）是Red Hat公司开发的最新版本操�
 6. 方便的系统管理界面
 7. 详细而完整的在线文档
 
-#### Linux安装
+#### [Linux安装](#目录)
 合理的分区规划
-- *swap 分区*：即交换分区，实现虚拟内存，建议大小是物理内存的1～2倍；
-- */boot 分区*：用来存放与Linux系统启动有关的程序，比如引导装载程序等，最少200MB；
+- **swap 分区**：即交换分区，实现虚拟内存，建议大小是物理内存的1～2倍；
+- **/boot 分区**：用来存放与Linux系统启动有关的程序，比如引导装载程序等，最少200MB；
 - /usr 分区：用来存放Linux系统中的应用程序，其相关数据较多，建议大小最少为8GB；
 - /var 分区：用来存放Linux系统中经常变化的数据以及日志文件，建议大小最少为1GB；
-- */ 分区*：Linux系统的根目录，所有的目录都挂在这个目录下面，建议大小最少为1GB；
+- **/ 分区**：Linux系统的根目录，所有的目录都挂在这个目录下面，建议大小最少为1GB；
 - /home 分区：存放普通用户的数据，是普通用户的宿主目录，建议大小为剩下的空间。
 
 目录结构
@@ -69,7 +92,7 @@ RHEL 7（Red Hat Enterprise Linux 7）是Red Hat公司开发的最新版本操�
 - 支持允许服务或者应用程序直接添加防火墙规则的接口；
 - 支持动态配置，不用重启服务。
 
-#### 字符界面
+#### [字符界面](#目录)
 Linux字符界包括字符界面、图形界面下的终端以及虚拟控制台。
 
 Bash基本操作
@@ -99,11 +122,11 @@ RHEL 7使用目标（target）替换运行级别。目标使用目标单元文�
 
 **管道**`|`是将一个命令的标准输出作为另一个命令的标准输入，在数据需要经过多个步骤的处理之后才能得到我们想要的内容时就可以使用管道。
 
-#### vi编辑器
+#### [vi编辑器](#目录)
 vi编辑器工作模式
 ![](/assets/images/2019/vi.png)
 
-#### 文件
+#### [文件](#目录)
 
 文件类型
 - 普通文件
@@ -171,7 +194,7 @@ ls命令 `drwxr-xr-x 3 root root 17 May 6 00:14 .config`
     - join：将有相同数据的那一行合并在一起
     - paste：直接将两行粘贴在一起
 
-#### Shell编程
+#### [Shell编程](#目录)
 - Shell程序必须以`#!/bin/bash`开头。
 - 常用Shell环境变量
   - HOME：用户主目录的完全路径名
@@ -186,7 +209,7 @@ ls命令 `drwxr-xr-x 3 root root 17 May 6 00:14 .config`
 - 逻辑测试：`!`非，`-a`与，`-o`或；
 - 文件测试：`-d`对象存在且为目录，`-f`对象存在且为文件。
 
-#### 账户
+#### [账户管理](#目录)
 - 用户账户分类
   - root用户：UID为0
   - 系统用户：又称虚拟用户、伪用户或假用户，UID为1~999
@@ -222,9 +245,9 @@ ls命令 `drwxr-xr-x 3 root root 17 May 6 00:14 .config`
 
 
 
-### 磁盘分区和文件系统管理
+### 磁盘分区和文件系统
 
-#### 磁盘
+#### [磁盘](#目录)
 磁盘接口
 1. IDE（ATA）全称 Advanced Technology Attachment
 2. SATA 全称 Serial ATA，也就是使用串口的 ATA 接口
@@ -235,7 +258,7 @@ Linux 中每个硬件都被当做一个文件，包括磁盘。磁盘以磁盘�
 - IDE 磁盘：`/dev/hd[a-d]`
 - SATA/SCSI/SAS 磁盘：`/dev/sd[a-p]`
 
-#### 分区
+#### [分区](#目录)
 **磁盘分区**是指对硬盘物理介质的逻辑划分。分区就是磁盘的“段落”。磁盘分区一共有3种：主分区、扩展分区和逻辑驱动器。
 
 分区表
@@ -244,9 +267,20 @@ Linux 中每个硬件都被当做一个文件，包括磁盘。磁盘以磁盘�
   - GPT 第 1 个区块记录了主要开机记录（MBR），紧接着是 33 个区块记录分区信息，并把最后的 33 个区块用于对分区信息进行备份。GPT 没有扩展分区概念，都是主分区。
   - MBR 不支持 2.2 TB 以上的硬盘，GPT 则最多支持到 233 TB = 8 ZB。
 
-**开机检测程序 BIOS**（Basic Input/Output System，基本输入输出系统），它是一个固件（嵌入在硬件中的软件），BIOS 程序存放在断电后内容不会丢失的只读内存中。
+逻辑卷管理Logical Volume Manager
+- Linux环境下对磁盘分区进行管理的一种机制。/boot分区用于存放引导文件，不能应用LVM机制。
+- 组成
+  - PV（Physical Volume，物理卷）：整个硬盘，或使用fdisk等工具建立的普通分区
+    - 包括许多默认4MB大小的PE（Physical Extent，基本单元）
+  - VG（Volume Group，卷组）：一个或多个物理卷组合而成的整体
+  - LV（Logical Volume，逻辑卷）：从卷组中分割出的一块空间，用于建立文件系统
+- 创建逻辑卷
+  1. 新建空分：fdisk
+  2. 初始化分区，创建物理卷（创建PV）：pvcreate
+  3. 创建卷组：vgcreate
+  4. 创建逻辑卷：lvcreate
 
-#### 文件系统
+#### [文件系统](#目录)
 主流文件系统：XFS、ext4、JFS、ReiserFS、ext2、ext3、ISO9660、MSDOS，VFAT、NF。
 
 重要组成
@@ -271,7 +305,7 @@ Linux 中每个硬件都被当做一个文件，包括磁盘。磁盘以磁盘�
 - mount/umount：挂载和卸载文件系统
 - df：查看磁盘分区挂载情况
 
-#### 软件包
+#### [软件包](#目录)
 
 RPM（Red Hat Package Manager，Red Hat软件包管理器）
 - rpm -ivh：安装
@@ -288,7 +322,7 @@ yum（Yellow dog Updater Modified）
 3. 创建软件仓库配置文件：创建软件仓库配置文件。
 4. 创建软件仓库：使用createrepo命令创建软件仓库。
 
-##### tar
+##### [tar](#目录)
 Linux系统中最常使用的归档程序是tar，使用tar程序归档的包称为tar包。tar命令可以在打包或解包的同时调用gzip、bzip2和xz等。
 
 `tar [z|j|J] [c|t|x|r]vf`
@@ -312,3 +346,118 @@ Linux系统中最常使用的归档程序是tar，使用tar程序归档的包称
 *.tar.bz2|tar 程序打包的文件，经过 bzip2 的压缩
 *.tar.xz|tar 程序打包的文件，经过 xz 的压缩
 
+
+
+### Linux管理与维护
+
+#### [进程](#目录)
+进程分类：
+- 交互式进程：一个由Shell启动并控制的进程；
+- 批处理进程：与终端无关，安排在指定时刻完成的一系列进程；
+- 守护进程：在引导系统时启动，以执行即时的操作系统任务。
+
+进程命令：
+- ps：查看某个时间点的进程信息；
+- pstree：查看进程树；
+- top：实时显示进程信息；
+- kill：杀死进程；
+- netstat：查看占用端口的进程。
+
+进程状态|说明
+:-:|:-
+R|running or runnable (on run queue)<br/>正在执行或者可执行，此时进程位于执行队列中。
+D|uninterruptible sleep (usually I/O)<br/>不可中断阻塞，通常为 IO 阻塞。
+S|interruptible sleep (waiting for an event to complete)<br/>可中断阻塞，此时进程正在等待某个事件完成。
+Z|zombie (terminated but not reaped by its parent)<br/>僵死，进程已经终止但是尚未被其父进程获取信息。
+T|stopped (either by a job control signal or because it is being traced)<br/>结束，进程既可以被作业控制信号结束，也可能是正在被追踪。
+
+当一个子进程改变了它的状态时（停止运行，继续运行或者退出），有两件事会发生在父进程中：
+- 得到 SIGCHLD 信号，SIGCHLD 信号包含了子进程的信息；
+- waitpid() 或者 wait() 调用会返回。
+
+一个父进程退出，而它的一个或多个子进程还在运行，那么这些子进程将成为孤儿进程。
+
+如果子进程退出，而父进程并没有调用 wait() 或 waitpid()，那么子进程的进程描述符仍然保存在系统中，这种进程称之为僵尸进程。
+
+#### [任务计划](#目录)
+任务自动化cron
+- /etc/crontab
+  - 格式`minute hour day month dayofweek user-name commands`
+- crontab命令
+
+Linux系统启动过程
+1. BIOS自检
+   - 开机检测程序 BIOS（Basic Input/Output System，基本输入输出系统），是一个固件（嵌入在硬件中的软件），BIOS 程序存放在断电后内容不会丢失的只读内存中。BIOS由两部分组成：POST代码和运行时的服务。
+   1. 加电POST自检
+   2. 本地设备的枚举和初始化
+2. 启动GRUB 2：GRUB 2是Linux系统中默认使用的引导加载程序
+3. 加载内核
+4. 执行systemd进程
+5. 初始化系统环境
+6. 执行/bin/login程序
+
+GRUB 2新功能
+1. 图形接口。
+2. 使用模块机制，通过动态加载需要的模块来扩展功能。
+3. 支持脚本语言，比如条件判断、循环、变量和函数。
+4. 支持救援模式，可以用于系统无法引导的情况。
+5. 国际化语言。
+6. 有一个灵活的命令行接口。
+7. 针对文件系统、文件、设备、驱动、终端、命令、分区表、系统加载的模块化、层次化、基于对象的框架。
+8. 支持多种文件系统格式。
+9. 可以访问已经安装在设备上的数据。
+10. 支持自动解压。
+
+GRUB 2密码支持格式
+- 明文密码
+- PBKDF2加密密码
+
+#### [网络配置](#目录)
+常用网络配置文件
+- /etc/sysconfig/network-scripts/ifcfg-eno16777736：网卡的配置信息
+- /etc/resolv.conf：域名解析器使用
+- /etc/hosts：解析对应于某个主机名的IP地址
+- /etc/services：定义了Linux系统中所有服务的名称、协议类型、服务的端口等信息
+
+常用网络命令
+- traceroute：显示数据包到目标主机之间的路径
+- ifconfig：显示和配置网络接口
+- ping：测试与目标计算机之间的连通性
+- netstat：显示网络状态的信息，得知整个Linux系统的网络情况
+- arp：增加、删除和显示ARP缓存条目
+- tcpdump：将网络中传送的数据包的头完全截获下来提供分析
+
+管理网络服务
+- 在systemd中，服务、设备、挂载等资源统一被称为单元，所以systemd中有许多单元类型。一个单元的配置文件可以描述系统服务（.service）、挂载点（.mount）、sockets（.sockets）、系统设备（.device）、交换分区（.swap）、文件路径（.path）、启动目标（.target）、由systemd管理的计时器（.timer）等。
+- systemctl命令
+
+#### [远程连接](#目录)
+**SSH和OpenSSH**
+- SSH（Secure Shell，安全Shell）是由IETF的网络工作小组所制定，为建立在应用层和传输层基础上的安全协议。使用SSH可以在本地主机和远程服务器之间进行加密地传输数据，实现数据的安全传输。
+- OpenSSH是SSH协议的免费开源实现，它用安全、加密的网络连接工具代替了telnet，ftp，rlogin，rsh和rcp工具。
+- OpenSSH主配置文件：/etc/ssh/sshd_config
+- ssh命令：登录远程计算机和在远程计算机上执行命令
+- scp命令：通过安全、加密的连接在不同主机之间传输文件
+
+**VNC**
+- 虚拟网络计算（Virtual Network Computing，VNC）是一款由AT&T欧洲研究实验室开发的远程控制软件。
+- VNC基本上是属于一种显示系统，也就是说它能将完整的窗口界面通过网络，传输到另一台计算机的屏幕上。
+- 组成部分：服务端的VNC server和客户端的VNC viewer
+- vncpasswd命令：创建或更改一个VNC的登录密码
+- vncserver命令：管理VNC服务器
+
+**NFS**
+- NFS（Network File System，网络文件系统）
+- 通过配置NFS服务器,可以让客户机挂载NFS服务器上的共享目录、文件就如同位于客户机的本地硬盘上一样。
+- NFS使用RPC协议：NFS是一个文件系统，而RPC是负责信息的传输。
+- /etc/exports文件
+  - 格式`共享目录客户端（导出选项）`
+  - 常用导出选项：`rw`共享目录具有读取和写入的权限；`ro`共享目录具有只读的权限；`root_squash`root用户的所有请求映射成如anonymous（匿名）用户一样的权限；`sync`所有数据在请求时写入共享，在请求所做的改变被写入磁盘之前就不会处理其它请求，适合大量写请求的情况下。
+- exportfs命令：维护NFS共享目录
+
+#### [SELinux](#目录)
+SELinux是一组可确定哪个进程能访问文件、目录、端口等的安全规则。SELinux布尔值是更改SELinux策略行为的开关。
+- SELinux模式：
+  - 强制模式Enforcing
+  - 许可模式Permissive
+  - 禁用模式Disabled
