@@ -1,0 +1,213 @@
+---
+layout: post
+title:  "【DSA】数据结构与算法"
+crawlertitle: "数据结构与算法"
+summary: "数据结构与算法"
+date:   2019-12-31 09:00:00 +0800
+categories: posts
+tags: 'CSSE'
+author: xusc
+---
+
+### 排序
+
+#### 选择排序
+从数组中选择最小元素，将它与数组的第一个元素交换位置。再从数组剩下的元素中选择出最小的元素，将它与数组的第二个元素交换位置。不断进行这样的操作，直到将整个数组排序。
+
+```Java
+public void selectionSort(T[] nums) {
+    int N = nums.length;
+    for (int i = 0; i < N - 1; i++) {
+        int min = i;
+        for (int j = i + 1; j < N; j++)
+            if (nums[j] < nums[min])
+                min = j;
+        swap(nums, i, min);
+    }
+}
+```
+
+#### 冒泡排序
+从左到右不断交换相邻逆序的元素，在一轮的循环之后，可以让未排序的最大元素上浮到右侧。
+
+```Java
+public void bubbleSort(T[] nums) {
+    int N = nums.length;
+    boolean isSorted = false;
+    for (int i = N - 1; i > 0 && !isSorted; i--) {
+        isSorted = true;
+        for (int j = 0; j < i; j++) {
+            if (nums[j + 1] < nums[j)) {
+                isSorted = false;
+                swap(nums, j, j + 1);
+            }
+        }
+    }
+}
+```
+
+#### 插入排序
+每次都将当前元素插入到左侧已经排序的数组中，使得插入之后左侧数组依然有序。
+
+```Java
+public void insertionSort(T[] nums) {
+    int N = nums.length;
+    for (int i = 1; i < N; i++) {
+        for (int j = i; j > 0 && nums[j] < nums[j - 1]; j--)
+            swap(nums, j, j - 1);
+    }
+}
+```
+
+#### 希尔排序
+使用插入排序对间隔 h 的序列进行排序。通过不断减小 h，最后令 h=1，就可以使得整个数组是有序的。
+
+```Java
+public void shellSort(T[] nums) {
+    int N = nums.length;
+    int h = 1;
+    while (h < N / 3)
+        h = 3 * h + 1; // 1, 4, 13, 40, ...
+    while (h >= 1) {
+        for (int i = h; i < N; i++) {
+            for (int j = i; j >= h && nums[j] < nums[j - h]; j -= h)
+                swap(nums, j, j - h);
+        }
+        h = h / 3;
+    }
+}
+```
+
+#### 归并排序
+将数组分成两部分，分别进行排序，然后归并起来。
+
+```Java
+private void merge(T[] nums, int l, int m, int h) {
+    T[] aux;
+    int i = l, j = m + 1;
+    for (int k = l; k <= h; k++)
+        aux[k] = nums[k]; // 将数据复制到辅助数组
+    for (int k = l; k <= h; k++) {
+        if (i > m) 
+            nums[k] = aux[j++];
+        else if (j > h)
+            nums[k] = aux[i++];
+        else if (aux[i] <= aux[j])
+            nums[k] = aux[i++]; // 先进行这一步，保证稳定性
+        else
+            nums[k] = aux[j++];
+    }
+}
+// 自顶向下
+public void mergeSort(T[] nums) {
+    aux = (T[]) new Comparable[nums.length];
+    sort(nums, 0, nums.length - 1);
+}
+private void mergeSort(T[] nums, int l, int h) {
+    if (h <= l)
+        return;
+    int mid = l + (h - l) / 2;
+    sort(nums, l, mid);
+    sort(nums, mid + 1, h);
+    merge(nums, l, mid, h);
+}
+// 自底向上
+public void mergeSort(T[] nums) {
+    int N = nums.length;
+    aux = (T[]) new Comparable[N];
+    for (int sz = 1; sz < N; sz += sz)
+        for (int lo = 0; lo < N - sz; lo += sz + sz)
+            merge(nums, lo, lo + sz - 1, Math.min(lo + sz + sz - 1, N - 1));
+}
+```
+
+#### 快速排序
+通过一个切分元素将数组分为两个子数组，左子数组小于等于切分元素，右子数组大于等于切分元素，将这两个子数组排序也就将整个数组排序了。
+
+```Java
+private int partition(T[] nums, int l, int h) {
+    int i = l, j = h + 1;
+    T v = nums[l];
+    while (true) {
+        while (nums[++i] < v && i != h) ;
+        while (v < nums[--j] && j != l) ;
+        if (i >= j)
+            break;
+        swap(nums, i, j);
+    }
+    swap(nums, l, j);
+    return j;
+}
+public void quickSort(T[] nums) {
+    sort(nums, 0, nums.length - 1);
+}
+private void quickSort(T[] nums, int l, int h) {
+    if (h <= l)
+        return;
+    int j = partition(nums, l, h);
+    sort(nums, l, j - 1);
+    sort(nums, j + 1, h);
+}
+```
+
+##### 切分的改进
+```Java
+protected void sort(T[] nums, int l, int h) {
+    if (h <= l)
+        return;
+    int lt = l, i = l + 1, gt = h;
+    T v = nums[l];
+    while (i <= gt) {
+        int cmp = nums[i].compareTo(v);
+        if (cmp < 0)
+            swap(nums, lt++, i++);
+        else if (cmp > 0)
+            swap(nums, i, gt--);
+        else
+            i++;
+    }
+    sort(nums, l, lt - 1);
+    sort(nums, gt + 1, h);
+}
+```
+
+#### 堆排序
+把最大元素和当前堆中数组的最后一个元素交换位置，并且不删除它，那么就可以得到一个从尾到头的递减序列，从正向来看就是一个递增序列，这就是堆排序。
+
+```Java
+public void sort(T[] nums) {
+    int N = nums.length - 1;
+    for (int k = N / 2; k >= 1; k--)
+        sink(nums, k, N);
+    while (N > 1) {
+        swap(nums, 1, N--);
+        sink(nums, 1, N);
+    }
+}
+private void sink(T[] nums, int k, int N) {
+    while (2 * k <= N) {
+        int j = 2 * k;
+        if (j < N && nums[j] < nums[j+1])
+            j++;
+        if (nums[k] < nums[j])
+            break;
+        swap(nums, k, j);
+        k = j;
+    }
+}
+```
+
+#### 排序算法比较
+
+算法|稳定性|时间复杂度|空间复杂度|备注
+:-:|:-:|:-:|:-:|:-
+选择排序|×|N2|1| 
+冒泡排序|√|N2|1| 
+插入排序|√|N ~ N2|1|时间复杂度和初始顺序有关
+希尔排序|×|N 的若干倍乘于递增序列的长度|1|改进版插入排序
+快速排序|×|NlogN|logN| 
+三向切分快速排序|×|N ~ NlogN|logN|适用于有大量重复主键
+归并排序|√|NlogN|N| 
+堆排序|×|NlogN|1|无法利用局部性原理
+
+Java 主要排序方法为 java.util.Arrays.sort()，对于原始数据类型使用三向切分的快速排序，对于引用类型使用归并排序。
