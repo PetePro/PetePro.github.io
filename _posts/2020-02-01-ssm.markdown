@@ -2,7 +2,7 @@
 layout: post
 title:  "【Java】SSM原理"
 crawlertitle: "SSM原理"
-summary: "Spring+SpringMVC+Mybatis"
+summary: "Spring + SpringMVC + Mybatis"
 date:   2020-02-01 09:00:00 +0800
 categories: posts
 tags: 'CSSE'
@@ -12,9 +12,10 @@ author: xusc
 SSM框架是指Spring + SpringMVC + Mybatis
 
 ### Spring
-Spring就是整个项目中装配bean的大工厂，在配置文件中可以指定使用特定的参数去调用实体类的构造方法来实例化对象。Spring是一个轻量级的控制反转(IoC)和面向切面(AOP)的容器框架。
+Spring就是整个项目中装配bean的大工厂，在配置文件中可以指定使用特定的参数去调用实体类的构造方法来实例化对象。Spring是一个轻量级的控制反转（IoC）和面向切面（AOP）的容器框架。
 
-作用：Bean工厂，用来管理Bean的生命周期和框架集成。
+- BeanFactory是spring中比较原始，比较古老的Factory。
+- ApplicationContext是BeanFactory的子类，基本上代替了BeanFactory的工作，以一种更面向框架的工作方式以及对上下文进行分层和实现继承，并在这个基础上对功能进行扩展。
 
 两大核心：
 1. IOC/DI（控制反转/依赖注入）
@@ -35,32 +36,52 @@ Spring的配置文件中的内容
 - 不用编写Dao层的实现类
 
 Spring下的注解
-- 注册：@Controller @Service @Component
-- 注入：@Autowired @Resource
+- 注册：@Controller、@Service、@Repository
+  - @Controller对应表现层的Bean，也就是Action。使用@Controller注解标识UserController之后，就表示要把UserController交给Spring容器管理，在Spring容器中会存在一个名字为“userController”的Action，这个名字是根据UserController类名来取的。
+  - @Service对应的是业务层Bean。
+  - @Repository对应数据访问层Bean。
+- 注入：@Autowired与@Resource
+  - @Autowired按byType自动注入，默认情况下必须要求依赖对象必须存在。
+  - @Resource默认按byName自动注入，有两个重要属性name和type
+  - @Autowired与@Resource都可以用来装配bean。都可以写在字段上，或写在setter方法上。
 - 请求地址：@RequestMapping
+  - @RequestMapping是一个用来处理请求地址映射的注解，可用于类或方法上。用于类上，表示类中的所有响应请求的方法都是以该地址作为父路径。RequestMapping注解有六个属性：value、method、consumes、produces、params、headers。
 - 返回具体数据类型而非跳转：@ResponseBody
 
-spring配置bean实例化的方式
+Spring配置bean实例化的方式
 1. 使用类构造器实例化（默认无参数）
    `<bean id="bean1" class="cn.itcast.spring.b_instance.Bean1"></bean>`
-2. 使用静态工厂方法实例化（简单工厂模式）
-   `// 下面这段配置的含义：调用Bean2Factory的getBean2方法得到bean2`
+2. 使用静态工厂方法实例化（简单工厂模式）：调用Bean2Factory的getBean2方法得到bean2
    `<bean id="bean2" class="cn.itcast.spring.b_instance.Bean2Factory" factory-method="getBean2"></bean>`
-3. 使用实例工厂方法实例化（工厂方法模式）
-   `// 先创建工厂实例bean3Facory，再通过工厂实例创建目标bean实例`
+3. 使用实例工厂方法实例化（工厂方法模式）：先创建工厂实例bean3Facory，再通过工厂实例创建目标bean实例
    `<bean id="bean3Factory" class="cn.itcast.spring.b_instance.Bean3Factory"></bean>`
    `<bean id="bean3" factory-bean="bean3Factory" factory-method="getBean3"></bean>`
 
 Spring DI 的三种方式，即为一个bean设置属性
-- 构造器注入：通过构造方法初始化
-- setter方法注入：通过setter方法初始化
-- 接口注入
+1. 配置文件注入
+   - 构造器注入：通过构造方法初始化
+   - Set方法注入：通过setter方法初始化
+   - 接口注入
+2. 注解注入
 
 Spring中主要的设计模式
 - 工厂模式：每个Bean的创建通过方法
 - 单例模式：默认的每个Bean的作用域都是单例
 - 代理模式：关于AOP的实现通过代理模式
 - 策略模式：定义一系列的算法，把它们一个个的封装起来，并且使它们可以相互替换。在实例化对象时用到
+
+Spring生命周期：
+1. getBean；
+2. 调用bean的缺省构造函数；
+3. 根据XML中的配置设置bean的相关属性；
+4. 检查bean所实现的aware接口；
+5. BeanPostProcessor前置处理；
+6. 检查InitializingBean接口；
+7. 检查init-method方法；
+8. BeanPostProcessor后置处理；
+9. In Use；
+10. 检查Disposable接口；
+11. destroy方法。
 
 
 
@@ -83,8 +104,8 @@ SpringMVC工作流程
 @RequestMapping注解用来映射一个URL到一个类或一个特定的方处理法上。
 
 返回值
-- SpringMvc中函数的返回值可以有很多类型，有String、ModelAndView、List、Set等，一般用String，如果是AJAX请求，返回的可以是一个集合
-- SpringMvc根据配置文件中InternalResourceViewResolver（内部资源视图解析器）的前缀和后缀，用前缀+返回值+后缀组成完整的返回值
+- SpringMVC中函数的返回值可以有很多类型，有String、ModelAndView、List、Set等，一般用String，如果是AJAX请求，返回的可以是一个集合
+- SpringMVC根据配置文件中InternalResourceViewResolver（内部资源视图解析器）的前缀和后缀，用前缀+返回值+后缀组成完整的返回值
 - 转发：在返回值前面加"forward:"
 - 重定向：在返回值前面加"redirect:"
 
@@ -92,8 +113,6 @@ SpringMVC工作流程
 
 ### Mybatis
 Mybatis是对jdbc的封装，它让数据库底层操作变的透明。Mybatis的操作都是围绕一个sqlSessionFactory实例展开的。Mybatis通过配置文件关联到各实体类的Mapper文件，Mapper文件中配置了每个类对数据库所需进行的sql语句映射。在每次与数据库交互时，通过sqlSessionFactory拿到一个sqlSession，再执行sql命令。
-
-Mybatis在核心处理类：SqlSession
 
 Mybatis的接口绑定：Mybatis实现了DAO接口与xml映射文件的绑定，自动为我们生成接口的具体实现，使用起来变得更加省事和方便。
 
@@ -103,6 +122,27 @@ Mybatis的好处
 - 自己编写Sql语句，更加的灵活。
 - 入参无需用对象封装（或者map封装）,使用@Param注解
 
-- `${}`：简单字符串替换，把`${}`直接替换成变量的值，不做任何转换，这种是取值以后再去编译SQL语句。
-- `#{}`：预编译处理，sql中的`#{}`替换成？，补全预编译语句，有效的防止Sql语句注入，这种取值是编译好SQL语句再取值。
-总结：一般用`#{}`来进行列的代替
+Mybatis在核心处理类：SqlSession。SqlSession重要的四个对象
+1. Execute：调度执行StatementHandler、ParmmeterHandler、ResultHandler执行相应的SQL语句；
+2. StatementHandler：使用数据库中Statement（PrepareStatement）执行操作，即底层是封装好了的prepareStatement；
+3. ParammeterHandler：处理SQL参数；
+4. ResultHandler：结果集ResultSet封装处理返回。
+
+SqlSession运行步骤：
+1. prepare预编译SQL；
+2. parameterize设置参数；
+3. doUpdate/doQuery执行SQL；
+
+传参方式
+1. 传入一个参数 `#{参数名}`
+2. 索引方式，传入多个参数 `#{0}、#{1}`
+3. 传入多个参数，并且参数用@param注解 `#{参数名}`
+4. 传入多个基本类型参数，参数用map封装，通过 `#{mapKey}` 取值
+5. 使用map封装实体类,通过通过 `#{mapKey.attributeName}` 取值
+6. 直接传入实体参数，通过 `#{属性名}` 取值
+
+`${}`与`#{}`
+- `#{}`：预编译处理，sql中的`#{}`替换成`?`，补全预编译语句，有效的防止Sql语句注入，这种取值是编译好SQL语句再取值。拿到值之后拼装sql，会自动对值添加单引号`'`。
+- `${}`：简单字符串替换，把`${}`直接替换成变量的值，不做任何转换，这种是取值以后再去编译SQL语句。拿到值之后拼装进sql，如果需要加单引号`'`，必须手动添加。需要添加属性`statementType="STATEMENT"`。
+
+[example](subposts/2020-02-01-ssm-example.markdown)
