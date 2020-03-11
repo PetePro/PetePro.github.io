@@ -370,30 +370,30 @@ UserDemo
       2. 右键项目选择`maven build...`，并配置Goals为`mybatis-generator:generate`。成功后会自动生成com.xusc.mapper、com.xusc.pojo两个包以及包下的类、接口和配置文件。
    6. 编写业务逻辑层代码
       - IUserService.java  
-            ```Java
-            package com.xusc.service;
-            import com.xusc.pojo.User;
-            public interface IUserService {
-                public User getUserById(int userId);
-            }
-            ```
+        ```java
+        package com.xusc.service;
+        import com.xusc.pojo.User;
+        public interface IUserService {
+            public User getUserById(int userId);
+        }
+        ```
       - UserService.java  
-            ```Java
-            package com.xusc.service.impl;
-            import javax.annotation.Resource;
-            import org.springframework.stereotype.Service;
-            import com.xusc.mapper.UserMapper;
-            import com.xusc.pojo.User;
-            import com.xusc.service.IUserService;
-            @Service("userService")
-            public class UserService implements IUserService {
-                @Resource
-                private UserMapper userMapper;
-                public User getUserById(int userId) {
-                    return this.userMapper.selectByPrimaryKey(userId);
-                }
+        ```java
+        package com.xusc.service.impl;
+        import javax.annotation.Resource;
+        import org.springframework.stereotype.Service;
+        import com.xusc.mapper.UserMapper;
+        import com.xusc.pojo.User;
+        import com.xusc.service.IUserService;
+        @Service("userService")
+        public class UserService implements IUserService {
+            @Resource
+            private UserMapper userMapper;
+            public User getUserById(int userId) {
+                return this.userMapper.selectByPrimaryKey(userId);
             }
-            ```
+        }
+        ```
    7. 至此Spring与Mybatis整合完成，可以在整合MVC前在src/test/java中建立测试文件测试这部分的代码。
 4. 整合Spring与MVC
    1. 建立Spring-mvc.xml配置文件：自动扫描控制器，视图模式，注解的启动
@@ -490,44 +490,43 @@ UserDemo
         ```
    3. 编写控制层代码
       - UserController.java  
-            ```Java
-            package com.xusc.controller;
-            import javax.annotation.Resource;
-            import javax.servlet.http.HttpServletRequest;
-            import org.springframework.stereotype.Controller;
-            import org.springframework.ui.Model;
-            import org.springframework.web.bind.annotation.RequestMapping;
-            import com.xusc.pojo.User;
-            import com.xusc.service.IUserService;
-            @Controller
-            @RequestMapping("/user")
-            public class UserController {
-                @Resource
-                private IUserService userService;
-                @RequestMapping("/showUser")
-                public String toIndex(HttpServletRequest request, Model model) {
-                    int userId = Integer.parseInt(request.getParameter("id"));
-                    User user = this.userService.getUserById(userId);
-                    model.addAttribute("user", user);
-                    return "showUser";
-                }
+        ```java
+        package com.xusc.controller;
+        import javax.annotation.Resource;
+        import javax.servlet.http.HttpServletRequest;
+        import org.springframework.stereotype.Controller;
+        import org.springframework.ui.Model;
+        import org.springframework.web.bind.annotation.RequestMapping;
+        import com.xusc.pojo.User;
+        import com.xusc.service.IUserService;
+        @Controller
+        @RequestMapping("/user")
+        public class UserController {
+            @Resource
+            private IUserService userService;
+            @RequestMapping("/showUser")
+            public String toIndex(HttpServletRequest request, Model model) {
+                int userId = Integer.parseInt(request.getParameter("id"));
+                User user = this.userService.getUserById(userId);
+                model.addAttribute("user", user);
+                return "showUser";
             }
-            ```
+        }
+        ```
    4. 编写jsp代码
       - showUser.jsp  
-            ```html
-            <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="utf-8"%>
-            <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-            <html>
+        ```html
+        <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="utf-8"%>
+        <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+        <html>
             <head>
                 <title>SSM测试</title>
             </head>
-            
             <body>
                 ${user.userName}
             </body>
-            </html>
-            ```
+        </html>
+        ```
    5. 至此Spring与MVC整合完成，可以在部署项目前在src/test/java中建立测试文件测试这部分的代码。
 5. 部署项目至tomcat，在浏览器中输入`localhost:8080/UserDemo/user/showUser?id=1`访问。
 
