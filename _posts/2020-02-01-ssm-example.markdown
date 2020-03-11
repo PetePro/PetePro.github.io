@@ -7,6 +7,7 @@ date:   2020-02-01 09:00:00 +0800
 categories: posts
 tags: 'CSSE'
 author: xusc
+bg: "SE.jpg"
 ---
 
 SSM简单示例实现

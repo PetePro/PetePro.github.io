@@ -7,6 +7,7 @@ date:   2019-09-09 09:00:00 +0800
 categories: posts
 tags: '阅读'
 author: xusc
+bg: "book.png"
 ---
 
 计算机世界里发生了什么？黑客在计算机世界里是什么样的角色？

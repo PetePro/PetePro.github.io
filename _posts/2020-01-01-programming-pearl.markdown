@@ -7,6 +7,7 @@ date:   2020-01-01 09:00:00 +0800
 categories: posts
 tags: '阅读'
 author: xusc
+bg: "book.png"
 ---
 
 对实例研究的深入思考不仅很有趣，而且可以获得实际的益处。

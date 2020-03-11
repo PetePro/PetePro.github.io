@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  "【OS】操作系统基础"
+title:  "【OS】操作系统"
 crawlertitle: "操作系统"
-summary: "操作系统基础知识整理"
+summary: "Operating System"
 date:   2019-09-01 10:00:00 +0800
 categories: posts
 tags: 'CSSE'
 author: xusc
-bg: "workbench.jpg"
+bg: "SE.jpg"
 ---
 
 操作系统

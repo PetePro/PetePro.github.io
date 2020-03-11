@@ -1,17 +1,18 @@
 ---
 layout: post
-title:  "【Text】Welcome to Jekyll! "
-crawlertitle: "Jekyll"
-summary: "Welcome to Jekyll!"
+title:  "【Tools】Jekyll & Markdown"
+crawlertitle: "Jekyll & Markdown"
+summary: "Jekyll & Markdown"
 date:   2019-07-31 10:00:00 +0800
 categories: posts
 tags: 'CSSE'
 author: xusc
+bg: "SE.jpg"
 ---
 
 这篇文章在目录 `_posts` 下，如果要添加新的文章，只要在目录 `_posts` 中按照 `YYYY-MM-DD-name-of-post.ext` 格式新建 `.markdown` 文件并引入必要前缀即可。
 
-## Jekyll
+### Jekyll
 
 #### Jekyll 目录结构
 
@@ -52,7 +53,9 @@ Jekyll 会遍历网站搜寻要处理的文件。任何有 YAML 头信息的文�
 
 除了内建变量之外，还可以指定用于 Liquid 模板系统的自定义[数据](http://jekyllcn.com/docs/datafiles/)。Jekyll 支持从 _data 目录下的 YAML、JSON 和 CSV 载入数据，注意 CSV 文件必须包含表头行。
 
-## markdown 
+
+
+### markdown 
 
 #### markdown 头信息
 
@@ -93,11 +96,11 @@ tags | 类似分类 categories，一篇文章也可以给它增加一个或者�
 3. 文本3
 
 表格：
-col1 | col2 | col3
------|------|-----
-a1   | b1   | c1
-a2   | b2   | c2
-a3   | b3   | c3
+col1|col2|col3
+-|-|-
+a1|b1|c1
+a2|b2|c2
+a3|b3|c3
 ```
 
 #### markdown 引用与链接
@@ -118,12 +121,11 @@ a3   | b3   | c3
 
 #### markdown 高亮代码
 
-```Java
+```java
 public static void main(String[] args) {
     System.out.println("Hello World!");
 }
 ```
-
 
 
 查阅 [Jekyll docs][jekyll-docs] 了解更多信息，Jekyll的Github的主页： [Jekyll’s Github repo][jekyll-gh] ，如有问题可访问 [Jekyll Talk][jekyll-talk] 进行讨论。

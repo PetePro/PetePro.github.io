@@ -7,6 +7,7 @@ date:   2019-09-30 05:30:00 +0800
 categories: posts
 tags: '游戏'
 author: xusc
+bg: "blizzard.jpg"
 ---
 
 这是电竞历史上浓墨重彩的一章。

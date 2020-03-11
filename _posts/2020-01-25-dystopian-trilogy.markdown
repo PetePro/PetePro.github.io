@@ -7,6 +7,7 @@ date:   2020-01-25 09:00:00 +0800
 categories: posts
 tags: '阅读'
 author: xusc
+bg: "book.png"
 ---
 
 失去了自由，人就不能成为完整意义上的人。

@@ -2,11 +2,12 @@
 layout: post
 title:  "【Testing】C++单元测试调研分析"
 crawlertitle: "C++单元测试"
-summary: "C++单元测试调研分析"
+summary: "C++ Unit Testing"
 date:   2019-10-01 10:00:00 +0800
 categories: posts
 tags: 'CSSE'
 author: xusc
+bg: "SE.jpg"
 ---
 
 本文总结介绍了C++单元测试的相关工具。
