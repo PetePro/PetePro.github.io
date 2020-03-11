@@ -66,7 +66,7 @@ boolean（~）|Boolean|true&false
 
 - JVM 会在编译时期将 boolean 类型的数据转换为 int，使用 1 来表示 true，0 表示 false。boolean 数组是通过读写 byte 数组来实现的。
 
-```Java
+```java
 Integer x = 1;    // 装箱，自动将基本数据类型转换为包装器类型 调用了 Integer.valueOf(1)
 int y = x;        // 拆箱，自动将包装器类型转换为基本数据类型 调用了 X.intValue()
 
@@ -97,7 +97,7 @@ String 不可变的好处：
 可变性|不可变|可变|可变
 线程安全|安全|安全|不安全
 
-```Java
+```java
 // new String() 该方式一共会创建两个字符串对象（前提是 String Pool 中还没有 "abc" 字符串对象）
 // 1. 在 String Pool 中创建一个字符串对象，指向这个 "abc" 字符串字面量
 // 2. 在堆中创建一个字符串对象
@@ -174,7 +174,7 @@ System.out.println(s5 == s6);               // true
 
 参数传递基本上就是赋值操作。Java 的参数是以值传递的形式传入方法中，而不是引用传递。
 
-```Java
+```java
 // eg1: 基本类型
 void foo(int value) {
     value = 1;
@@ -328,9 +328,9 @@ Java I/O 使用了装饰者模式来实现。
 - Datagram：使用 UDP 协议实现网络通信。
 
 #### NIO
-——|I/O|NIO
-:-:|:-:|:-:
-数据处理|流（字节）|块
+
+- I/O数据处理以流（字节）为单位
+- NIO数据处理以块为单位
 
 - 通道 Channel 是对原 I/O 包中的流的模拟，可以通过它读取和写入数据。
 - 缓冲区实质上是一个数组，缓冲区提供了对数据的结构化访问。
