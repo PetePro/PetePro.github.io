@@ -370,7 +370,7 @@ UserDemo
       2. 右键项目选择`maven build...`，并配置Goals为`mybatis-generator:generate`。成功后会自动生成com.xusc.mapper、com.xusc.pojo两个包以及包下的类、接口和配置文件。
    6. 编写业务逻辑层代码
       - IUserService.java
-            ```java
+            ```Java
             package com.xusc.service;
             import com.xusc.pojo.User;
             public interface IUserService {
@@ -378,7 +378,7 @@ UserDemo
             }
             ```
       - UserService.java
-            ```java
+            ```Java
             package com.xusc.service.impl;
             import javax.annotation.Resource;
             import org.springframework.stereotype.Service;
@@ -490,7 +490,7 @@ UserDemo
         ```
    3. 编写控制层代码
       - UserController.java
-            ```java
+            ```Java
             package com.xusc.controller;
             import javax.annotation.Resource;
             import javax.servlet.http.HttpServletRequest;
@@ -515,7 +515,7 @@ UserDemo
             ```
    4. 编写jsp代码
       - showUser.jsp
-            ```html
+            ```HTML
             <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="utf-8"%>
             <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
             <html>
