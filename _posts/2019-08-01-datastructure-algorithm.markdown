@@ -21,7 +21,7 @@ Java中的实现：
 二叉查找树（BST）是一颗二叉树，并且每个节点的值都大于等于其左子树中的所有节点的值而小于等于右子树的所有节点的值。BST 有一个重要性质，就是它的中序遍历结果递增排序。
 
 ***删除***：如果待删除的节点只有一个子树，那么只需要让指向待删除节点的链接指向唯一的子树即可；否则，让右子树的最小节点替换该节点。
-```Java
+```java
 private Node min(Node x) {
     if (x == null)
         return null;
@@ -61,7 +61,7 @@ private Node delete(Node x, Key key) {
 3. 双向旋转（先左后右）平衡处理 LR。
 4. 双向旋转（先右后左）平衡处理 RL。
 
-```Java
+```java
 // 左旋转函数
 void left_rotation(Node node) {
     Node tmp;
@@ -143,7 +143,7 @@ B和B+树的区别在于，B+树的非叶子结点只包含导航信息，不包
 #### 并查集
 并查集是一种树型的数据结构，用于处理一些不相交集合的合并及查询问题。常常在使用中以森林来表示。
 1. 合并(Union/Merge)：合并两个集合。
-    ```Java
+    ```java
     int Find(int x) {
         if(x == pre[x])
             return x;
@@ -151,7 +151,7 @@ B和B+树的区别在于，B+树的非叶子结点只包含导航信息，不包
     }
     ```
 2. 查询(Find/Get)：查询元素所属集合。
-    ```Java
+    ```java
     void merge(int x, int y) {
         int fx = Find(x), fy = Find(y);
         if(fx != fy)
@@ -166,7 +166,7 @@ B和B+树的区别在于，B+树的非叶子结点只包含导航信息，不包
 #### 选择排序
 从数组中选择最小元素，将它与数组的第一个元素交换位置。再从数组剩下的元素中选择出最小的元素，将它与数组的第二个元素交换位置。不断进行这样的操作，直到将整个数组排序。
 
-```Java
+```java
 public void selectionSort(T[] nums) {
     int N = nums.length;
     for (int i = 0; i < N - 1; i++) {
@@ -182,7 +182,7 @@ public void selectionSort(T[] nums) {
 #### 冒泡排序
 从左到右不断交换相邻逆序的元素，在一轮的循环之后，可以让未排序的最大元素上浮到右侧。
 
-```Java
+```java
 public void bubbleSort(T[] nums) {
     int N = nums.length;
     boolean isSorted = false;
@@ -201,7 +201,7 @@ public void bubbleSort(T[] nums) {
 #### 插入排序
 每次都将当前元素插入到左侧已经排序的数组中，使得插入之后左侧数组依然有序。
 
-```Java
+```java
 public void insertionSort(T[] nums) {
     int N = nums.length;
     for (int i = 1; i < N; i++) {
@@ -214,7 +214,7 @@ public void insertionSort(T[] nums) {
 #### 希尔排序
 使用插入排序对间隔 h 的序列进行排序。通过不断减小 h，最后令 h=1，就可以使得整个数组是有序的。
 
-```Java
+```java
 public void shellSort(T[] nums) {
     int N = nums.length;
     int h = 1;
@@ -233,7 +233,7 @@ public void shellSort(T[] nums) {
 #### 归并排序
 将数组分成两部分，分别进行排序，然后归并起来。
 
-```Java
+```java
 private void merge(T[] nums, int l, int m, int h) {
     T[] aux;
     int i = l, j = m + 1;
@@ -276,7 +276,7 @@ public void mergeSort(T[] nums) {
 #### 快速排序
 通过一个切分元素将数组分为两个子数组，左子数组小于等于切分元素，右子数组大于等于切分元素，将这两个子数组排序也就将整个数组排序了。
 
-```Java
+```java
 private int partition(T[] nums, int l, int h) {
     int i = l, j = h + 1;
     T v = nums[l];
@@ -303,7 +303,7 @@ private void quickSort(T[] nums, int l, int h) {
 ```
 
 ##### 切分的改进
-```Java
+```java
 protected void sort(T[] nums, int l, int h) {
     if (h <= l)
         return;
@@ -326,7 +326,7 @@ protected void sort(T[] nums, int l, int h) {
 #### 堆排序
 把最大元素和当前堆中数组的最后一个元素交换位置，并且不删除它，那么就可以得到一个从尾到头的递减序列，从正向来看就是一个递增序列，这就是堆排序。
 
-```Java
+```java
 public void sort(T[] nums) {
     int N = nums.length - 1;
     for (int k = N / 2; k >= 1; k--)
