@@ -5,7 +5,7 @@ crawlertitle: "Jekyll & Markdown"
 summary: "Jekyll & Markdown"
 date:   2019-07-31 10:00:00 +0800
 categories: posts
-tags: 'CSSE'
+tags: 'SE'
 author: xusc
 bg: "SE.jpg"
 ---

@@ -5,7 +5,7 @@ crawlertitle: "SSM简单示例"
 summary: "Spring + SpringMVC + Mybatis"
 date:   2020-02-01 09:00:00 +0800
 categories: posts
-tags: 'CSSE'
+tags: 'SE'
 author: xusc
 bg: "SE.jpg"
 ---

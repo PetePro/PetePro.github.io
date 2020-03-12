@@ -5,7 +5,7 @@ crawlertitle: "需求追踪"
 summary: "基于信息检索的从需求到代码的追踪"
 date:   2019-08-01 20:00:00 +0800
 categories: posts
-tags: 'CSSE'
+tags: 'SE'
 author: xusc
 bg: "SE.jpg"
 ---

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "【科幻作品】反乌托邦三部曲"
+title:  "【科幻文学】反乌托邦三部曲"
 crawlertitle: "反乌托邦三部曲"
 summary: "反乌托邦三部曲简评"
 date:   2020-01-25 09:00:00 +0800

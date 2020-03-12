@@ -5,9 +5,9 @@ crawlertitle: "操作系统"
 summary: "Operating System"
 date:   2019-09-01 10:00:00 +0800
 categories: posts
-tags: 'CSSE'
+tags: 'CS'
 author: xusc
-bg: "SE.jpg"
+bg: "CS.jpg"
 ---
 
 操作系统

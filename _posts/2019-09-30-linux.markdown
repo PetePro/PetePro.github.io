@@ -5,7 +5,7 @@ crawlertitle: "Linux"
 summary: "Linux"
 date:   2019-09-30 10:00:00 +0800
 categories: posts
-tags: 'CSSE'
+tags: 'SE'
 author: xusc
 bg: "SE.jpg"
 ---

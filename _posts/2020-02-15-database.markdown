@@ -5,19 +5,14 @@ crawlertitle: "数据库原理"
 summary: "Database"
 date:   2020-02-15 09:00:00 +0800
 categories: posts
-tags: 'CSSE'
+tags: 'CS'
 author: xusc
-bg: "SE.jpg"
+bg: "CS.jpg"
 ---
 
 数据库知识点整理
 
-事务的ACID特性：
-- 原子性（Atomicity）
-- 一致性（Consistency）——执行结果正确
-- 隔离性（Isolation）
-- 持久性（Durability）——应对系统奔溃
-
+### 并发控制
 并发一致性问题。产生原因：破坏了事务的隔离性；解决方法：并发控制。
 - 丢失修改
 - 读脏数据
@@ -54,6 +49,8 @@ bg: "SE.jpg"
 
 Next-Key Locks 是 MySQL 的 InnoDB 存储引擎的一种锁实现。在可重复读（REPEATABLE READ）隔离级别下，使用 MVCC + Next-Key Locks 可以解决幻读问题。
 
+
+
 ### 关系数据库理论
 - 函数依赖：记 A->B 表示 A 函数决定 B，也可以说 B 函数依赖于 A。
 - 对于 A->B，如果能找到 A 的真子集 A'，使得 A'-> B，那么 A->B 就是部分函数依赖，否则就是完全函数依赖。
@@ -72,8 +69,12 @@ Next-Key Locks 是 MySQL 的 InnoDB 存储引擎的一种锁实现。在可重�
 4. BCNF
 5. 第四范式 (4NF)：
 
+
+
 ### ER图
 Entity-Relationship，有三个组成部分：实体、属性、联系。
+
+
 
 ### SQL
 SQL（Structured Query Language)，结构化查询语言，标准 SQL 由 ANSI 标准委员会管理，从而称为 ANSI SQL。SQL 语句不区分大小写，但是数据库表名、列名和值是否区分依赖于具体的 DBMS 以及配置。
@@ -129,6 +130,12 @@ SQL（Structured Query Language)，结构化查询语言，标准 SQL 由 ANSI �
 - 回退（rollback）指撤销指定 SQL 语句的过程；
 - 提交（commit）指将未存储的 SQL 语句结果写入数据库表；
 - 保留点（savepoint）指事务处理中设置的临时占位符（placeholder），你可以对它发布回退
+
+事务的ACID特性：
+- 原子性（Atomicity）
+- 一致性（Consistency）——执行结果正确
+- 隔离性（Isolation）
+- 持久性（Durability）——应对系统奔溃
 
 MySQL 的事务提交默认是隐式提交，每执行一条语句就把这条语句当成一个事务然后进行提交。当出现 START TRANSACTION 语句时，会关闭隐式提交；当 COMMIT 或 ROLLBACK 语句执行后，事务会自动关闭，重新恢复隐式提交。
 

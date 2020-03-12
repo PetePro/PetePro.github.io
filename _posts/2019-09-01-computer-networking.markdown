@@ -5,9 +5,9 @@ crawlertitle: "计算机网络"
 summary: "Computer Networking"
 date:   2019-09-01 10:00:00 +0800
 categories: posts
-tags: 'CSSE'
+tags: 'CS'
 author: xusc
-bg: "SE.jpg"
+bg: "CS.jpg"
 ---
 
 计算机网络
