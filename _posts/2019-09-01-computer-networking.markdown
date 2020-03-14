@@ -92,10 +92,10 @@ CSMA/CD 表示载波监听多点接入 / 碰撞检测。
 
 #### TCP
 三次握手  
-![](/assets/images/2020/三次握手.png)
+![](/assets/images/2019/三次握手.png)
 
 四次握手  
-![](/assets/images/2020/四次握手.jpg)
+![](/assets/images/2019/四次挥手.jpg)
 
 
 ### 应用层
@@ -111,3 +111,19 @@ CSMA/CD 表示载波监听多点接入 / 碰撞检测。
 简单邮件传送协议|SMTP|25|TCP|
 邮件读取协议|POP3|110|TCP|
 网际报文存取协议|IMAP|143|TCP|
+
+#### HTTP
+- URI - Uniform Resource Identifier
+  - URL - Uniform Resource Locator
+  - URN - Uniform Resource Name
+
+HTTP 方法：客户端发送的请求报文第一行为请求行，包含了方法字段。
+- GET 获取资源
+- HEAD 获取报文首部
+- POST 传输实体主体
+- PUT 上传文件
+- PATCH 对资源进行部分修改
+- DELETE 删除文件
+- OPTIONS 查询支持的方法
+- CONNECT 要求在与代理服务器通信时建立隧道
+- TRACE 追踪路径
