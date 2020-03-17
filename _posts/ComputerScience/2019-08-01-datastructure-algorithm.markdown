@@ -253,14 +253,14 @@ private void merge(T[] nums, int l, int m, int h) {
 // 自顶向下
 public void mergeSort(T[] nums) {
     aux = (T[]) new Comparable[nums.length];
-    sort(nums, 0, nums.length - 1);
+    mergeSort(nums, 0, nums.length - 1);
 }
 private void mergeSort(T[] nums, int l, int h) {
     if (h <= l)
         return;
     int mid = l + (h - l) / 2;
-    sort(nums, l, mid);
-    sort(nums, mid + 1, h);
+    mergeSort(nums, l, mid);
+    mergeSort(nums, mid + 1, h);
     merge(nums, l, mid, h);
 }
 // 自底向上
@@ -291,20 +291,20 @@ private int partition(T[] nums, int l, int h) {
     return j;
 }
 public void quickSort(T[] nums) {
-    sort(nums, 0, nums.length - 1);
+    quickSort(nums, 0, nums.length - 1);
 }
 private void quickSort(T[] nums, int l, int h) {
     if (h <= l)
         return;
     int j = partition(nums, l, h);
-    sort(nums, l, j - 1);
-    sort(nums, j + 1, h);
+    quickSort(nums, l, j - 1);
+    quickSort(nums, j + 1, h);
 }
 ```
 
 ##### 切分的改进
 ```java
-protected void sort(T[] nums, int l, int h) {
+protected void quickSort(T[] nums, int l, int h) {
     if (h <= l)
         return;
     int lt = l, i = l + 1, gt = h;
@@ -318,8 +318,8 @@ protected void sort(T[] nums, int l, int h) {
         else
             i++;
     }
-    sort(nums, l, lt - 1);
-    sort(nums, gt + 1, h);
+    quickSort(nums, l, lt - 1);
+    quickSort(nums, gt + 1, h);
 }
 ```
 
@@ -327,7 +327,7 @@ protected void sort(T[] nums, int l, int h) {
 把最大元素和当前堆中数组的最后一个元素交换位置，并且不删除它，那么就可以得到一个从尾到头的递减序列，从正向来看就是一个递增序列，这就是堆排序。
 
 ```java
-public void sort(T[] nums) {
+public void heapSort(T[] nums) {
     int N = nums.length - 1;
     for (int k = N / 2; k >= 1; k--)
         sink(nums, k, N);
