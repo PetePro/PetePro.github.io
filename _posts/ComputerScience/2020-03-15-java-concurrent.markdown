@@ -36,7 +36,7 @@ Java并发编程汇总
 时间分片是指将可用的 CPU 时间分配给可用的 Runnable 线程的过程。分配 CPU 时间可以基于线程优先级或者线程等待的时间。线程调度并不受到 Java 虚拟机控制，所以由应用程序来控制它是更好的选择（也就是说不要让你的程序依赖于线程的优先级）。
 
 1. 继承 `Thread` 类—— Thread 类也实现了 Runable 接口；
-2. 实现 `Runnable` 接口——使用 Runnable 实例再创建一个 Thread 实例，然后调用 Thread 实例的 start() 方法来启动线程。；
+2. 实现 `Runnable` 接口——使用 Runnable 实例再创建一个 Thread 实例，然后调用 Thread 实例的 start() 方法来启动线程；
 3. 实现 `Callable` 接口；
 
 比较|Callable|Runnable
@@ -45,6 +45,8 @@ Java并发编程汇总
 任务返回|可返回值|不可返回值
 异常|可抛异常|不可抛异常
 其它|可拿到一个 Future 对象<br/>表示异步计算的结果|
+
+
 
 比较|实现接口|继承Thread
 :-:|:-:|:-:
@@ -95,11 +97,11 @@ Executors 为 Executor，ExecutorService，ScheduledExecutorService，ThreadFact
 
 `Daemon` 守护线程是程序运行时在后台提供服务的线程。当所有非守护线程结束时，程序也就终止，同时会杀死所有守护线程。main() 属于非守护线程。
 
-Thread.sleep(millisec) 方法会休眠当前正在执行的线程。
+`Thread.sleep(millisec)` 方法会休眠当前正在执行的线程。
 
 线程中抛出的异常需要在本地进行处理。
 
-对静态方法 Thread.yield() 的调用声明了当前线程已经完成了生命周期中最重要的部分，可以切换给其它线程来执行。
+对静态方法 `Thread.yield()` 的调用声明了当前线程已经完成了生命周期中最重要的部分，可以切换给其它线程来执行。
 
 
 #### 中断
@@ -124,7 +126,7 @@ Future 表示一个可能还没有完成的异步任务的结果，针对这个�
 - 同步一个类或静态方法——作用于整个类
 - 原则：同步的范围越小越好。
 
-ReentrantLock 是 java.util.concurrent（J.U.C）包中的锁。
+`ReentrantLock` 是 java.util.concurrent（J.U.C）包中的锁。
 
 比较|synchronized|ReentrantLock
 :-:|:-:|:-:
@@ -133,11 +135,11 @@ ReentrantLock 是 java.util.concurrent（J.U.C）包中的锁。
 可否中断|不可|可以
 是否公平锁|非公平|非公平，也可以公平
 
-Semaphore 就是一个信号量，它的作用是限制某段代码块的并发数。如果 Semaphore 构造函数中传入的 int 型整数 n=1，相当于变成了一个 synchronized 了。
+`Semaphore` 就是一个信号量，它的作用是限制某段代码块的并发数。如果 Semaphore 构造函数中传入的 int 型整数 n=1，相当于变成了一个 synchronized 了。
 
 `volatile` 关键字保证了可见性。当一个共享变量被 volatile 修饰时，它会保证修改的值会立即被更新到主存，当有其他线程需要读取时，它会去内存中读取新值。volatile 的一个重要作用就是和 CAS 结合，保证了原子性。
 
-ThreadLocal 是一个本地线程副本变量工具类。主要用于将私有线程和该线程存放的副本对象做一个映射，各个线程之间的变量互不干扰，在高并发场景下，可以实现无状态的调用，特别适用于各个线程依赖不通的变量值完成操作的场景。
+`ThreadLocal` 是一个本地线程副本变量工具类。主要用于将私有线程和该线程存放的副本对象做一个映射，各个线程之间的变量互不干扰，在高并发场景下，可以实现无状态的调用，特别适用于各个线程依赖不通的变量值完成操作的场景。
 
 并发工具类
 - CountDownLatch：一个线程等待，直到他所等待的其他线程都执行完成并且调用 countDown()方法发出通知后，当前线程才可以继续执行
@@ -162,7 +164,7 @@ Lock 接口比同步方法和同步块提供了更具扩展性的锁操作。
 
 #### JUC
 
-J.U.C 即java.util.concurrent工具包，这是一个处理线程的工具包，大大提高了并发性能，AQS 是 J.U.C 的核心。
+`J.U.C` 即 `java.util.concurrent` 工具包，这是一个处理线程的工具包，大大提高了并发性能，AQS 是 J.U.C 的核心。
 
 - CountDownLatch 用来控制一个或者多个线程等待多个线程。
 - CyclicBarrier 用来控制多个线程互相等待，只有当多个线程都到达时，这些线程才会继续执行。
@@ -170,7 +172,7 @@ J.U.C 即java.util.concurrent工具包，这是一个处理线程的工具包，
 
 
 
-AQS 是 AbustactQueuedSynchronizer 的简称，它是一个 Java 提高的底层同步工具类，用一个 int 类型的变量表示同步状态，并提供了一系列的 CAS 操作来管理这个同步状态。AQS 是一个用来构建锁和同步器的框架，使用 AQS 能简单且高效地构造出应用广泛的大量的同步器。AQS 同步方式：
+`AQS` 是 `AbustactQueuedSynchronizer` 的简称，它是一个 Java 提高的底层同步工具类，用一个 int 类型的变量表示同步状态，并提供了一系列的 CAS 操作来管理这个同步状态。AQS 是一个用来构建锁和同步器的框架，使用 AQS 能简单且高效地构造出应用广泛的大量的同步器。AQS 同步方式：
 1. 独占式 ReentrantLock
 2. 共享式 Semaphore、CountDownLatch
 3. 组合式 ReentrantReadWriteLock
@@ -207,7 +209,7 @@ java.util.concurrent.BlockingQueue 接口有以下阻塞队列的实现：
   - 懒汉式单例模式：非线程安全
   - 双检锁单例模式：线程安全
 
-CAS 是 compare and swap 的缩写，即比较和交换。一种基于锁的操作，而且是乐观锁。
+`CAS` 是 `compare and swap` 的缩写，即比较和交换。一种基于锁的操作，而且是乐观锁。
 - CAS 操作包含三个操作数 —— 内存位置（V）、预期原值（A）和新值（B）
 - 如果内存地址里面的值和 A 的值是一样的，那么就将内存里面的值更新成 B。CAS是通过无限循环来获取数据的，若果在第一轮循环中，a 线程获取地址里面的值被 b 线程修改了，那么 a 线程需要自旋，到下次循环才有可能机会执行。
 
