@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "【Java】SSM原理"
+title:  "【Java】SSM框架 总结 01 原理"
 crawlertitle: "SSM原理"
 summary: "Spring + SpringMVC + Mybatis"
 date:   2020-02-01 09:00:00 +0800
@@ -10,7 +10,7 @@ author: xusc
 bg: "SE.jpg"
 ---
 
-SSM框架是指Spring + SpringMVC + Mybatis
+`SSM (Spring + SpringMVC + MyBatis) `框架集由 Spring、MyBatis 两个开源框架整合而成，常作为数据源较简单的 Web 项目框架。本文总结SSM 框架的基本原理。
 
 ### Spring
 Spring就是整个项目中装配bean的大工厂，在配置文件中可以指定使用特定的参数去调用实体类的构造方法来实例化对象。Spring是一个轻量级的控制反转（IoC）和面向切面（AOP）的容器框架。

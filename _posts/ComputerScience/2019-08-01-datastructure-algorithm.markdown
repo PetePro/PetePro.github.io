@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "【DSA】数据结构与算法——查找与排序"
+title:  "【DSA】数据结构与算法 总结 01 查找与排序"
 crawlertitle: "查找与排序"
-summary: "Data Structures and Algorithm——Query and Sort"
+summary: "Data Structures and Algorithm —— Query and Sort"
 date:   2019-08-01 10:00:00 +0800
 categories: posts
 tags: 'CS'
@@ -10,7 +10,7 @@ author: xusc
 bg: "CS.jpg"
 ---
 
-查找与排序算法
+高效检索信息是处理它们的前提，`查找`则是在广泛应用中经过实践检验的经典算法。`排序`是将一组对象按照某种逻辑顺序重新排列的过程。
 
 ### 查找
 Java中的实现：

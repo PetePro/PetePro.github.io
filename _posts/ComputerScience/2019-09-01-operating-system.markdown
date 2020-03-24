@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "【OS】操作系统"
+title:  "【OS】操作系统 总结"
 crawlertitle: "操作系统"
 summary: "Operating System"
 date:   2019-09-01 10:00:00 +0800
@@ -10,7 +10,7 @@ author: xusc
 bg: "CS.jpg"
 ---
 
-操作系统
+`操作系统`是管理计算机硬件与软件资源的计算机程序，同时也是计算机系统的内核与基石。
 
 操作系统基本特征：
 1. **并发**

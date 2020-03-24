@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "【Java】Java并发编程"
+title:  "【Java】Java 总结 02 并发编程"
 crawlertitle: "Java并发编程"
 summary: "Java Concurrency"
 date:   2020-03-15 09:00:00 +0800
@@ -10,7 +10,7 @@ author: xusc
 bg: "CS.jpg"
 ---
 
-Java并发编程汇总
+`并发编程`是 Java 的重要特性之一，在 Java 平台上提供了许多基本的并发功能来辅助开发多线程应用程序。
 
 多线程的价值
 - 发挥多处理器的能力

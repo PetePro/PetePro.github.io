@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "【Tools】Jekyll & Markdown"
-crawlertitle: "Jekyll & Markdown"
-summary: "Jekyll & Markdown"
+title:  "【Tools】Jekyll&&Markdown 总结"
+crawlertitle: "Jekyll&&Markdown"
+summary: "Jekyll&&Markdown"
 date:   2019-07-31 10:00:00 +0800
 categories: posts
 tags: 'SE'

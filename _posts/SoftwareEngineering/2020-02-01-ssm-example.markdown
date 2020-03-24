@@ -1,16 +1,16 @@
 ---
 layout: post
-title:  "【Java】SSM简单示例"
+title:  "【Java】SSM框架 总结 02 简单示例"
 crawlertitle: "SSM简单示例"
 summary: "Spring + SpringMVC + Mybatis"
-date:   2020-02-01 09:00:00 +0800
+date:   2020-02-01 10:00:00 +0800
 categories: posts
 tags: 'SE'
 author: xusc
 bg: "SE.jpg"
 ---
 
-SSM简单示例实现
+`SSM (Spring + SpringMVC + MyBatis) `框架集由 Spring、MyBatis 两个开源框架整合而成，常作为数据源较简单的 Web 项目框架。
 
 - JDK 1.8
 - Maven 3.6

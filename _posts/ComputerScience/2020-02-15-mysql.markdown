@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "【DB】MySQL"
+title:  "【DB】数据库 总结 02 MySQL"
 crawlertitle: "MySQL"
 summary: "Database——MySQL"
 date:   2020-02-15 09:00:00 +0800
@@ -10,7 +10,7 @@ author: xusc
 bg: "CS.jpg"
 ---
 
-MySQL
+`MySQL` 是一种关系型数据库管理系统，使用标准数据库查询语言 SQL。
 
 ### 索引
 索引是在存储引擎层实现的，而不是在服务器层实现的，所以不同存储引擎具有不同的索引类型和实现。
