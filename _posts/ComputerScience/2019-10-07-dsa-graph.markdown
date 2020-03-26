@@ -1,0 +1,14 @@
+---
+layout: post
+title:  "【DSA】数据结构与算法 总结 03 图"
+crawlertitle: "图"
+summary: "Data Structures and Algorithm —— Graph"
+date:   2019-10-07 10:00:00 +0800
+categories: posts
+tags: 'CS'
+author: xusc
+bg: "CS.jpg"
+---
+
+图 G 是一个有序二元组 (V,E)，其中 V 称为顶集(Vertices Set)，E 称为边集(Edges set)，E 与 V 不相交。它们亦可写成 V(G) 和 E(G)。
+

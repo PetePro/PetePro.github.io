@@ -94,7 +94,7 @@ CSMA/CD 表示载波监听多点接入 / 碰撞检测。
 三次握手  
 ![](/assets/images/2019/三次握手.png)
 
-四次握手  
+四次挥手  
 ![](/assets/images/2019/四次挥手.jpg)
 
 

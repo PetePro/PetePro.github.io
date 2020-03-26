@@ -50,10 +50,10 @@ bg: "CS.jpg"
 其它| |压缩表<br/>空间索引技术
 
 ### 数据类型
-1. 整型：TINYINT - 8，SMALLINT - 16，MEDIUMINT - 24，INT - 32，BIGINT - 64。
-2. 浮点型：FLOAT 和 DOUBLE 为浮点类型，DECIMAL 为高精度小数类型。
-3. 字符串：CHAR - 定长，VARCHAR - 变长。
-4. 时间日期：DATETIME 和 TIMESTAMP。
+1. 整型：`TINYINT` - 8，`SMALLINT` - 16，`MEDIUMINT` - 24，`INT` - 32，`BIGINT` - 64。
+2. 浮点型：`FLOAT` 和 `DOUBLE` 为浮点类型，`DECIMAL` 为高精度小数类型。
+3. 字符串：`CHAR` - 定长，`VARCHAR` - 变长。
+4. 时间日期：`DATETIME` 和 `TIMESTAMP`。
 
 
 ### 复制

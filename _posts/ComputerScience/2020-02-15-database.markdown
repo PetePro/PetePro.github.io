@@ -62,7 +62,7 @@ MySQL 的事务提交默认是隐式提交，每执行一条语句就把这条�
 - 可重复读（REPEATABLE READ）：保证在同一个事务中多次读取同一数据的结果是一样的。
 - 可串行化（SERIALIZABLE）：强制事务串行执行，这样多个事务互不干扰，不会出现并发一致性问题。
 
-多版本并发控制（Multi-Version Concurrency Control, MVCC）是 MySQL 的 InnoDB 存储引擎实现隔离级别的一种具体方式，用于实现提交读和可重复读这两种隔离级别。在 MVCC 中事务的修改操作（DELETE、INSERT、UPDATE）会为数据行新增一个版本快照。
+**多版本并发控制**（Multi-Version Concurrency Control, MVCC）是 MySQL 的 InnoDB 存储引擎实现隔离级别的一种具体方式，用于实现提交读和可重复读这两种隔离级别。在 MVCC 中事务的修改操作（DELETE、INSERT、UPDATE）会为数据行新增一个版本快照。
 
 Next-Key Locks 是 MySQL 的 InnoDB 存储引擎的一种锁实现。在可重复读（REPEATABLE READ）隔离级别下，使用 MVCC + Next-Key Locks 可以解决幻读问题。
 
@@ -98,23 +98,23 @@ SQL（Structured Query Language)，结构化查询语言，标准 SQL 由 ANSI �
 
 #### 查询
 - 关键字
-  - DISTINCT：相同值只会出现一次。它作用于所有列，所有列的值都相同才算相同。
-  - LIMIT：限制返回的行数。
-  - 排序：ASC -升序（默认）、DESC -降序。
-  - UNION：组合查询并且去除重复的数据。
-  - except：去重之后保留第一个表中的数据。
-  - intersect：查询两个结果集中的并集。
+  - `DISTINCT`：相同值只会出现一次。它作用于所有列，所有列的值都相同才算相同。
+  - `LIMIT`：限制返回的行数。
+  - 排序：`ASC` -升序（默认）、`DESC` -降序。
+  - `UNION`：组合查询并且去除重复的数据。
+  - `EXCEPT`：去重之后保留第一个表中的数据。
+  - `INTERSECT`：查询两个结果集中的并集。
 - 通配符。通配符位于开头处匹配会非常慢。
   - `%` 匹配 >=0 个任意字符；
   - `_` 匹配 ==1 个任意字符；
   - `[]` 可以匹配集合内的字符。
 - 分组：
-  - WHERE 过滤行，HAVING 过滤分组，行过滤应当先于分组过滤。
-  - GROUP BY 子句出现在 WHERE 子句之后，ORDER BY 子句之前；
-  - 除了汇总字段外，SELECT 语句中的每一字段都必须在 GROUP BY 子句中给出；
-  - NULL 的行会单独分为一组；
+  - `WHERE` 过滤行，`HAVING` 过滤分组，行过滤应当先于分组过滤。
+  - `GROUP BY` 子句出现在 `WHERE` 子句之后，`ORDER BY` 子句之前；
+  - 除了汇总字段外，`SELECT` 语句中的每一字段都必须在 `GROUP BY` 子句中给出；
+  - `NULL` 的行会单独分为一组；
   - 大多数 SQL 实现不支持 GROUP BY 列具有可变长度的数据类型。
-- 连接：JOIN 
+- 连接：`JOIN `
   - 内连接：又称等值连接，使用 INNER JOIN 关键字。等价于普通查询并在 WHERE 中将两个表中要连接的列用等值方法连接起来。
   - 自连接：内连接的一种，只是连接的表是自身而已。
   - 自然连接：自动把同名列通过等值测试连接起来的，同名列可以有多个。
