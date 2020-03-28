@@ -42,7 +42,98 @@ bg: "CS.jpg"
    2. `n = 1 + n1 + 2 * n2`；
 
 #### 遍历
- -  先序遍历：根 - 左 - 右
- -  中序遍历：左 - 根 - 右
- -  后序遍历：左 - 右 - 根
- -  层次遍历
+递归版本实现起来非常简单，非递归版本需要用一个stack来模拟递归时的函数调用。对于三种遍历，我们都使用 push 当前节点-> push 左子树-> pop 左子树-> push 右子树-> pop 右子树的方式。但是打印时机有所不同。对于前序遍历来说，每次访问到一个节点就打印；对于中序遍历来说，每次将右子节点进栈时，把当前节点打印；对于后序遍历来说，每次 pop 的时候打印，还需要一个临时节点指向上一个打印的节点。
+
+**先序遍历**：根 - 左 - 右
+```java
+   public static void preOrder(TreeNode root) {
+		if (root == null)
+			return;
+		System.out.print(root.val + " ");
+		preOrder(root.left);
+		preOrder(root.right);
+	}
+	public static void preOrderNonRecursive(TreeNode root) {
+		Stack<TreeNode> stack = new Stack<>();
+		TreeNode t = root;
+		while (t != null || !stack.isEmpty()) {
+			if (t != null) {
+				System.out.print(t.val + " ");
+				stack.push(t);
+				t = t.left;
+			} else {
+				t = stack.pop();
+				t = t.right;
+			}
+		}
+	}
+```
+
+**中序遍历**：左 - 根 - 右
+```java
+   public static void inOrder(TreeNode root) {
+		if (root == null)
+			return;
+		inOrder(root.left);
+		System.out.print(root.val + " ");
+		inOrder(root.right);
+	}
+	public static void inOrderNonRecursive(TreeNode root) {
+		Stack<TreeNode> stack = new Stack<>();
+		TreeNode t = root;
+		while (t != null || !stack.isEmpty()) {
+			if (t != null) {
+				stack.push(t);
+				t = t.left;
+			} else {
+				t = stack.pop();
+				System.out.print(t.val + " ");
+				t = t.right;
+			}
+		}
+	}
+```
+
+**后序遍历**：左 - 右 - 根
+```java
+   public static void postOrder(TreeNode root) {
+		if (root == null)
+			return;
+		postOrder(root.left);
+		postOrder(root.right);
+		System.out.print(root.val + " ");
+	}
+	public static void postOrderNonRecursive(TreeNode root) {
+		Stack<TreeNode> stack = new Stack<>();
+		TreeNode t = root, pre = null;
+		while (t != null || !stack.isEmpty()) {
+			while (t != null) {
+				stack.push(t);
+				t = t.left;
+			}
+			t = stack.peek();
+			if (t.right == null || pre == t.right) {
+				System.out.print(t.val + " ");
+				pre = stack.pop();
+				t = null;
+			} else
+				t = t.right;
+		}
+	}
+```
+
+**层次遍历**
+```java
+   public static void levelOrder(TreeNode root) {
+		Queue<TreeNode> queue = new LinkedList<TreeNode>();
+		queue.offer(root);
+		while (!queue.isEmpty()) {
+			TreeNode t = queue.poll();
+			System.out.print(t.val + " ");
+			if (t.left != null)
+				queue.offer(t.left);
+			if (t.right != null)
+				queue.offer(t.right);
+		}
+	}
+```
