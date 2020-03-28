@@ -1,14 +1,14 @@
- -  -  - 
+---
 layout: post
 title:  "【DSA】数据结构与算法 总结 03 树"
 crawlertitle: "树"
 summary: "Data Structures and Algorithm —— Tree"
-date:   2019 - 10 - 07 10:00:00  + 0800
+date:   2019-10-07 10:00:00  +0800
 categories: posts
 tags: 'CS'
 author: xusc
 bg: "CS.jpg"
- -  -  - 
+---
 
 `树`是由结点和边组成的不存在任何环的一种数据结构。
 
