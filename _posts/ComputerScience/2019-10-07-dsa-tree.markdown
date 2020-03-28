@@ -46,94 +46,94 @@ bg: "CS.jpg"
 
 **先序遍历**：根 - 左 - 右
 ```java
-   public static void preOrder(TreeNode root) {
-		if (root == null)
-			return;
-		System.out.print(root.val + " ");
-		preOrder(root.left);
-		preOrder(root.right);
-	}
-	public static void preOrderNonRecursive(TreeNode root) {
-		Stack<TreeNode> stack = new Stack<>();
-		TreeNode t = root;
-		while (t != null || !stack.isEmpty()) {
-			if (t != null) {
-				System.out.print(t.val + " ");
-				stack.push(t);
-				t = t.left;
-			} else {
-				t = stack.pop();
-				t = t.right;
-			}
+public static void preOrder(TreeNode root) {
+	if (root == null)
+		return;
+	System.out.print(root.val + " ");
+	preOrder(root.left);
+	preOrder(root.right);
+}
+public static void preOrderNonRecursive(TreeNode root) {
+	Stack<TreeNode> stack = new Stack<>();
+	TreeNode t = root;
+	while (t != null || !stack.isEmpty()) {
+		if (t != null) {
+			System.out.print(t.val + " ");
+			stack.push(t);
+			t = t.left;
+		} else {
+			t = stack.pop();
+			t = t.right;
 		}
 	}
+}
 ```
 
 **中序遍历**：左 - 根 - 右
 ```java
-   public static void inOrder(TreeNode root) {
-		if (root == null)
-			return;
-		inOrder(root.left);
-		System.out.print(root.val + " ");
-		inOrder(root.right);
-	}
-	public static void inOrderNonRecursive(TreeNode root) {
-		Stack<TreeNode> stack = new Stack<>();
-		TreeNode t = root;
-		while (t != null || !stack.isEmpty()) {
-			if (t != null) {
-				stack.push(t);
-				t = t.left;
-			} else {
-				t = stack.pop();
-				System.out.print(t.val + " ");
-				t = t.right;
-			}
+public static void inOrder(TreeNode root) {
+	if (root == null)
+		return;
+	inOrder(root.left);
+	System.out.print(root.val + " ");
+	inOrder(root.right);
+}
+public static void inOrderNonRecursive(TreeNode root) {
+	Stack<TreeNode> stack = new Stack<>();
+	TreeNode t = root;
+	while (t != null || !stack.isEmpty()) {
+		if (t != null) {
+			stack.push(t);
+			t = t.left;
+		} else {
+			t = stack.pop();
+			System.out.print(t.val + " ");
+			t = t.right;
 		}
 	}
+}
 ```
 
 **后序遍历**：左 - 右 - 根
 ```java
-   public static void postOrder(TreeNode root) {
-		if (root == null)
-			return;
-		postOrder(root.left);
-		postOrder(root.right);
-		System.out.print(root.val + " ");
-	}
-	public static void postOrderNonRecursive(TreeNode root) {
-		Stack<TreeNode> stack = new Stack<>();
-		TreeNode t = root, pre = null;
-		while (t != null || !stack.isEmpty()) {
-			while (t != null) {
-				stack.push(t);
-				t = t.left;
-			}
-			t = stack.peek();
-			if (t.right == null || pre == t.right) {
-				System.out.print(t.val + " ");
-				pre = stack.pop();
-				t = null;
-			} else
-				t = t.right;
+public static void postOrder(TreeNode root) {
+	if (root == null)
+		return;
+	postOrder(root.left);
+	postOrder(root.right);
+	System.out.print(root.val + " ");
+}
+public static void postOrderNonRecursive(TreeNode root) {
+	Stack<TreeNode> stack = new Stack<>();
+	TreeNode t = root, pre = null;
+	while (t != null || !stack.isEmpty()) {
+		while (t != null) {
+			stack.push(t);
+			t = t.left;
 		}
+		t = stack.peek();
+		if (t.right == null || pre == t.right) {
+			System.out.print(t.val + " ");
+			pre = stack.pop();
+			t = null;
+		} else
+			t = t.right;
 	}
+}
 ```
 
 **层次遍历**
 ```java
-   public static void levelOrder(TreeNode root) {
-		Queue<TreeNode> queue = new LinkedList<TreeNode>();
-		queue.offer(root);
-		while (!queue.isEmpty()) {
-			TreeNode t = queue.poll();
-			System.out.print(t.val + " ");
-			if (t.left != null)
-				queue.offer(t.left);
-			if (t.right != null)
-				queue.offer(t.right);
-		}
+public static void levelOrder(TreeNode root) {
+	Queue<TreeNode> queue = new LinkedList<TreeNode>();
+	queue.offer(root);
+	while (!queue.isEmpty()) {
+		TreeNode t = queue.poll();
+		System.out.print(t.val + " ");
+		if (t.left != null)
+			queue.offer(t.left);
+		if (t.right != null)
+			queue.offer(t.right);
 	}
+}
 ```
