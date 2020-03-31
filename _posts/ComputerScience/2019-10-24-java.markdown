@@ -292,23 +292,62 @@ foo(sb); // sb 没有被改变，还是 "abc"。
 ## [Java进阶](#目录)
 
 ### [I/O](#目录)
-Java I/O 使用了装饰者模式来实现。
-1. 磁盘操作：`File`
-2. 字节操作：`InputStream` 和 `OutputStream`
-3. 字符操作：`Reader` 和 `Writer`
-4. 对象操作：`Serializable`
-5. 网络操作：`Socket`
-6. 新的输入/输出：`NIO`
+
+#### I/O分类
+从数据传输方式角度看，I/O 可以分为：
+1. 字节流：字节流是以一个字节单位来传输数据，读取单个字节，用来处理二进制文件，字节是个计算机看的。
+   - `InputStream`
+     - `ByteArrayInputStream`
+     - `PipedInputStream`
+     - `FilterInputStream`
+       - `BufferedInputStream`
+       - `DataInputStream`
+     - `FileInputStream`
+     - `ObjectInputStream`
+   - `OutputStream`
+     - `ByteArrayOutputStream`
+     - `PipedOutputStream`
+     - `FilterOutputStream`
+       - `BufferedOutputStream`
+       - `DataOutputStream`
+       - `PrintStream`
+     - `FileOutputStream`
+     - `ObjectOutputStream`
+2. 字符流：字符流是以多个字节来传输数据，读取单个字符，用来处理文本文件，字符是给人看的。
+   - `Reader`
+     - `CharArrayReader`
+     - `PipedReader`
+     - `FilterReader`
+     - `BufferedReader`
+     - `InputStreamReader`
+       - `FileReader`
+   - `Writer`
+     - `CharArrayWriter`
+     - `PipedWriter`
+     - `FilterWriter`
+     - `BufferedWriter`
+     - `OutputStreamWriter`
+       - `FileWriter`
+     - `PrintWriter`
+
+从操作对象角度看，I/O 可以分为：
+1. 文件（`file`）：`FileInputStream`、`FileOutputStream`、`FileReader`、`FileWriter`
+2. 缓冲操作：`BufferedInputStream`、`BufferedOutputStream`、`BufferedReader`、`BufferedWriter`
+3. 字符串（`String`）：`StringBufferInputStream`、`StringBufferOutputStream`、`StringReader`、`StringWriter`
+4. 数组（`[]`）：
+   1. 字节数组（`byte[]`）：`ByteArrayInputStream`、`ByteArrayOutputStream`
+   2. 字符数组（`char[]`）：`CharArrayReader`、`CharArrayWriter`
+5. 管道操作：`PipedInputStream`、`PipedOutputStream`、`PipedReader`、`PipedWriter`
+6. 基本数据类型：`DataInputStream`、`DataOutputStream`
+7. 打印：`PrintStream`、`PrintWriter`
+8. 对象序列化反序列化：`ObjectInputStream`、`ObjectOutputStream`
+9. 转换：`InputStreamReader` 字节流解码成字符流、`OutputStreamWriter` 字符流编码成为字节流
 
 #### 编码与解码
-编码就是把字符转换为字节，而解码是把字节重新组合成字符。
+编码就是把字符转换为字节，而解码是把字节重新组合成字符。不管是磁盘还是网络传输，最小的存储单元都是字节。
 - GBK 编码中，中文字符占 2 个字节，英文字符占 1 个字节；
 - UTF-8 编码中，中文字符占 3 个字节，英文字符占 1 个字节；
 - UTF-16be 编码中，中文字符和英文字符都占 2 个字节。Java 的内存编码使用双字节编码 UTF-16be。
-
-不管是磁盘还是网络传输，最小的存储单元都是字节
-- `InputStreamReader` 实现从字节流解码成字符流；
-- `OutputStreamWriter` 实现字符流编码成为字节流。
 
 #### 序列化
 序列化就是将一个对象转换成字节序列，方便存储和传输。不会对静态变量进行序列化。
@@ -324,10 +363,13 @@ Java I/O 使用了装饰者模式来实现。
 - `Datagram`：使用 UDP 协议实现网络通信。
 
 #### NIO
-- `I/O` 数据处理以流（字节）为单位
-- `NIO` 数据处理以块为单位
-- 通道 Channel 是对原 I/O 包中的流的模拟，可以通过它读取和写入数据。
-- 缓冲区实质上是一个数组，缓冲区提供了对数据的结构化访问。
+- `I/O` 数据处理以流（字节）为单位，面向流；
+- `NIO` 数据处理以块为单位，面向缓冲区。
+
+NIO 三大核心
+- `Channel`（通道）：类似 IO 中的 Stream，但是 Stream 是单向的，Channel 是双向的。主要实现：`FileChannel`，`DatagramChannel`，`SocketChannel`，`ServerSocketChannel`。
+- `Buffer`（缓冲区），主要实现：`ByteBuffer`，`CharBuffer`，`DoubleBuffer`，`FloatBuffer`，`IntBuffer`，`LongBuffer`，`ShortBuffer`。
+- `Selector`：运行单线程处理多个 Channel。
 
 
 
@@ -381,12 +423,40 @@ Java 中的异常体系
 
 
 ### [Java8新特性](#目录)
-- Lambda 表达式 − Lambda 允许把函数作为一个方法的参数（函数作为参数传递到方法中）。
-- 方法引用 − 方法引用提供了非常有用的语法，可以直接引用已有Java类或对象（实例）的方法或构造器。与lambda联合使用，方法引用可以使语言的构造更紧凑简洁，减少冗余代码。
+
+#### Lambda 表达式
+Lambda 允许把函数作为一个方法的参数（函数作为参数传递到方法中）。但是，只能用来简化仅***包含一个 public 方法***的***接口***的创建。
+
+语法格式
+```java
+(parameters) -> expression
+(parameters) -> { statements; }
+```
+
+分类及示例
+```java
+// 1. 不需要参数，返回值为 5  
+() -> 5
+// 2. 接收一个参数（数字类型），返回其2倍的值  
+x -> 2 * x
+// 3. 接受2个参数（数字），并返回他们的差值  
+(x, y) -> x – y
+// 4. 接收2个int型整数，返回他们的和  
+(int x, int y) -> x + y
+// 5. 接受一个 string 对象，并在控制台打印，不返回任何值（看起来像是返回void）  
+(String s) -> System.out.print(s)
+// 排序
+private void sortUsingLambda(List<String> list){
+  Collections.sort(list, (s1, s2) -> s1.compareTo(s2));
+}
+```
+
+#### 其它
+- 方法引用 − 方法引用提供了非常有用的语法，可以直接引用已有 Java 类或对象（实例）的方法或构造器。与 lambda 联合使用，方法引用可以使语言的构造更紧凑简洁，减少冗余代码。
 - 默认方法 − 默认方法就是一个在接口里面有了一个实现的方法。
-- 新工具 − 新的编译工具，如：Nashorn引擎 jjs、 类依赖分析器jdeps。
-- Stream API −新添加的Stream API（java.util.stream） 把真正的函数式编程风格引入到Java中。
+- 新工具 − 新的编译工具，如：Nashorn 引擎 jjs、 类依赖分析器 jdeps。
+- Stream API − 新添加的Stream API（java.util.stream） 把真正的函数式编程风格引入到 Java 中。
 - Date Time API − 加强对日期与时间的处理。
 - Optional 类 − Optional 类已经成为 Java 8 类库的一部分，用来解决空指针异常。
-- Nashorn, JavaScript 引擎 − Java 8提供了一个新的Nashorn javascript引擎，它允许我们在JVM上运行特定的javascript应用。
+- Nashorn, JavaScript 引擎 − Java 8 提供了一个新的 Nashorn javascript 引擎，它允许我们在JVM上运行特定的 javascript 应用。
 
