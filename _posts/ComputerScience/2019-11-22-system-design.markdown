@@ -5,9 +5,9 @@ crawlertitle: "系统设计"
 summary: "System Design"
 date:   2019-11-22 10:00:00 +0800
 categories: posts
-tags: 'SE'
+tags: 'CS'
 author: xusc
-bg: "SE.jpg"
+bg: "CS.jpg"
 ---
 
 `系统设计`是根据系统分析的结果，运用系统科学的思想和方法，设计出能最大限度满足所要求的目标或目的的新系统的过程。

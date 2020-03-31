@@ -5,9 +5,9 @@ crawlertitle: "Linux"
 summary: "Linux"
 date:   2019-09-30 10:00:00 +0800
 categories: posts
-tags: 'SE'
+tags: 'CS'
 author: xusc
-bg: "SE.jpg"
+bg: "CS.jpg"
 ---
 
 `Linux` 是一个免费的多用户、多任务的操作系统，Linux 系统最大的特色是源代码完全公开，在符合 GNU/GPL（通用公共许可证）的原则下，任何人都可以自由取得、散布甚至修改源代码。
