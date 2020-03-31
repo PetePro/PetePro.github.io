@@ -89,3 +89,22 @@ bg: "CS.jpg"
 - SQL 线程 ：负责读取中继日志，解析出主服务器已经执行的数据更改并在从服务器中重放（Replay）。
 
 读写分离：主服务器处理写操作以及实时性要求比较高的读操作，而从服务器处理读操作。读写分离常用代理方式来实现，代理服务器接收应用层传来的读写请求，然后决定转发到哪个服务器。
+
+
+### JDBC
+架构
+- 双层架构：Java Applet 或应用直接访问数据源。
+- 三层架构：侧架构特殊之处在于，引入中间层服务。可以增加企业数据的访问控制，以及多种类型的更新；另外，也可简化应用的部署，并在多数情况下有性能优势。
+
+编程步骤
+1. 加载驱动程序；
+   - `Class.forName(driverClass)`
+2. 获得数据库连接；
+3. 创建 Statement\PreparedStatement 对象；
+   - `PreparedStatement`：表示预编译的 SQL 语句的对象，然后可以使用此对象多次高效地执行该语句。批处理比 Statement 效率高。
+   - `Statement`：用于执行静态 SQL 语句并返回它所生成结果的对象。
+4. 执行 SQL 语句；
+   - `executeQuery`：用于产生单个结果集的语句，例如 `SELECT` 语句。返回值是 `ResultSet`。
+   - `executeUpdate`：用于执行 `INSERT`、`UPDATE` 或 `DELETE` 语句以及 SQL DDL（数据定义语言）语句，例如 `CREATE TABLE` 和 `DROP TABLE`。返回值是一个整数，指示受影响的行数（即更新计数）。
+   - `execute`：用于执行返回多个结果集、多个更新计数或二者组合的语句。
+5. 如果有数据，从 `ResultSet` 中获取数据。
