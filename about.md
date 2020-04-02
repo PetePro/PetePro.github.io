@@ -13,6 +13,7 @@ Nanjing, China
 
 #### Postgraduate
 - Software Engineering
+- <a href="http://www.iselab.cn/">Intelligent Software Engineering Laboratory</a>
 - <a href="http://software.nju.edu.cn/">Software College</a>
 - <a href="https://www.nju.edu.cn/">Nanjing University</a>
 
