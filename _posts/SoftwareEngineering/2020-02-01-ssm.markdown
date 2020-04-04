@@ -13,16 +13,20 @@ bg: "SE.jpg"
 `SSM (Spring + SpringMVC + MyBatis) `框架集由 Spring、MyBatis 两个开源框架整合而成，常作为数据源较简单的 Web 项目框架。本文总结SSM 框架的基本原理。
 
 ### Spring
-Spring就是整个项目中装配bean的大工厂，在配置文件中可以指定使用特定的参数去调用实体类的构造方法来实例化对象。Spring是一个轻量级的控制反转（IoC）和面向切面（AOP）的容器框架。
-
-- BeanFactory是spring中比较原始，比较古老的Factory。
-- ApplicationContext是BeanFactory的子类，基本上代替了BeanFactory的工作，以一种更面向框架的工作方式以及对上下文进行分层和实现继承，并在这个基础上对功能进行扩展。
+Spring 就是整个项目中装配 bean 的大工厂，在配置文件中可以指定使用特定的参数去调用实体类的构造方法来实例化对象。Spring 是一个轻量级的控制反转（IoC）和面向切面（AOP）的容器框架。
 
 两大核心：
-1. IOC/DI（控制反转/依赖注入）
-   - Spring通过控制反转（IoC）的技术促进了松耦合。当应用了IoC，一个对象依赖的其它对象会通过被动的方式传递进来，而不是这个对象自己创建或者查找依赖对象。实现原理：通过反射机制生成对象注入。
-   - 依赖注入DI。把DAO依赖注入到service层，service层反转给action层，Spring顶层容器为BeanFactory。
-2. AOP（面向切面）：Spring提供了面向切面编程的丰富支持，允许通过分离应用的业务逻辑与系统级服务（例如审计（auditing）和事务（transaction）管理）进行内聚性的开发。应用对象只实现业务逻辑。它们并不负责（甚至是意识）其它的系统级关注点，例如日志或事务支持。实现原理：动态代理。
+1. IoC/DI（Inversion of Control 控制反转 / Dependency Injection 依赖注入）
+   - Spring 通过控制反转（IoC）的技术促进了松耦合。当应用了 IoC，一个对象依赖的其它对象会通过被动的方式传递进来，而不是这个对象自己创建或者查找依赖对象。实现原理：通过反射机制生成对象注入。
+   - 依赖注入 DI。把 DAO 依赖注入到 service 层，service 层反转给 action 层，Spring 顶层容器为 BeanFactory。
+2. AOP（Aspect Oriented Programming 面向切面）：Spring 提供了面向切面编程的丰富支持，允许通过分离应用的业务逻辑与系统级服务（例如审计（auditing）和事务（transaction）管理）进行内聚性的开发。应用对象只实现业务逻辑。它们并不负责（甚至是意识）其它的系统级关注点，例如日志或事务支持。
+   - 实现原理：动态代理。
+   - 面向切面编程：通过预编译和运行期动态代理的方式实现在不修改源代码的情况下给程序动态添加功能的技术
+
+核心对象
+- BeanFactory 是 Spring 中比较原始、比较古老的 Factory。
+- ApplicationContext 是 BeanFactory 的子类，基本上代替了 BeanFactory 的工作，以一种更面向框架的工作方式以及对上下文进行分层和实现继承，并在这个基础上对功能进行扩展。
+  - 负责读取 Spring 配置文件，管理对象加载，生成，维护 Bean 和 Bean 对象之间的依赖关系，负责 Bean 的生命周期等
 
 Spring事务管理：一般使用TransactionMananger进行管理，可以通过Spring的注入来完成此功能。
 - 编程式事务管理：编程方式管理事务，极大灵活性，难维护。
@@ -113,9 +117,14 @@ SpringMVC工作流程
 
 
 ### Mybatis
-Mybatis是对jdbc的封装，它让数据库底层操作变的透明。Mybatis的操作都是围绕一个sqlSessionFactory实例展开的。Mybatis通过配置文件关联到各实体类的Mapper文件，Mapper文件中配置了每个类对数据库所需进行的sql语句映射。在每次与数据库交互时，通过sqlSessionFactory拿到一个sqlSession，再执行sql命令。
+Mybatis 是对 jdbc 的封装，它让数据库底层操作变的透明。Mybatis 的操作都是围绕一个 sqlSessionFactory 实例展开的。Mybatis 通过配置文件关联到各实体类的 Mapper 文件，Mapper 文件中配置了每个类对数据库所需进行的 sql 语句映射。在每次与数据库交互时，通过sqlSessionFactory 拿到一个 sqlSession，再执行 sql 命令。
 
-Mybatis的接口绑定：Mybatis实现了DAO接口与xml映射文件的绑定，自动为我们生成接口的具体实现，使用起来变得更加省事和方便。
+Mybatis 的接口绑定：Mybatis 实现了 DAO 接口与 xml 映射文件的绑定，自动为我们生成接口的具体实现，使用起来变得更加省事和方便。
+
+MyBatis 优点
+- 半自动化的 ORM 实现
+  - 对象关系映射（Object Relational Mapping，ORM），用于实现面向对象编程语言里不同类型系统的数据之间的转换
+- 动态 SQL
 
 Mybatis的好处
 - 把Sql语句从Java中独立出来。
