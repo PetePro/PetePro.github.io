@@ -35,9 +35,7 @@ bg: "CS.jpg"
 #### 启动和终止线程
 线程类的构造方法、静态块是被 new 这个线程类所在的线程所调用的，而 run 方法里面的代码才是被线程自身所调用的。
 
-线程调度器是一个操作系统服务，它负责为 Runnable 状态的线程分配 CPU 时间。一旦我们创建一个线程并启动它，它的执行便依赖于线程调度器的实现。
-
-时间分片是指将可用的 CPU 时间分配给可用的 Runnable 线程的过程。分配 CPU 时间可以基于线程优先级或者线程等待的时间。线程调度并不受到 Java 虚拟机控制，所以由应用程序来控制它是更好的选择（也就是说不要让你的程序依赖于线程的优先级）。
+*线程调度器*是一个操作系统服务，它负责为 Runnable 状态的线程分配 CPU 时间。一旦我们创建一个线程并启动它，它的执行便依赖于线程调度器的实现。
 
 线程中抛出的异常需要在本地进行处理。
 
@@ -49,37 +47,38 @@ bg: "CS.jpg"
 
 比较|Callable|Runnable
 :-:|:-:|:-:
-规定（重写）方法|call()|run()
-任务返回|可返回值|不可返回值
-异常|可抛异常|不可抛异常
-其它|可拿到一个 Future 对象<br/>表示异步计算的结果|
+**规定（重写）方法**|call()|run()
+**任务返回**|可拿到一个 Future 对象<br/>表示异步计算的结果|不可返回值
+**异常**|可抛异常|不可抛异常
+
+*时间分片*是指将可用的 CPU 时间分配给可用的 Runnable 线程的过程。分配 CPU 时间可以基于线程优先级或者线程等待的时间。线程调度并不受到 Java 虚拟机控制，所以由应用程序来控制它是更好的选择（也就是说不要让你的程序依赖于线程的优先级）。
 
 比较|实现接口|继承Thread
 :-:|:-:|:-:
-开销|小|大
-编程|复杂|简单
-当前线程|Thread.currentThread()|this
-面向对象|还可以继承其他类|不能再继承其他父类
-其它|多个线程可共享同个 target 对象|
+**开销**|小|大
+**编程**|复杂|简单
+**使用当前线程**|Thread.currentThread()|this
+**面向对象**|还可以继承其他类|不能再继承其他父类
+**其它**|多个线程可共享同个 target 对象|
 
 终止线程
 1. 自然执行完
-2. 抛出未处理异常 InterruptedException
-3. stop() resume() suspend() 过时的方法，不建议使用
-4. interrupt() 
+2. 抛出未处理异常 `InterruptedException`
+3. `stop()` `resume()` `suspend()` 过时的方法，不建议使用
+4. `interrupt() `
    - 如果该线程处于阻塞、限期等待或者无限期等待状态，那么就会抛出 InterruptedException，从而提前结束该线程。
    - java 线程是协作式，而非抢占式。线程是否中断，由其本身决定。
    - 不能中断 I/O 阻塞和 synchronized 锁阻塞。
    - 调用 interrupt() 方法会设置线程的中断标记。因此可以在循环体中使用 interrupted() 方法来判断线程是否处于中断状态，从而提前结束线程。
 
 #### 线程常用方法
-- sleep() 使当前线程（即调用该方法的线程）暂停执行一段时间，让其他线程有机会继续执行，但它并不释放对象锁。即如果有synchronized 同步块，其他线程仍然不能访问共享数据。该方法要捕捉异常。
-- join() 使调用该方法的线程在此之前执行完毕，即等待该方法的线程执行完毕后再往下继续执行。该方法需要捕捉异常。
-- yield() 使当前线程让出 CPU 占有权，但让出的时间是不可设定的，同时不会释放锁标志。声明了当前线程已经完成了生命周期中最重要的部分，可以切换给其它线程来执行。
-- run() start() 把需要处理的代码放到 run() 方法中，start() 方法启动线程将自动调用 run() 方法。并且 run() 方法必需是 public 访问权限，返回值类型为 void。
-- sleep(long millis) 使当前线程进入停滞状态，在指定的时间内肯定不会被执行，不会释放锁标志。
-- getStackTrace() getAllStackTraces() 获取堆栈的情况/获取所有栈的情况
-- isAlive() 线程处于“新建”状态时，该方法返回false。在线程的 run() 方法结束之前，即没有进入死亡状态之前，该方法返回true。
+- `sleep()` 使当前线程（即调用该方法的线程）暂停执行一段时间，让其他线程有机会继续执行，但它并不释放对象锁。即如果有synchronized 同步块，其他线程仍然不能访问共享数据。该方法要捕捉异常。
+- `join()` 使调用该方法的线程在此之前执行完毕，即等待该方法的线程执行完毕后再往下继续执行。该方法需要捕捉异常。
+- `yield()` 使当前线程让出 CPU 占有权，但让出的时间是不可设定的，同时不会释放锁标志。声明了当前线程已经完成了生命周期中最重要的部分，可以切换给其它线程来执行。
+- `run()` `start()` 把需要处理的代码放到 run() 方法中，start() 方法启动线程将自动调用 run() 方法。并且 run() 方法必需是 public 访问权限，返回值类型为 void。
+- `sleep(long millis)` 使当前线程进入停滞状态，在指定的时间内肯定不会被执行，不会释放锁标志。
+- `getStackTrace()` `getAllStackTraces()` 获取堆栈的情况/获取所有栈的情况
+- `isAlive()` 线程处于“新建”状态时，该方法返回false。在线程的 run() 方法结束之前，即没有进入死亡状态之前，该方法返回true。
 
 #### 线程状态
 - 新建（NEW）
@@ -95,30 +94,30 @@ bg: "CS.jpg"
 - 死亡（TERMINATED）
 
 #### 两类线程
-1. User Thread（用户线程）：就是我们平时线程池或者创建线程start后的线程，没有设置 setDaemon(true)
-2. Daemon Thread（守护线程）：为其他线程服务的线程。所有非守护线程都执行完毕后，无论有没有守护线程，虚拟机都会自动退出。
-   - thread.setDaemon(true) 必须在thread.start() 之前设置，否则会出现 IllegalThreadStateException 异常。不能把正在运行的常规线程设置为守护线程。
+1. **User Thread（用户线程）**：就是我们平时线程池或者创建线程start后的线程，没有设置 setDaemon(true)
+2. **Daemon Thread（守护线程）**：为其他线程服务的线程。所有非守护线程都执行完毕后，无论有没有守护线程，虚拟机都会自动退出。
+   - `thread.setDaemon(true)` 必须在thread.start() 之前设置，否则会出现 IllegalThreadStateException 异常。不能把正在运行的常规线程设置为守护线程。
    - 在 Daemon 线程中产生的新线程也是 Daemon 的
 
 #### 线程共享
-- synchronized 控制线程同步的，在多线程的环境下，控制 synchronized 代码段不被多个线程同时执行。属于悲观锁。
+- `synchronized` 控制线程同步的，在多线程的环境下，控制 synchronized 代码段不被多个线程同时执行。属于悲观锁。
   - 同步一个代码块或方法——作用于同一个对象
   - 同步一个类或静态方法——作用于整个类
   - 原则：同步的范围越小越好。
 - `Semaphore` 是一个信号量，它的作用是限制某段代码块的并发数。如果 Semaphore 构造函数中传入的 int 型整数 n = 1，相当于变成了一个 synchronized。
-- volatile 保证了可见性。当一个共享变量被 volatile 修饰时，它会保证修改的值会立即被更新到主存，当有其他线程需要读取时，它会去内存中读取新值。volatile 的一个重要作用就是和 CAS 结合，保证了原子性。
-- ThreadLocal 是一个本地线程副本变量工具类。主要用于将私有线程和该线程存放的副本对象做一个映射，各个线程之间的变量互不干扰，在高并发场景下，可以实现无状态的调用，特别适用于各个线程依赖不通的变量值完成操作的场景。
+- `volatile` 保证了可见性。当一个共享变量被 volatile 修饰时，它会保证修改的值会立即被更新到主存，当有其他线程需要读取时，它会去内存中读取新值。volatile 的一个重要作用就是和 CAS 结合，保证了原子性。
+- `ThreadLocal` 是一个本地线程副本变量工具类。主要用于将私有线程和该线程存放的副本对象做一个映射，各个线程之间的变量互不干扰，在高并发场景下，可以实现无状态的调用，特别适用于各个线程依赖不通的变量值完成操作的场景。
 
 #### 线程协作
-- join() 在线程中调用另一个线程的 join() 方法，会将当前线程挂起，而不是忙等待，直到目标线程结束。它可以使得线程之间的并行执行变为串行执行。
-- wait() notify() notifyAll() 等待与通知
+- `join()` 在线程中调用另一个线程的 join() 方法，会将当前线程挂起，而不是忙等待，直到目标线程结束。它可以使得线程之间的并行执行变为串行执行。
+- `wait()` `notify()` `notifyAll()` 等待与通知
   - 调用 wait() 使得线程等待某个条件满足，线程在等待时会被挂起，当其他线程的运行使得这个条件满足时，其它线程会调用 notify() 或者 notifyAll() 来唤醒挂起的线程。
   - JDK 强制要在同步块中被调用，在调用前都必须先获得对象的锁。
   - wait() 与 sleep()的区别
     - wait() 是 Object 的方法，而 sleep() 是 Thread 的静态方法；
     - wait() 会释放锁，sleep() 不会。
-    - sleep() 方法不会放弃这个对象的监视器，wait() 方法会放弃这个对象的监视器
-- 可以在 Condition 类上调用 await() 方法使线程等待，其它线程调用 signal() 或 signalAll() 方法唤醒等待的线程。await() 可以指定等待的条件，因此更加灵活。
+    - wait() 方法会放弃这个对象的监视器，sleep() 方法不会放弃这个对象的监视器
+- 可以在 `Condition` 类上调用 `await()` 方法使线程等待，其它线程调用 `signal()` 或 `signalAll()` 方法唤醒等待的线程。await() 可以指定等待的条件，因此更加灵活。
 
 
 
@@ -134,7 +133,7 @@ CAS 的问题
 - CAS 造成 CPU 利用率增加：CAS 操作长期不成功，CPU 不断的循环。
 
 #### 原子操作类
-从 Java1.5 开始，jdk 提供了 java.util.concurrent.atomic 包，这个包中的原子操作类，提供了用法简单、性能高效、线程安全的更新变量的方式。atomic 包里面一共提供了13个类，分为4种类型。
+从 Java1.5 开始，jdk 提供了 `java.util.concurrent.atomic` 包，这个包中的原子操作类，提供了用法简单、性能高效、线程安全的更新变量的方式。atomic 包里面一共提供了13个类，分为4种类型。
 - 原子更新基本类型：AtomicInteger、AtomicLong、AtomicBoolean
   - int addAndGet(int delta)：以原子的方式将输入的值与实例中的值相加，并把结果返回，可以解决 ABA 问题
 - 原子更新数组：AtomicIntegerArray、AtomicLongArray、AtomicReferenceArray
@@ -168,7 +167,7 @@ CAS 的问题
 - 自旋锁：自旋锁是指尝试获取锁的线程不会立即阻塞，而是采用循环的方式去尝试获取锁
 
 #### 显式锁
-Lock 接口比同步方法和同步块提供了更具扩展性的锁操作。
+`Lock` 接口比同步方法和同步块提供了更具扩展性的锁操作。
 1. 可以使锁更公平
 2. 可以使线程在等待锁的时候响应中断
 3. 可以让线程尝试获取锁，并在无法获取锁的时候立即返回或者等待一段时间
@@ -186,15 +185,15 @@ Lock 接口比同步方法和同步块提供了更具扩展性的锁操作。
 加锁解锁|自动|手动
 可否重入|可以|可以
 
-Java 中读写锁的主要实现为 ReentrantReadWriteLock，实现自 ReadWriteLock 接口。其提供了以下特性：
+Java 中读写锁的主要实现为 `ReentrantReadWriteLock`，实现自 `ReadWriteLock` 接口。其提供了以下特性：
 - 公平锁：支持公平与非公平（默认）的锁获取方式，吞吐量非公平优先于公平。
 - 可重入：读线程获取读锁之后可以再次获取读锁，写线程获取写锁之后可以再次获取写锁。
 - 可降级：写线程获取写锁之后，其还可以再次获取读锁，然后释放掉写锁，那么此时该线程是读锁状态，也就是降级操作。
 
 如何选择：
-- 当读写频率几乎相等，而且不需要特殊需求的时候，优先考虑synchronized
-- 当需要定制我们自己的 lock 的时候，或者需要更多的功能（类似定时锁、可中断锁等待)，我们使用 ReetrantLock
-- 当很少的写操作，更多的读操作，并且读操作是一个相对耗时的操作，那么就是用 ReetrantReadWriteLock
+- 当读写频率几乎相等，而且不需要特殊需求的时候，优先考虑 `synchronized`
+- 当需要定制我们自己的 lock 的时候，或者需要更多的功能（类似定时锁、可中断锁等待)，我们使用 `ReetrantLock`
+- 当很少的写操作，更多的读操作，并且读操作是一个相对耗时的操作，那么就是用 `ReetrantReadWriteLock`
 
 #### JUC与AQS
 `J.U.C` 即 `java.util.concurrent` 工具包，这是一个处理线程的工具包，大大提高了并发性能，AQS 是 J.U.C 的核心。
@@ -213,15 +212,15 @@ Java 中读写锁的主要实现为 ReentrantReadWriteLock，实现自 ReadWrite
 3. 提供定时执行、定期执行、单线程、并发数控制等功能。
 
 #### Executor框架
-Executor 框架包括：线程池，Executor，Executors，ExecutorService，CompletionService，Future，Callable 等。
+`Executor` 框架包括：线程池，Executor，Executors，ExecutorService，CompletionService，Future，Callable 等。
 
-Executor 接口：Java 线程池的超级接口，其定义了一个接收 Runnable 对象的方法 executor()，无返回结果。
+`Executor` 接口：Java 线程池的超级接口，其定义了一个接收 Runnable 对象的方法 executor()，无返回结果。
 
-ExecutorService 接口：ExecutorService 接口继承了 Executor 接口，是 Executor 的子接口。submit() 方法可以接受 Runnable 和 Callable 接口的对象。其提供了生命周期管理的方法，返回 Future 对象，以及可跟踪一个或多个异步任务执行状况返回 Future 的方法。
+`ExecutorService` 接口：ExecutorService 接口继承了 Executor 接口，是 Executor 的子接口。submit() 方法可以接受 Runnable 和 Callable 接口的对象。其提供了生命周期管理的方法，返回 Future 对象，以及可跟踪一个或多个异步任务执行状况返回 Future 的方法。
 - `Future<V>` 对具体的 Runnable 或者 Callable 任务的执行结果进行取消、查询是否完成、获取结果。
 - `FutureTask` 实现了 RunnableFuture 接口，该接口继承自 Runnable 和 Future 接口，这使得 FutureTask 既可以当做一个任务执行，也可以有返回值获取执行结果。
 
-Executors 类：java.util.concurrent 包下的一个类，提供了若干个静态方法，用于生成不同类型的线程池。
+`Executors` 类：java.util.concurrent 包下的一个类，提供了若干个静态方法，用于生成不同类型的线程池。
 
 #### 线程池
 线程池创建，java.util.concurrent.Executor 接口，由 Executors 类创建。
@@ -249,50 +248,50 @@ Executors 类：java.util.concurrent 包下的一个类，提供了若干个静�
   2. 如果使用的是有界队列比如 ArrayBlockingQueue，任务首先会被添加到 ArrayBlockingQueue 中，ArrayBlockingQueue 满了，会根据 maximumPoolSize 的值增加线程数量，如果增加了线程数量还是处理不过来，ArrayBlockingQueue 继续满，那么则会使用拒绝策略 RejectedExecutionHandler 处理满了的任务，默认是 AbortPolicy
 
 关闭线程池，ExecutorService 接口
-- shutdown() 只会中断所有没有执行任务的线程
-- shutdownNow() 还会尝试停止正在运行或者暂停任务的线程
+- `shutdown()` 只会中断所有没有执行任务的线程
+- `shutdownNow()` 还会尝试停止正在运行或者暂停任务的线程
 
 
 
 ### 并发库
 
 #### 并发工具类
-Fork/Join 框架是Java 7 提供的一个用于并行执行任务的框架，是一个把大任务分割成若干个小任务，最终汇总每个小任务结果后得到大任务结果的框架。
-- ForkJoinPool 是 Fork/Join 框架里面的管理者，最原始的任务都要交给它才能处理。它负责控制整个 Fork/Join 有多少个 WorkerThread，WorkerThread的创建和激活都是由它来掌控。
-- ForkJoinWorkerThread Fork/Join 里面真正干活的“工人”，本质是一个线程。
-- ForkJoinPool.WorkQueue 双端队列，负责存储接收的任务。
-- ForkJoinTask Fork/Join 里面的任务类型。
+`Fork/Join` 框架是Java 7 提供的一个用于并行执行任务的框架，是一个把大任务分割成若干个小任务，最终汇总每个小任务结果后得到大任务结果的框架。
+- `ForkJoinPool` 是 Fork/Join 框架里面的管理者，最原始的任务都要交给它才能处理。它负责控制整个 Fork/Join 有多少个 WorkerThread，WorkerThread的创建和激活都是由它来掌控。
+- `ForkJoinWorkerThread` Fork/Join 里面真正干活的“工人”，本质是一个线程。
+- `ForkJoinPool.WorkQueue` 双端队列，负责存储接收的任务。
+- `ForkJoinTask` Fork/Join 里面的任务类型。
 
 其它工具类
-- CountDownLatch 能够使一个线程在等待另外一些线程完成各自工作之后，再继续执行。可以理解为加强版的 join()。
-- CyclicBarrier 让一组线程达到某个屏障被阻塞，一直到组内最后一个线程达到屏障时，屏障开放，所有被阻塞的线程会继续运行。
-- Semaphore 控制同时访问某个特定资源的线程数量，用在流量控制。
-- Exchange 两个线程间的数据交换，优先到达 Exchange 点的线程阻塞等待另一个线程执行到达这个点。都到达以后交换数据继续执行。
+- `CountDownLatch` 能够使一个线程在等待另外一些线程完成各自工作之后，再继续执行。可以理解为加强版的 join()。
+- `CyclicBarrier` 让一组线程达到某个屏障被阻塞，一直到组内最后一个线程达到屏障时，屏障开放，所有被阻塞的线程会继续运行。
+- `Semaphore` 控制同时访问某个特定资源的线程数量，用在流量控制。
+- `Exchange` 两个线程间的数据交换，优先到达 Exchange 点的线程阻塞等待另一个线程执行到达这个点。都到达以后交换数据继续执行。
 
 #### 并发容器
-- ConcurrentHashMap
+- `ConcurrentHashMap`
   - 链地址法解决冲突
   - 由 **Segment 数组结构**（继承自可重入锁 ReentrantLock，扮演锁的角色）和 **HashEntry 数组结构**（存储键值对数据）组成，每个 HashEntry 是一个链表结构的元素。
   - JDK1.8 已经抛弃了 Segment 分段锁机制，利用 CAS + Synchronized 来保证并发更新的安全。数据结构采用：数组 + 链表 + 红黑树。
     - 什么时候链表转红黑树？当 key 值相等的元素形成的链表中元素个数超过8的时候。
-- ConcurrentSkipListMap：TreeMap 和 TreeSet 的并发版本
-- ConcurrentLinkedQueue：无界非阻塞队列，底层是个链表，遵循先进先出原则。
+- `ConcurrentSkipListMap`：TreeMap 和 TreeSet 的并发版本
+- `ConcurrentLinkedQueue`：无界非阻塞队列，底层是个链表，遵循先进先出原则。
 
 阻塞队列
-- java.util.concurrent.BlockingQueue 接口的实现
-  - ArrayBlockingQueue：一个由数组结构组成的有界阻塞队列。
+- `java.util.concurrent.BlockingQueue` 接口的实现
+  - `ArrayBlockingQueue`：一个由数组结构组成的有界阻塞队列。
     - 按照先进先出原则，要求设定初始大小。只有一个锁。支持直接插入元素。
-  - LinkedBlockingQueue：一个由链表结构组成的有界阻塞队列。
+  - `LinkedBlockingQueue`：一个由链表结构组成的有界阻塞队列。
     - 按照先进先出原则，可不设定初始大小。用了两个锁。插入元素需要转换。
-  - PriorityBlockingQueue：一个支持优先级排序的无界阻塞队列。
+  - `PriorityBlockingQueue`：一个支持优先级排序的无界阻塞队列。
     - 默认情况下，按照自然顺序，或者实现 compareTo() 方法。
-- DelayQueue：一个使用优先级队列实现的无界阻塞队列。
+- `DelayQueue`：一个使用优先级队列实现的无界阻塞队列。
   - 支持延时获取的元素的阻塞队列，元素必须要实现 Delayed 接口。
   - 适用场景：实现自己的缓存系统，订单到期，限时支付等等。
-- SynchronousQueue：一个不存储元素的阻塞队列。
+- `SynchronousQueue`：一个不存储元素的阻塞队列。
   - 每一个 put 操作都要等待一个 take 操作
-- LinkedTransferQueue：一个由链表结构组成的无界阻塞队列。
-- LinkedBlockingDeque：一个由链表结构组成的双向阻塞队列。
+- `LinkedTransferQueue`：一个由链表结构组成的无界阻塞队列。
+- `LinkedBlockingDeque`：一个由链表结构组成的双向阻塞队列。
   - 队列的头和尾都可以插入和移除元素，实现工作密取，方法名带 First 对头部操作，带 last 对尾部操作。
 
 
@@ -328,14 +327,14 @@ Fork/Join 框架是Java 7 提供的一个用于并行执行任务的框架，是
 ### Java内存模型
 Java 内存模型（Java Memory Model，JMM）试图屏蔽各种硬件和操作系统的内存访问差异，以实现让 Java 程序在各种平台下都能达到一致的内存访问效果。
 - 主内存（Main Memory）与工作内存（Local Memory）
-  - 所有的变量都存储在主内存中，每个线程还有自己的工作内存，工作内存存储在高速缓存或者寄存器中
+  - 所有的变量都存储在主内存中，每个线程还有自己的工作内存，工作内存存储在高速缓存或者寄存器中。
   - 线程只能直接操作工作内存中的变量，不同线程之间的变量值传递需要通过主内存来完成。
 - Java 内存模型定义了 8 个操作来完成主内存和工作内存的交互操作
   - 作用于主内存的变量：read、write、lock、unlock
   - 作用于线程的工作内存的变量：load、use、assign、store
 - 关键字 volatile 是 Java 虚拟机中提供的最轻量级的同步机制
-  - volatile类型的变量保证对所有线程的可见性。
-  - volatile类型的变量禁止指令重排序优化。
+  - volatile 类型的变量保证对所有线程的可见性。
+  - volatile 类型的变量禁止指令重排序优化。
 - 内存模型三大特性：原子性、可见性、有序性
 - JVM 规定了先行发生原则，让一个操作无需控制就能先于另一个操作完成。
 
