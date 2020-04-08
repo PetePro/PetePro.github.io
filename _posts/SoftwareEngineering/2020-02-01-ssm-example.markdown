@@ -50,8 +50,8 @@ UserDemo
 ```
 
 ### 项目创建与配置
-1. 新建Maven项目，选择Web-app
-2. 配置Maven项目，修改pom.xml
+1. 新建 Maven 项目，选择 Web-app
+2. 配置 Maven 项目，修改 pom.xml
     ```xml
     <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
         <modelVersion>4.0.0</modelVersion>
@@ -231,8 +231,8 @@ UserDemo
         </build>
     </project>
     ```
-3. 整合Spring与Mybatis
-   1. 建立jdbc属性文件
+3. 整合 Spring 与 Mybatis
+   1. 建立 jdbc 属性文件
         ```
         driver=com.mysql.jdbc.Driver
         url=jdbc:mysql://127.0.0.1:3306/ssm
@@ -249,7 +249,7 @@ UserDemo
         #定义最长等待时间
         maxWait=60000
         ```
-   2. 建立log4j属性文件：使用日志来输出信息
+   2. 建立 log4j 属性文件：使用日志来输出信息
         ```
         #定义LOG输出级别
         log4j.rootLogger=INFO,Console,File
@@ -270,7 +270,7 @@ UserDemo
         log4j.appender.File.layout = org.apache.log4j.PatternLayout
         log4j.appender.File.layout.ConversionPattern =[%p] [%d{yyyy-MM-dd HH\:mm\:ss}][%c]%m%n
         ```
-   3. 建立spring-mybatis.xml配置文件：自动扫描，自动注入，配置数据库
+   3. 建立 spring-mybatis.xml 配置文件：自动扫描，自动注入，配置数据库
         ```xml
         <?xml version="1.0" encoding="UTF-8"?>
         <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
@@ -328,8 +328,8 @@ UserDemo
 
         insert  into `user_t`(`id`,`user_name`,`password`,`age`) values (1,'abc','abc',24);
         ```
-   5. 利用MyBatis Generator自动创建代码
-      1. 建立generatorConfig.xml配置文件
+   5. 利用 MyBatis Generator 自动创建代码
+      1. 建立 generatorConfig.xml 配置文件
             ```xml
             <?xml version="1.0" encoding="UTF-8"?>  
             <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
@@ -368,7 +368,7 @@ UserDemo
                 </context>
             </generatorConfiguration>  
             ```
-      2. 右键项目选择`maven build...`，并配置Goals为`mybatis-generator:generate`。成功后会自动生成com.xusc.mapper、com.xusc.pojo两个包以及包下的类、接口和配置文件。
+      2. 右键项目选择 `maven build...`，并配置 Goals 为 `mybatis-generator:generate`。成功后会自动生成 com.xusc.mapper、com.xusc.pojo 两个包以及包下的类、接口和配置文件。
    6. 编写业务逻辑层代码
       - IUserService.java  
         ```java
@@ -395,9 +395,9 @@ UserDemo
             }
         }
         ```
-   7. 至此Spring与Mybatis整合完成，可以在整合MVC前在src/test/java中建立测试文件测试这部分的代码。
-4. 整合Spring与MVC
-   1. 建立Spring-mvc.xml配置文件：自动扫描控制器，视图模式，注解的启动
+   7. 至此 Spring 与 Mybatis 整合完成，可以在整合 MVC 前在 src/test/java 中建立测试文件测试这部分的代码。
+4. 整合 Spring 与 MVC
+   1. 建立 Spring-mvc.xml 配置文件：自动扫描控制器，视图模式，注解的启动
         ```xml
         <?xml version="1.0" encoding="UTF-8"?>
         <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
@@ -436,7 +436,7 @@ UserDemo
             </bean> 
         </beans>
         ```
-   2. 修改web.xml配置文件
+   2. 修改 web.xml 配置文件
         ```xml
         <?xml version="1.0" encoding="UTF-8"?>
         <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
@@ -528,7 +528,7 @@ UserDemo
             </body>
         </html>
         ```
-   5. 至此Spring与MVC整合完成，可以在部署项目前在src/test/java中建立测试文件测试这部分的代码。
-5. 部署项目至tomcat，在浏览器中输入`localhost:8080/UserDemo/user/showUser?id=1`访问。
+   5. 至此 Spring 与 MVC 整合完成，可以在部署项目前在 src/test/java 中建立测试文件测试这部分的代码。
+5. 部署项目至 tomcat，在浏览器中输入 `localhost:8080/UserDemo/user/showUser?id=1` 访问。
 
-本文整合自https://www.cnblogs.com/jay36/p/7762448.html
+本文整合自 https://www.cnblogs.com/jay36/p/7762448.html
