@@ -74,13 +74,18 @@ DI：IOC 的另一种表达形式，即组件以一些预先定义好的方式�
 
 #### 1.3 bean及其管理
 两种类型的 IOC 容器实现，Spring Bean 的创建是典型的工厂模式
-- BeanFactory 是 Spring 中比较原始、比较古老的 Factory。
-- ApplicationContext 是 BeanFactory 的子类，基本上代替了 BeanFactory 的工作，以一种更面向框架的工作方式以及对上下文进行分层和实现继承，并在这个基础上对功能进行扩展。
+- `BeanFactory` 是 Spring 中比较原始、比较古老的 Factory。
+- `ApplicationContext` 是 BeanFactory 的子类，基本上代替了 BeanFactory 的工作，以一种更面向框架的工作方式以及对上下文进行分层和实现继承，并在这个基础上对功能进行扩展。
   - 负责读取 Spring 配置文件，管理对象加载，生成，维护 Bean 和 Bean 对象之间的依赖关系，负责 Bean 的生命周期等
   - ApplicationContext 的主要实现类
-    - ClassPathXmlApplicationContext：从类路径下加载配置文件
-    - FileSystemXmlApplicationContext：从文件系统中加载配置文件
-    - WebApplicationContext：专门为 WEB 应用而准备的，从相对于 WEB 根目录的路径中完成初始化工作
+    - `ClassPathXmlApplicationContext`：从类路径下加载配置文件
+    - `FileSystemXmlApplicationContext`：从文件系统中加载配置文件
+    - `WebApplicationContext`：专门为 WEB 应用而准备的，从相对于 WEB 根目录的路径中完成初始化工作
+
+比较|BeanFactory|ApplicationContext
+:-:|:-:|:-:
+创建 Bean|延迟加载，调用 getBean()|容器启动时一次性创建
+创建方式|编程式|声明式
 
 配置 bean
 - 命名空间：简化 xml 文件
@@ -125,6 +130,8 @@ AOP 术语
 + 切点：每个类都拥有多个连接点，连接点是程序类中客观存在的事务。AOP 通过切点定位到特定的连接点。类比：连接点相当于数据库中的记录，切点相当于查询条件。切点和连接点不是一对多的关系。切点通过 org.springframework.aop.Pointcut 接口进行描述，它使用类和方法作为连接点的查询条件。
 
 #### 1.5 事务
+Spring 事务的本质其实就是数据库对事务的支持。
+
 Spring 事务管理：一般使用 `TransactionMananger` 进行管理，可以通过 Spring 的注入来完成此功能。
 - 编程式事务管理：编程方式管理事务，极大灵活性，难维护。
 - 声明式事务管理：可以将业务代码和事务管理分离，用注解和xml配置来管理事务。主要选择。
