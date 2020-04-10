@@ -398,14 +398,14 @@ Java 中的异常体系
 - `Throwable` 类是整个 Java 异常体系的超类，都有的异常类都是派生自这个类。包含 `Error` 和 `Exception` 两个直接子类。对应的类是 `java.lang.Throwable`。
   - `Error` 表示程序在运行期间出现了十分严重、不可恢复的错误，在这种情况下应用程序只能中止运行，例如 Java 虚拟机出现错误。在程序中不用捕获 Error 类型的异常；一般情况下，在程序中也不应该抛出 Error 类型的异常。对应的类是 `java.lang.Error`。
   - `Exception` 是应用层面上最顶层的异常类，包含 RuntimeException（运行时异常）和其它异常。
-    - `RuntimeException` 运行时异常：是一种非受检异常，即表示编译器不会检查程序是否对 RuntimeException 作了处理，在程序中不必捕获也不必抛出RuntimeException。一般来说，RuntimeException 发生的时候，表示程序中出现了编程错误，所以应该找出错误修改程序。对应的类是 `java.lang.RuntimeException`。常见的 RuntimeException：
+    - **`RuntimeException` 运行时异常**：是一种非受检异常，即表示编译器不会检查程序是否对 RuntimeException 作了处理，在程序中不必捕获也不必抛出 RuntimeException。一般来说，RuntimeException 发生的时候，表示程序中出现了编程错误，所以应该找出错误修改程序。对应的类是 `java.lang.RuntimeException`。常见的 RuntimeException：
       - `java.lang.ArithmeticException`
       - `java.lang.ArrayIndexOutOfBoundException`
       - `java.lang.ClassCastException`
       - `java.lang.IllegalArgumentException`
       - `java.lang.NullPointException`
       - `java.lang.NumberFormatException`
-    - 非运行时异常：是 RuntimeException 以外的异常，属于受检异常。从程序语法角度讲是必须进行处理的异常，如果不处理，程序就不能编译通过。常见的非运行时异常：
+    - **非运行时异常**：是 RuntimeException 以外的异常，属于受检异常。从程序语法角度讲是必须进行处理的异常，如果不处理，程序就不能编译通过。常见的非运行时异常：
       - `java.io.IOException`
       - `java.lang.SQLException`
       - 自定义的异常
@@ -425,14 +425,26 @@ Java 中的异常体系
 
 
 ### [3.3 反射](#0-目录)
-每个类都有一个 Class 对象，包含了与类有关的信息。当编译一个新类时，会产生一个同名的 .class 文件，该文件内容保存着 Class 对象。类加载相当于 Class 对象的加载，类在第一次使用时才动态加载到 JVM 中。反射可以提供运行时的类信息，并且这个类可以在运行时才加载进来，甚至在编译时期该类的 .class 不存在也可以加载进来。Class 和 java.lang.reflect 一起对反射提供了支持。
+Java 反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意方法和属性。
+
+反射机制相关的类
++ `Class`：每个类都有一个 Class 对象，包含了与类有关的信息。当编译一个新类时，会产生一个同名的 `.class` 文件，该文件内容保存着 Class 对象。类加载相当于 Class 对象的加载，类在第一次使用时才动态加载到 JVM 中。反射可以提供运行时的类信息，并且这个类可以在运行时才加载进来，甚至在编译时期该类的 .class 不存在也可以加载进来。Class 和 java.lang.reflect 一起对反射提供了支持。
++ `Field`：代表类的成员变量（成员变量也称为类的属性）
++ `Method`：代表类的方法
++ `Constructor`：代表类的构造方法
+
 - 反射的优点：可扩展性、类浏览器和可视化开发环境、调试器和测试工具
 - 反射的缺点：性能开销、安全限制、内部暴露
 
 
 
 ### [3.4 泛型](#0-目录)
-泛型提供了编译时类型安全监测机制，该机制允许程序员在编译时监测非法的类型。泛型的本质是参数化类型，也就是所操作的数据类型被指定为一个参数。
+泛型，即“参数化类型”。将类型由原来的具体的类型参数化，类似于方法中的变量参数，此时类型也定义成参数形式（类型形参），然后在使用时传入具体的类型（类型实参）。泛型提供了编译时类型安全监测机制，该机制允许程序员在编译时监测非法的类型。泛型的本质是参数化类型，也就是所操作的数据类型被指定为一个参数。
++ 泛型类：通过泛型可以完成对一组类的操作对外开放相同的接口。最典型的就是各种容器类。
++ 泛型接口：与泛型类的定义及使用基本相同。泛型接口常被用在各种类的生产器中
++ 泛型方法：是在调用方法的时候指明泛型的具体类型。在 public 与返回值之间的 `<T>` 表明是一个泛型方法。
++ 泛型通配符：用 `?` 通配符来表未知类型，`?` 是类型实参，而不是类型形参。
+
 
 
 
