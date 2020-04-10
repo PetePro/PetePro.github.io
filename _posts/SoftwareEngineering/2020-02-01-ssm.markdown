@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "【Java】SSM框架 总结 01 原理"
+title:  "【Java】Jee框架 01 SSM原理"
 crawlertitle: "SSM原理"
 summary: "Spring + SpringMVC + Mybatis"
 date:   2020-02-01 09:00:00 +0800
@@ -94,47 +94,47 @@ bean 生命周期（IoC 容器容器管理）
 
 bean 实例化的方式
 1. 使用类构造器实例化（默认无参数）
-```xml
-<bean id="bean1" class="com.Bean1"></bean>
-```
+    ```xml
+    <bean id="bean1" class="com.Bean1"></bean>
+    ```
 2. 使用静态工厂方法实例化（简单工厂模式）：调用 Bean2Factory 的 getBean2 方法得到 bean2
-```xml
-<bean id="bean2" class="com.Bean2Factory" factory-method="getBean2"></bean>
-```
+    ```xml
+    <bean id="bean2" class="com.Bean2Factory" factory-method="getBean2"></bean>
+    ```
 3. 使用实例工厂方法实例化（工厂方法模式）：先创建工厂实例 bean3Facory，再通过工厂实例创建目标 bean 实例
-```xml
-<bean id="bean3Factory" class="com.Bean3Factory"></bean>
-<bean id="bean3" factory-bean="bean3Factory" factory-method="getBean3"></bean>
-```
+    ```xml
+    <bean id="bean3Factory" class="com.Bean3Factory"></bean>
+    <bean id="bean3" factory-bean="bean3Factory" factory-method="getBean3"></bean>
+    ```
 
 配置 bean
 - 依赖注入
   - Setter 注入
-  ```xml
-  <property name="name"><value>nju</value></property>
-  ```
+    ```xml
+    <property name="name"><value>nju</value></property>
+    ```
   - 构造器注入
-  ```xml
-  <constructor-arg name="name"><value>nju</value></constructor-arg>
-  ```
+    ```xml
+    <constructor-arg name="name"><value>nju</value></constructor-arg>
+    ```
   - 匿名内部 JavaBean
-  ```xml
-  <property name="student"><bean class="Student"/></property>
-  <constructor-arg name="student"><bean class="Student"/></constructor-arg>
-  ```
+    ```xml
+    <property name="student"><bean class="Student"/></property>
+    <constructor-arg name="student"><bean class="Student"/></constructor-arg>
+    ```
   - 引用其它的 bean
-  ```xml
-  <constructor-arg name="user"><ref local="user"/></constructor-arg>
-  ```
+    ```xml
+    <constructor-arg name="user"><ref local="user"/></constructor-arg>
+    ```
     - 自动装配（autowire）：将一个 Bean 注入到其他 Bean 的 Property 中
       - 按 bean 名称装配
-      ```xml
-      <bean autowire="byName" id="printInfo" class="com.PrintInfo"/>
-      ```
+        ```xml
+        <bean autowire="byName" id="printInfo" class="com.PrintInfo"/>
+        ```
       - 按 bean 类型装配
-      ```xml
-      <bean autowire="byName" id="printInfo" class="com.PrintInfo"/>
-      ```
+        ```xml
+        <bean autowire="byName" id="printInfo" class="com.PrintInfo"/>
+        ```
       - no 属性
       - constructor 属性
       - autodetect 属性
