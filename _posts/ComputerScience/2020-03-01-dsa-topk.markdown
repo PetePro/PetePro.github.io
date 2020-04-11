@@ -1,0 +1,114 @@
+---
+layout: post
+title:  "【DSA】数据结构与算法 总结 06 TopK问题"
+crawlertitle: "TopK问题"
+summary: "Data Structures and Algorithm —— TopK"
+date:   2020-03-01 10:00:00 +0800
+categories: posts
+tags: 'CS'
+author: xusc
+bg: "CS.jpg"
+---
+
+TopK 问题：给一个无序的数组 arr[1, n]，找出最大的 k 个数。
+
+#### 1 全局排序
+最基本的解法：将全部数组排序后选出最大的 k 个数。
++ 时间复杂度 O(n ~ nlgn)
++ 空间复杂度 O(nlgn)
+
+```java
+public static int[] topk1(int[] arr, int k) {
+	Arrays.sort(arr);
+	return Arrays.copyOfRange(arr, arr.length - k, arr.length);
+}
+```
+
+#### 2 局部排序
+利用冒泡排序每次确定一个最大值的性质，进行 k 轮冒泡。
++ 时间复杂度 O(n * k)
++ 空间复杂度 O(1)
+
+```java
+public static int[] topk2(int[] arr, int k) {
+	for (int i = 1; i < k; i++)
+		for (int j = 0; j < arr.length - i; j++)
+		if (arr[j] > arr[j + 1]) {
+				int temp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = temp;
+			}
+	return Arrays.copyOfRange(arr, arr.length - k, arr.length);
+}
+```
+
+#### 3 堆
+将数组的前 k 个元素建成一个小顶堆，从 k + 1 个元素开始遍历，如果大于堆顶则与之交换并调整堆。
++ 时间复杂度 O(nlogk)
++ 空间复杂度 O(k)
+
+```java
+public static void adjustHeap(int[] heap, int k, int i) {
+	if (i >= k)
+		return;
+	int left = 2 * i + 1, right = 2 * i + 2;
+	int min = i;
+	if (left < k && heap[left] < heap[min])
+		min = left;
+	if (right < k && heap[right] < heap[min])
+		min = right;
+	if (min != i) {
+		int temp = heap[min];
+		heap[min] = heap[i];
+		heap[i] = temp;
+		adjustHeap(heap, k, min);
+	}
+}
+public static int[] topk3(int[] arr, int k) {
+	for (int i = (k - 1) / 2; i >= 0; i--)
+		adjustHeap(arr, k, i);
+	for (int i = k; i < arr.length; i++)
+		if (arr[0] < arr[i]) {
+			arr[0] = arr[i];
+			adjustHeap(arr, k, 0);
+		}
+	return Arrays.copyOfRange(arr, 0, k);
+}
+```
+
+#### 4 快速选择
+利用快速排序的 `partition()` 方法，对于数组 nums 的 `[l, h]` 区间，会返回一个整数 k 使得 `arr[l … k-1]` 小于等于 `arr[k]`，且 `arr[k + 1 … h]` 大于等于 `arr[k]`，此时 `arr[k]` 就是数组的第 k 大元素。
++ 时间复杂度 O(nlogn)
++ 空间复杂度 O(logn)
+
+
+```java
+public static int partition(int[] arr, int low, int high) {
+	int pivot = arr[low];
+	while (low < high) {
+		while (high > low && arr[high] >= pivot)
+			high--;
+		arr[low] = arr[high];
+		while (low < high && arr[low] <= pivot)
+			low++;
+		arr[high] = arr[low];
+	}
+	arr[high] = pivot;
+	return high;
+}
+public static int[] topk4(int[] arr, int k) {
+	int low = 0, high = arr.length - 1;
+	int pos = partition(arr, low, high);
+	int addr = arr.length - k;
+	while (pos != addr) {
+		if (pos < addr) {
+			low = pos + 1;
+			pos = partition(arr, low, high);
+		} else {
+			high = pos - 1;
+			pos = partition(arr, low, high);
+		}
+	}
+	return Arrays.copyOfRange(arr, pos, arr.length);
+}
+```
