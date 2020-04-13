@@ -19,7 +19,7 @@ bg: "CS.jpg"
 4. **寻找边界条件**：给出的状态转移方程是一个递推式，需要一个递推的终止条件或边界条件。
 
 ### 子序列问题
-![最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
+[最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
 ```java
 Arrays.fill(dp, 1);
 for (int i = 1; i < n; i++)
@@ -28,7 +28,7 @@ for (int i = 1; i < n; i++)
             dp[i] = Math.max(dp[j] + 1, dp[i]);
 ```
 
-![最长递增子序列的个数](https://leetcode-cn.com/problems/number-of-longest-increasing-subsequence/)
+[最长递增子序列的个数](https://leetcode-cn.com/problems/number-of-longest-increasing-subsequence/)
 ```java
 Arrays.fill(dp, 1);
 Arrays.fill(combination, 1);
@@ -46,7 +46,7 @@ for (int i = 1; i < dp.length; i++) {
 }
 ```
 
-![最长连续递增子序列](https://leetcode-cn.com/problems/longest-continuous-increasing-subsequence/)
+[最长连续递增子序列](https://leetcode-cn.com/problems/longest-continuous-increasing-subsequence/)
 ```java
 Arrays.fill(dp, 1);
 for(int i = 1; i < n; i++){
@@ -55,13 +55,13 @@ for(int i = 1; i < n; i++){
 }
 ```
 
-![最长连续子序列求和](https://leetcode-cn.com/problems/maximum-subarray/comments/)
+[最长连续子序列求和](https://leetcode-cn.com/problems/maximum-subarray/comments/)
 ```java
 for(int i = 1; i < n; i++)
     dp[i] = max(dp[i - 1], 0) + nums[i];
 ```
 
-![最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
+[最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
 ```java
 for(int i = 1; i < n1 + 1; i++)
     for(int j = 1; j < n2 + 1; j++)
