@@ -55,10 +55,12 @@ for(int i = 1; i < n; i++){
 }
 ```
 
-[最长连续子序列求和](https://leetcode-cn.com/problems/maximum-subarray/comments/)
+[最大子序列和](https://leetcode-cn.com/problems/maximum-subarray/)
 ```java
 for(int i = 1; i < n; i++)
-    dp[i] = max(dp[i - 1], 0) + nums[i];
+    dp[i] = Math.max(dp[i - 1], 0) + nums[i];
+    max = Math.max(dp[i], max);
+}
 ```
 
 [最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
@@ -68,7 +70,7 @@ for(int i = 1; i < n1 + 1; i++)
         if(s1[i - 1] == s2[j - 1])
             dp[i][j] = dp[i - 1][j - 1] + 1;
         else
-            dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+            dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
 ```
 
 最长公共子串
@@ -92,10 +94,10 @@ for(int i = 1; i < n1 + 1; i++)
 + 空间优化，采用一维数组：***`f[j] = max{f[j], f[j - w[i]] + v[i]}`***
 
 ```java
-for(int i = 1; i <= n; i ++)
-	for(int j = m; j > 0; j--)
-		if(j >= w[i])
-			f[j] = max(f[j], f[j - w[i]] + v[i]);
+for(int i = 1; i <= n; i++)
+    for(int j = m; j > 0; j--)
+        if(j >= w[i])
+            f[j] = max(f[j], f[j - w[i]] + v[i]);
 ```
 
 **完全背包问题**：有 `n` 种物品和一个容量为 `m` 的背包，每种物品都有无限件可用。第 `i` 种物品的体积是 `w[i]`，价值是 `v[i]`。求解将哪些物品装入背包可使这些物品的体积总和不超过背包容量，且价值总和最大。
@@ -113,7 +115,7 @@ for(int i = 1; i <= n; i ++)
   + 与 0/1 背包问题不同的是，第二层循环是正序
 
 ```java
-for(int i = 1; i <= n; i ++)
+for(int i = 1; i <= n; i++)
     for(int j = 0; j <= m; j++)
         if(j >= w[i])
             f[j] = max(f[j], f[j - w[i]] + v[i]);
@@ -125,7 +127,7 @@ for(int i = 1; i <= n; i ++)
 ```java
 for(int i = 1; i <= n; i++)
 	for(int j = m; j > 0; j--)
-		for(int k = 0; k <= n[i]; k++)
+		for(int k = 0; k <= x[i]; k++)
 			if(j >= k * w[i])
 				f[j] = max(f[j], f[j - k * w[i]] + k * val[i]);
 ```
