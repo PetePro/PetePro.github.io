@@ -36,15 +36,10 @@ public void selectionSort(T[] nums) {
 ```java
 public void bubbleSort(T[] nums) {
     int N = nums.length;
-    for (int i = 1; i < N; i++) {
-		for (int j = 0; j < N - i; j++) {
-			if (nums[j] > nums[j + 1]) {
-				T temp = nums[j];
-				nums[j] = nums[j + 1];
-				nums[j + 1] = temp;
-			}
-		}
-	}
+    for (int i = 1; i < N - 1; i++)
+		for (int j = 0; j < N - 1 - i; j++)
+			if (nums[j] > nums[j + 1])
+				swap(nums, j, j + 1);
 }
 ```
 
@@ -54,10 +49,9 @@ public void bubbleSort(T[] nums) {
 ```java
 public void insertionSort(T[] nums) {
     int N = nums.length;
-    for (int i = 1; i < N; i++) {
+    for (int i = 1; i < N; i++)
         for (int j = i; j > 0 && nums[j] < nums[j - 1]; j--)
             swap(nums, j, j - 1);
-    }
 }
 ```
 
@@ -82,6 +76,7 @@ public void shellSort(T[] nums) {
 
 #### 1.5 归并排序
 将数组分成两部分，分别进行排序，然后归并起来。
+- 应用：逆序对
 
 ```java
 private void merge(T[] nums, int l, int m, int h) {
@@ -213,3 +208,12 @@ private void sink(T[] nums, int k, int N) {
 堆排序|×|NlogN|1|无法利用局部性原理
 
 Java 主要排序方法为 java.util.Arrays.sort()，对于原始数据类型使用三向切分的快速排序，对于引用类型使用归并排序。
+
+附：不使用临时变量交换两个变量的值
+```java
+void swap(int a, int b) {
+    a = a + b;
+    b = a - b;
+    a = a - b;
+}
+```
