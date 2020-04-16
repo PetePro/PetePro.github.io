@@ -280,16 +280,10 @@ TCP 粘包和拆包
 远程终端协议|TELNET|23|TCP|
 安全外壳协议|SSH|22|TCP
 超文本传输协议|HTTP|80|TCP|
-超文本传输安全协议|HTTPS|443|TCP|在 HTTP 的基础下加入 SSL 层
+超文本传输安全协议|HTTPS|443|TCP|在 HTTP 的基础下加入 SSL 层<br/>搜索排名中更有优势
 简单邮件传送协议|SMTP|25|TCP|
 邮件读取协议|POP3|110|TCP|
 网际报文存取协议|IMAP|143|TCP|
-
-Web 页面请求过程
-1. HTTP 请求页面
-2. DNS 解析域名
-3. ARP 解析 MAC 地址
-4. DHCP 配置主机信息
 
 #### 5.1 HTTP
 - URI - Uniform Resource Identifier
@@ -327,10 +321,10 @@ HTTP 方法：客户端发送的请求报文第一行为请求行，包含了方
 可见性|数据在 URL 中对所有人都是可见的|数据不会显示在 URL 中
 
 `session cookie` 机制：由于 HTTP 的无状态性
-1. 首先，客户端会发送一个 HTTP 请求到服务器端。
-2. 服务器端接受客户端请求后，建立一个 session，并发送一个 HTTP 响应到客户端，这个响应头，其中就包含 set-Cookie 头部。该头部包含了 sessionId。
-3. 在客户端发起的第二次请求，假如服务器给了 set-Cookie，浏览器会自动在请求头中添加 cookie。
-4. 服务器接收请求，分解 cookie，验证信息，核对成功后返回 response 给客户端。
+- session 在服务器端，cookie 在客户端（浏览器）
+- session 可以放在 文件、数据库、或内存中，默认被存在在服务器的一个文件里（不是内存）
+- session 的运行依赖 session id，而 session id 是存在 cookie 中的，也就是说，如果浏览器禁用了 cookie ，同时 session 也会失效（但是可以通过其它方式实现，比如在 url 中传递 session_id）
+- 用户验证这种场合一般会用 session
 
 输入 URL 的全过程
 1. 浏览器通过 DNS 查找域名的 IP 地址

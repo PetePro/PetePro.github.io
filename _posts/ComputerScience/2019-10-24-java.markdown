@@ -244,7 +244,12 @@ foo(sb); // sb 没有被改变，还是 "abc"。
 
 ### [1.5 JDK与JRE](#0-目录)
 - `JRE` 是 JVM 程序，Java 应用程序需要在 JRE 上运行。
-- `JDK` 是用于开发 Java 程序的 JRE ，JRE +工具的超集。例如，它提供了编译器“`javac`”
+- `JDK` 是用于开发 Java 程序的 JRE ，JRE + 工具的超集。例如，它提供了编译器“`javac`”
+
+平台无关性：一次编译，到处执行（Write Once ,Run Anywhere）。
+- Java 虚拟机：扮演了运行时 Java 程序与其下的硬件和操作系统之间的缓冲角色。
+- Class 文件：Java 虚拟机只与由自己码组成的 Class 文件进行交互。
+- Java 语言规范：规定 Java 语言中基本数据类型的取值范围和行为。
 
 
 
