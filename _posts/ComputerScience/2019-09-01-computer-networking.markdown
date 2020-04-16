@@ -137,6 +137,7 @@ CSMA/CA 协议
 #### 3.1 网际协议
 IP 协议，可以把异构的物理网络连接起来，使得在网络层看起来好像是一个统一的网络。与 IP 协议配套使用的三个协议：
 - **地址解析协议 ARP（Address Resolution Protocol）**：实现由 IP 地址得到 MAC 地址。
+  - 逆地址解析协议 RARP
 - **网际控制报文协议 ICMP（Internet Control Message Protocol）**：为了更有效地转发 IP 数据报和提高交付成功的机会。它封装在 IP 数据报中。重要应用：ping、traceroute。
 - **网际组管理协议 IGMP（Internet Group Management Protocol）**
 
@@ -148,6 +149,10 @@ IP 数据报
 - 数据区
 
 ![](/assets/images/2019/IP数据报.png)
+
+**子网掩码**是在 IPv4 地址资源紧缺的背景下为了解决 IP 地址分配而产生的虚拟 IP 技术。
++ 工作过程：将 32 位的子网掩码与 IP 地址进行二进制按位*与*运算得到的便是网络地址；将子网掩码二进制按位取反，然后 IP 地址进行按位*与*运算，得到的就是主机地址。
++ 划分方式：根据子网数、根据主机数。
 
 网络地址转换 NAT：专用网内部的主机使用本地 IP 地址又想和互联网上的主机通信时，可以使用 NAT 来将本地 IP 转换为全球 IP。
 
