@@ -1,0 +1,77 @@
+---
+layout: post
+title:  "【DSA】数据结构与算法 总结 10 快速幂"
+crawlertitle: "TopK问题"
+summary: "Data Structures and Algorithm —— Fast Pow"
+date:   2020-04-06 10:00:00 +0800
+categories: posts
+tags: 'CS'
+author: xusc
+bg: "CS.jpg"
+---
+
+快速幂：快速算底数的n次幂。其时间复杂度为 `O(log₂N)`， 与朴素的 `O(N)` 相比效率有了极大的提高。
+
+如：a^11
++ 由于 11 的二进制是 1011，则 `11 = 2^3 * 1 + 2^2 * 0 + 2^1 * 1 + 2^0 * 1`
++ 则 `a^11 = a^(2^3 * 1 + 2^2 * 0 + 2^1 * 1 + 2^0 * 1) = a^(2^3 + 2^1 + 2^0)`
+
+#### 1 常规求幂
+```java
+public static int pow1(int a, int b) {
+	int r = 1;
+	while (b-- > 0)
+		r *= a;
+	return r;
+}
+```
+
+#### 2 迭代快速求幂
+```java
+public static int pow2(int a, int b) {
+	int r = 1, base = a;
+	while (b != 0) {
+		if (b % 2 != 0)
+			r *= base;
+		base *= base;
+		b /= 2;
+	}
+	return r;
+}
+```
+
+#### 3 递归快速求幂
+```java
+public static int pow3(int m, int n) {
+	if (n == 1)
+		return m;
+	int temp = pow3(m, n / 2);
+	return (n % 2 == 0 ? 1 : m) * temp * temp;
+}
+```
+
+#### 4 位运算快速求幂
+- b & 1 取 b 二进制的最低位，判断和 1 是否相同，相同返回 1，否则返回 0，可用于判断奇偶
+- b >> 1 把 b 的二进制右移一位，即去掉其二进制位的最低位
+
+```java
+public static int pow4(int x, int n) {
+	if (n == 0)
+		return 1;
+	else {
+		while ((n & 1) == 0) {
+			n >>= 1;
+			x *= x;
+		}
+	}
+	int result = x;
+	n >>= 1;
+	while (n != 0) {
+		x *= x;
+		if ((n & 1) != 0)
+			result *= x;
+		n >>= 1;
+	}
+	return result;
+}
+```

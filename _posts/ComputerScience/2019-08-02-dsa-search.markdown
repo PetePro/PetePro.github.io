@@ -3,7 +3,7 @@ layout: post
 title:  "【DSA】数据结构与算法 总结 02 查找"
 crawlertitle: "查找"
 summary: "Data Structures and Algorithm —— Search"
-date:   2019-09-02 10:00:00 +0800
+date:   2019-08-02 10:00:00 +0800
 categories: posts
 tags: 'CS'
 author: xusc
