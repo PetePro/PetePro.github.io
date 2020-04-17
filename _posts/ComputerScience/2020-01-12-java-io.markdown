@@ -14,16 +14,18 @@ Java IO
 
 ### I/O 模型
 
-+ 传统的阻塞 I/O（Blocking I/O）
-+ 非阻塞 I/O（Non-blocking I/O）
-+ I/O 多路复用（I/O multiplexing）
-+ 异步 I/O（Asynchronous I/O）
++ **传统的阻塞 I/O（Blocking I/O，BIO）**：进程调用读取指令后阻塞直至数据复制到内存完毕，一个进程或线程对应一个连接。
++ **非阻塞 I/O（Non-blocking I/O，NIO）**：进程调用读取指令后进程可以处理其他任务后再查看是否数据准备完毕，准备完毕后阻塞至数据从IO设备复制至内存中。
++ **I/O 多路复用（I/O multiplexing）**：改进的阻塞IO，可以处理多个连接。IO 多路复用是阻塞在 select epoll 这样的系统调用之上，而没有阻塞在真正的 IO 系统调用上。
++ **异步 I/O（Asynchronous I/O，AIO）**：进程调用读取指令后内核负责处理数据从 IO 设备直至复制至内存后再回调进程函数。
 
-### I/O
+![](/assets/images/2020/IO.jpg)
+
+### BIO
 
 #### I/O分类
 从数据传输方式角度看，I/O 可以分为：
-1. 字节流：字节流是以一个字节单位来传输数据，读取单个字节，用来处理二进制文件，字节是个计算机看的。
+1. 字节流：字节流是以一个字节单位来传输数据，读取单个字节，用来处理二进制文件，字节是给计算机看的。
    - `InputStream`
      - `ByteArrayInputStream`
      - `PipedInputStream`
@@ -78,21 +80,59 @@ Java IO
 - UTF-16be 编码中，中文字符和英文字符都占 2 个字节。Java 的内存编码使用双字节编码 UTF-16be。
 
 #### 序列化
-序列化就是将一个对象转换成字节序列，方便存储和传输。不会对静态变量进行序列化。
-- 序列化：ObjectOutputStream.writeObject()
-- 反序列化：ObjectInputStream.readObject()
-- 序列化的类需要实现 Serializable 接口
-- `transient` 关键字可以使一些属性不会被序列化。
+序列化就是将一个对象转换成字节序列，方便存储和传输。不会对*静态变量*进行序列化。
+- 序列化：将对象写入到IO流中。`ObjectOutputStream.writeObject()`。
+- 反序列化：从IO流中恢复对象。`ObjectInputStream.readObject()`。
+
+java序列化提供了一个 的，只有版本号相同，即使更改了序列化属性，对象也可以正确被反序列化回来。
+
+序列化方法
+- 序列化的类需要实现 `Serializable` 接口
+  - 成员必须是可序列化的对象
+  - `transient` 关键字可以使一些属性不会被序列化
+    - 序列化时会忽略掉此字段，反序列化后的属性是默认值（null / 0 / false）
+  - `private static final long serialVersionUID`：序列化版本号，方便项目升级。
+- 强制自定义序列化实现 `Externalizable` 接口，必须实现 writeExternal、readExternal 方法。
+
+Java序列化算法
+1. 所有保存到磁盘的对象都有一个序列化编码号
+2. 当程序试图序列化一个对象时，会先检查此对象是否已经序列化过，只有此对象从未（在此虚拟机）被序列化过，才会将此对象序列化为字节序列输出。
+3. 如果此对象已经序列化过，则直接输出编号即可。
 
 #### 网络支持
-- `InetAddress`：用于表示网络上的硬件资源，即 IP 地址；
-- `URL`：统一资源定位符；
-- `Sockets`：使用 TCP 协议实现网络通信；
-- `Datagram`：使用 UDP 协议实现网络通信。
+Java 提供了专门的网络开发程序包 java.net
+- `InetAddress` 处理 IP 地址
+- `URL` 处理 URL 对象
+- `URLConnection` 建立与远程服务器的连接，检查远程资源的一些属性
+- `URLEncoder` 与 `URLDecoder` 编码与解码
 
-#### NIO
-同步非阻塞 IO，利用 IO 多路复用技术
-- `I/O` 数据处理以流（字节）为单位，面向流；
+`Sockets`：使用 TCP 协议实现网络通信
+- 服务端
+  1. 创建 `ServerSocket` 对象，绑定监听端口
+  2. 通过 `accept()` 方法监听客户端请求
+  3. 连接建立后，通过输入流读取客户端发送的请求信息
+  4. 通过输出流向客户端发送响应信息
+- 客户端
+  1. 创建 `Socket` 对象，指明需要连接的服务器的地址和端口号
+  2. 连接建立后，通过输出流向服务器发送请求信息
+  3. 通过输入流获取服务器响应的信息
+
+`Datagram`：使用 UDP 协议实现网络通信
+- 服务端
+  1. 创建数据报套接字 `DatagramSocket`
+  2. 创建一个数据报包 `DatagramPacket`
+  3. 调用 `receive()` 方法接收数据包
+  4. 从数据报包中获取数据
+- 客户端
+  1. 创建数据报套接字 `DatagramSocket`
+  2. 创建数据报包 `DatagramPacket` 用于封装数据和目标地址 `InetAddress`
+  3. 调用 `send()` 方法进行发送数据
+
+
+
+### NIO
+同步非阻塞 IO
+- `BIO` 数据处理以流（字节）为单位，面向流；
 - `NIO` 数据处理以块为单位，面向缓冲区。
 
 NIO 三大核心
@@ -108,5 +148,10 @@ NIO 三大核心
   - Selector 类是 NIO 的核心类，通过 Selector.open() 静态方法选择一个事件进行处理。
   - 运行单线程处理多个 Channel。
 
+
+
 #### AIO
-异步非阻塞 IO
+异步非阻塞 IO，可用于异步的文件读写和网络通信。
+- `AsynchronousServerSocketChannel` 是一个流式监听套接字的异步通道
+- `AsynchronousSocketChannel` 是一个流式连接套接字的异步通道
+- `CompletionHandler` 是一个用于消费异步I/O操作结果的处理器
