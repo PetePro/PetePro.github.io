@@ -1,0 +1,112 @@
+---
+layout: post
+title:  "【Java】Java 总结 02 IO"
+crawlertitle: "Java IO"
+summary: "Java IO"
+date:   2020-01-12 09:00:00 +0800
+categories: posts
+tags: 'CS'
+author: xusc
+bg: "CS.jpg"
+---
+
+Java IO
+
+### I/O 模型
+
++ 传统的阻塞 I/O（Blocking I/O）
++ 非阻塞 I/O（Non-blocking I/O）
++ I/O 多路复用（I/O multiplexing）
++ 异步 I/O（Asynchronous I/O）
+
+### I/O
+
+#### I/O分类
+从数据传输方式角度看，I/O 可以分为：
+1. 字节流：字节流是以一个字节单位来传输数据，读取单个字节，用来处理二进制文件，字节是个计算机看的。
+   - `InputStream`
+     - `ByteArrayInputStream`
+     - `PipedInputStream`
+     - `FilterInputStream`
+       - `BufferedInputStream`
+       - `DataInputStream`
+     - `FileInputStream`
+     - `ObjectInputStream`
+   - `OutputStream`
+     - `ByteArrayOutputStream`
+     - `PipedOutputStream`
+     - `FilterOutputStream`
+       - `BufferedOutputStream`
+       - `DataOutputStream`
+       - `PrintStream`
+     - `FileOutputStream`
+     - `ObjectOutputStream`
+2. 字符流：字符流是以多个字节来传输数据，读取单个字符，用来处理文本文件，字符是给人看的。
+   - `Reader`
+     - `CharArrayReader`
+     - `PipedReader`
+     - `FilterReader`
+     - `BufferedReader`
+     - `InputStreamReader`
+       - `FileReader`
+   - `Writer`
+     - `CharArrayWriter`
+     - `PipedWriter`
+     - `FilterWriter`
+     - `BufferedWriter`
+     - `OutputStreamWriter`
+       - `FileWriter`
+     - `PrintWriter`
+
+从操作对象角度看，I/O 可以分为：
+1. 文件（`file`）：`FileInputStream`、`FileOutputStream`、`FileReader`、`FileWriter`
+2. 缓冲操作：`BufferedInputStream`、`BufferedOutputStream`、`BufferedReader`、`BufferedWriter`
+3. 字符串（`String`）：`StringBufferInputStream`、`StringBufferOutputStream`、`StringReader`、`StringWriter`
+4. 数组（`[]`）：
+   1. 字节数组（`byte[]`）：`ByteArrayInputStream`、`ByteArrayOutputStream`
+   2. 字符数组（`char[]`）：`CharArrayReader`、`CharArrayWriter`
+5. 管道操作：`PipedInputStream`、`PipedOutputStream`、`PipedReader`、`PipedWriter`
+6. 基本数据类型：`DataInputStream`、`DataOutputStream`
+7. 打印：`PrintStream`、`PrintWriter`
+8. 对象序列化反序列化：`ObjectInputStream`、`ObjectOutputStream`
+9. 转换：`InputStreamReader` 字节流解码成字符流、`OutputStreamWriter` 字符流编码成为字节流
+
+#### 编码与解码
+编码就是把字符转换为字节，而解码是把字节重新组合成字符。不管是磁盘还是网络传输，最小的存储单元都是字节。
+- GBK 编码中，中文字符占 2 个字节，英文字符占 1 个字节；
+- UTF-8 编码中，中文字符占 3 个字节，英文字符占 1 个字节；
+- UTF-16be 编码中，中文字符和英文字符都占 2 个字节。Java 的内存编码使用双字节编码 UTF-16be。
+
+#### 序列化
+序列化就是将一个对象转换成字节序列，方便存储和传输。不会对静态变量进行序列化。
+- 序列化：ObjectOutputStream.writeObject()
+- 反序列化：ObjectInputStream.readObject()
+- 序列化的类需要实现 Serializable 接口
+- `transient` 关键字可以使一些属性不会被序列化。
+
+#### 网络支持
+- `InetAddress`：用于表示网络上的硬件资源，即 IP 地址；
+- `URL`：统一资源定位符；
+- `Sockets`：使用 TCP 协议实现网络通信；
+- `Datagram`：使用 UDP 协议实现网络通信。
+
+#### NIO
+同步非阻塞 IO，利用 IO 多路复用技术
+- `I/O` 数据处理以流（字节）为单位，面向流；
+- `NIO` 数据处理以块为单位，面向缓冲区。
+
+NIO 三大核心
+- `Channel`（通道）
+  - 类似 IO 中的 Stream，但是 Stream 是单向的，Channel 是双向的。
+  - 通过 open() 静态方法打开一个通道。
+  - 主要实现：`FileChannel`，`DatagramChannel`，`SocketChannel`，`ServerSocketChannel`。
+- `Buffer`（缓冲区）
+  - 使用堆外内存，不受 GC 管理，非线程安全。
+  - 主要实现：`ByteBuffer`，`CharBuffer`，`DoubleBuffer`，`FloatBuffer`，`IntBuffer`，`LongBuffer`，`ShortBuffer`。
+- `Selector`
+  - 检测并处理 Channel 上注册的事件。
+  - Selector 类是 NIO 的核心类，通过 Selector.open() 静态方法选择一个事件进行处理。
+  - 运行单线程处理多个 Channel。
+
+#### AIO
+异步非阻塞 IO
