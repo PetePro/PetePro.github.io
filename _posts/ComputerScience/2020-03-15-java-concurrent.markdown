@@ -105,6 +105,8 @@ bg: "CS.jpg"
   - 同步一个代码块或方法——作用于同一个对象
   - 同步一个类或静态方法——作用于整个类
   - 原则：同步的范围越小越好。
+- `Lock` JDK 层面实现互斥锁，为弥补 synchronized 的不足，可控性更强。
+  - ReadLock、WriteLock、ReentrantLock
 - `Semaphore` 是一个信号量，它的作用是限制某段代码块的并发数。如果 Semaphore 构造函数中传入的 int 型整数 n = 1，相当于变成了一个 synchronized。
 - `volatile` 保证了可见性。当一个共享变量被 volatile 修饰时，它会保证修改的值会立即被更新到主存，当有其他线程需要读取时，它会去内存中读取新值。volatile 的一个重要作用就是和 CAS 结合，保证了原子性。
 - `ThreadLocal` 是一个本地线程副本变量工具类。主要用于将私有线程和该线程存放的副本对象做一个映射，各个线程之间的变量互不干扰，在高并发场景下，可以实现无状态的调用，特别适用于各个线程依赖不通的变量值完成操作的场景。
@@ -134,7 +136,7 @@ CAS 的问题
 - CAS 造成 CPU 利用率增加：CAS 操作长期不成功，CPU 不断的循环。
 
 #### 2.1 原子操作类
-从 Java1.5 开始，jdk 提供了 `java.util.concurrent.atomic` 包，这个包中的原子操作类，提供了用法简单、性能高效、线程安全的更新变量的方式。atomic 包里面一共提供了13个类，分为4种类型。
+从 Java1.5 开始，jdk 提供了 `java.util.concurrent.atomic` 包，使用 CAS 无锁技术保证变量的操作在多线程环境下正常，比 Synchronized 控制的更细，量级更轻。atomic 包里面一共提供了 13 个类，分为 4 种类型。
 - 原子更新基本类型：AtomicInteger、AtomicLong、AtomicBoolean
   - int addAndGet(int delta)：以原子的方式将输入的值与实例中的值相加，并把结果返回，可以解决 ABA 问题
 - 原子更新数组：AtomicIntegerArray、AtomicLongArray、AtomicReferenceArray
@@ -208,7 +210,7 @@ Java 中读写锁的主要实现为 `ReentrantReadWriteLock`，实现自 `ReadWr
 
 ### 4 线程池
 线程池优点
-1. 重用存在的线程，减少对象创建销毁的开销。
+1. 减少资源消耗：重用存在的线程，减少对象创建销毁的开销。
 2. 可有效的控制最大并发线程数，提高系统资源的使用率，同时避免过多资源竞争，避免堵塞。
 3. 提供定时执行、定期执行、单线程、并发数控制等功能。
 
@@ -221,7 +223,7 @@ Java 中读写锁的主要实现为 `ReentrantReadWriteLock`，实现自 `ReadWr
 - `Future<V>` 对具体的 Runnable 或者 Callable 任务的执行结果进行取消、查询是否完成、获取结果。
 - `FutureTask` 实现了 RunnableFuture 接口，该接口继承自 Runnable 和 Future 接口，这使得 FutureTask 既可以当做一个任务执行，也可以有返回值获取执行结果。
 
-`Executors` 类：java.util.concurrent 包下的一个类，提供了若干个静态方法，用于生成不同类型的线程池。
+`Executors` 类：java.util.concurrent 包下的一个类，提供创建线程池若干静态方法。
 
 #### 4.2 线程池
 线程池创建，java.util.concurrent.Executor 接口，由 Executors 类创建。
@@ -270,15 +272,18 @@ Java 中读写锁的主要实现为 `ReentrantReadWriteLock`，实现自 `ReadWr
 - `Exchange` 两个线程间的数据交换，优先到达 Exchange 点的线程阻塞等待另一个线程执行到达这个点。都到达以后交换数据继续执行。
 
 #### 5.2 并发容器
+- `CopyOnWriteArrayList`
+  - 写时复制：对集合元素进行写操作时，首先复制一个副本；
+  - 适用于读多写少的情况。
 - `ConcurrentHashMap`
   - 链地址法解决冲突
   - 由 **Segment 数组结构**（继承自可重入锁 ReentrantLock，扮演锁的角色）和 **HashEntry 数组结构**（存储键值对数据）组成，每个 HashEntry 是一个链表结构的元素。
   - JDK1.8 已经抛弃了 Segment 分段锁机制，利用 CAS + Synchronized 来保证并发更新的安全。数据结构采用：数组 + 链表 + 红黑树。
-    - 什么时候链表转红黑树？当 key 值相等的元素形成的链表中元素个数超过8的时候。
+    - 什么时候链表转红黑树？当 key 值相等的元素形成的链表中元素个数超过 8 的时候。
 - `ConcurrentSkipListMap`：TreeMap 和 TreeSet 的并发版本
 - `ConcurrentLinkedQueue`：无界非阻塞队列，底层是个链表，遵循先进先出原则。
 
-阻塞队列
+`BlockingQueue` 阻塞队列：当队列空时，读线程会等待队列变为非空；当队列满时，写线程会等待队列变为可用。适用于生产者-消费者场景。
 - `java.util.concurrent.BlockingQueue` 接口的实现
   - `ArrayBlockingQueue`：一个由数组结构组成的有界阻塞队列。
     - 按照先进先出原则，要求设定初始大小。只有一个锁。支持直接插入元素。
