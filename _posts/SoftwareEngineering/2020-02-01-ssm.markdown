@@ -196,28 +196,39 @@ Spring中主要的设计模式
 
 
 ### 2 SpringMVC
-SpringMVC在项目中拦截用户请求，它的核心Servlet即DispatcherServlet承担中介或是前台这样的职责，将用户请求通过HandlerMapping去匹配Controller，Controller就是具体对应请求所执行的操作。
+SpringMVC 在项目中拦截用户请求，它的核心 Servlet 即 DispatcherServlet 承担中介或是前台这样的职责，将用户请求通过 HandlerMapping去匹配 Controller，Controller 就是具体对应请求所执行的操作。
+
+基本组成
+- DispatcherServlet：找到对应请求的 HandlerMapping，将请求转发给对应的 HandlerAdapter
+- 处理器映射器 HandlerMapping：保存请求的URL与Handler（可以是 Controller 或 Servlet 等）的对应关系
+- 处理器适配器 HandlerAdapter：调用对应的Handler进行处理，并返回 ModelAndView对象给DispatcherServlet
+- 控制器 Controller
+- 拦截器 HandlerInterceptor：preHandle、postHandle、afterCompletion 方法
+- HandlerExecutionChain：负责 Handler 执行前后的 HandlerInterceptor 的调用
+- 模型视图 ModelAndView
+- 模型 Model/ModelMap
+- 视图解析器 ViewResolver：将逻辑视图转换成物理视图
 
 SpringMVC工作流程
-1. 用户发送请求至前端控制器DispatcherServlet 
-2. DispatcherServlet收到请求调用HandlerMapping处理器映射器。 
-3. 处理器映射器找到具体的处理器，生成处理器对象及处理器拦截器(如果有则生成)一并返回给DispatcherServlet。 
-4. DispatcherServlet调用HandlerAdapter处理器适配器 
-5. HandlerAdapter经过适配调用具体的处理器(Controller，也叫后端控制器)。 
-6. Controller执行完成返回ModelAndView 
-7. HandlerAdapter将controller执行结果ModelAndView返回给DispatcherServlet 
-8. DispatcherServlet将ModelAndView传给ViewReslover视图解析器 
-9. ViewReslover解析后返回具体View 
-10. DispatcherServlet根据View进行渲染视图（即将模型数据填充至视图中）。 
-11. DispatcherServlet响应用户
+1. 用户发送请求至前端控制器 DispatcherServlet 
+2. DispatcherServlet 收到请求调用 HandlerMapping 处理器映射器。
+3. 处理器映射器找到具体的处理器，生成处理器对象及处理器拦截器（如果有则生成）一并返回给 DispatcherServlet
+4. DispatcherServlet 调用 HandlerAdapter 处理器适配器 
+5. HandlerAdapter 经过适配调用具体的处理器（Controller，也叫后端控制器）。
+6. Controller 执行完成返回 ModelAndView 
+7. HandlerAdapter 将 controller 执行结果 ModelAndView 返回给 DispatcherServlet 
+8. DispatcherServlet 将 ModelAndView传给 ViewReslover 视图解析器 
+9. ViewReslover 解析后返回具体 View 
+10. DispatcherServlet 根据 View 进行渲染视图（即将模型数据填充至视图中）
+11. DispatcherServlet 响应用户
 
-@RequestMapping注解用来映射一个URL到一个类或一个特定的方处理法上。
+@RequestMapping 注解用来映射一个 URL 到一个类或一个特定的方处理法上。
 
 返回值
-- SpringMVC中函数的返回值可以有很多类型，有String、ModelAndView、List、Set等，一般用String，如果是AJAX请求，返回的可以是一个集合
-- SpringMVC根据配置文件中InternalResourceViewResolver（内部资源视图解析器）的前缀和后缀，用前缀+返回值+后缀组成完整的返回值
-- 转发：在返回值前面加"forward:"
-- 重定向：在返回值前面加"redirect:"
+- SpringMVC 中函数的返回值可以有很多类型，有 String、ModelAndView、List、Set 等，一般用 String，如果是 AJAX 请求，返回的可以是一个集合
+- SpringMVC 根据配置文件中 InternalResourceViewResolver（内部资源视图解析器）的前缀和后缀，用前缀 + 返回值 + 后缀组成完整的返回值
+- 转发：在返回值前面加 "forward:"
+- 重定向：在返回值前面加 "redirect:"
 
 
 
