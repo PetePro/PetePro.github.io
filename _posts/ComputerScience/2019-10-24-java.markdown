@@ -406,6 +406,7 @@ private void sortUsingLambda(List<String> list){
 
 
 ### [3.5 与其它语言的对比](#0-目录)
+
 对比|Java|C++
 :-:|:-:|:-:
 **语种**|解释型语言|编译型语言
