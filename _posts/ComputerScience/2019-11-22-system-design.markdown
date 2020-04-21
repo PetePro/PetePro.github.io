@@ -139,6 +139,7 @@ bg: "CS.jpg"
 - 一致性问题
 
 主流消息队列
+
 特性|ActiveMQ|RabbitMQ|RocketMQ|kafka
 :-:|:-:|:-:|:-:|:-:
 开发语言|java|erlang|java|scala
