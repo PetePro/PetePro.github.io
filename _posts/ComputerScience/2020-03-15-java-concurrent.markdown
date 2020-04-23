@@ -33,17 +33,49 @@ bg: "CS.jpg"
 ### 1 Java线程
 
 #### 1.1 启动和终止线程
-线程类的构造方法、静态块是被 new 这个线程类所在的线程所调用的，而 run 方法里面的代码才是被线程自身所调用的。
+线程的实现方式
+1. 继承 `Thread` 类—— Thread 类也实现了 Runable 接口；
+  ```java
+  Thread thread = new Thread(){
+    @Override
+    public void run() {
+      // to do
+    }
+  };
+  thread.start();
+  ```
+2. 实现 `Runnable` 接口；
+  ```java
+  Runnable run = new Runnable() {
+    @Override
+    public void run() {
+      // to do
+    }
+  };
+  Thread thread = new Thread(run);
+  thread.start();
+  ```
+3. 实现 `Callable` 接口；
+  ```java
+  Callable<String> call = new Callable<String>() {
+    String s = 0;
+    @Override
+    public String call() throws Exception {
+      s = "Callable";
+      return s;
+    }
+  };
+  FutureTask futureTask = new FutureTask(call);
+  Thread thread = new Thread(futureTask);
+  thread.start();
+  ```
+4. 线程池 —— Executor 框架。
 
-*线程调度器*是一个操作系统服务，它负责为 Runnable 状态的线程分配 CPU 时间。一旦我们创建一个线程并启动它，它的执行便依赖于线程调度器的实现。
+线程类的构造方法、静态块是被 new 这个线程类所在的线程所调用的，而 run 方法里面的代码才是被线程自身所调用的。
 
 线程中抛出的异常需要在本地进行处理。
 
-线程的实现方式
-1. 继承 `Thread` 类—— Thread 类也实现了 Runable 接口；
-2. 实现 `Runnable` 接口——使用 Runnable 实例再创建一个 Thread 实例，然后调用 Thread 实例的 start() 方法来启动线程；
-3. 实现 `Callable` 接口；
-4. 线程池。
+Callable 和 Runnable 的异同
 
 比较|Callable|Runnable
 :-:|:-:|:-:
@@ -51,7 +83,7 @@ bg: "CS.jpg"
 **任务返回**|可拿到一个 Future 对象<br/>表示异步计算的结果|不可返回值
 **异常**|可抛异常|不可抛异常
 
-*时间分片*是指将可用的 CPU 时间分配给可用的 Runnable 线程的过程。分配 CPU 时间可以基于线程优先级或者线程等待的时间。线程调度并不受到 Java 虚拟机控制，所以由应用程序来控制它是更好的选择（也就是说不要让你的程序依赖于线程的优先级）。
+实现 Runnable 和 Callable 与 继承 Thread 的异同
 
 比较|实现接口|继承Thread
 :-:|:-:|:-:
@@ -71,17 +103,7 @@ bg: "CS.jpg"
    - 不能中断 I/O 阻塞和 synchronized 锁阻塞。
    - 调用 interrupt() 方法会设置线程的中断标记。因此可以在循环体中使用 interrupted() 方法来判断线程是否处于中断状态，从而提前结束线程。
 
-#### 1.2 线程常用方法
-- `sleep()` 使当前线程（即调用该方法的线程）暂停执行一段时间，让其他线程有机会继续执行，但它并不释放对象锁。即如果有synchronized 同步块，其他线程仍然不能访问共享数据。该方法要捕捉异常。
-- `join()` 使调用该方法的线程在此之前执行完毕，即等待该方法的线程执行完毕后再往下继续执行。该方法需要捕捉异常。
-- `yield()` 使当前线程让出 CPU 占有权，但让出的时间是不可设定的，同时不会释放锁标志。声明了当前线程已经完成了生命周期中最重要的部分，可以切换给其它线程来执行。
-- `currentThread()` 当前正在运行的线程
-- `run()` `start()` 把需要处理的代码放到 run() 方法中，start() 方法启动线程将自动调用 run() 方法。并且 run() 方法必需是 public 访问权限，返回值类型为 void。
-- `sleep(long millis)` 使当前线程进入停滞状态，在指定的时间内肯定不会被执行，不会释放锁标志。
-- `getStackTrace()` `getAllStackTraces()` 获取堆栈的情况/获取所有栈的情况
-- `isAlive()` 线程处于“新建”状态时，该方法返回false。在线程的 run() 方法结束之前，即没有进入死亡状态之前，该方法返回true。
-
-#### 1.3 线程状态
+#### 1.2 线程状态
 - 新建（NEW）
 - 可运行（RUNABLE）：正在 Java 虚拟机中运行。在操作系统层面，它可能处于运行状态，也可能等待资源调度。
 - 阻塞（BLOCKED）：等待获取 monitor lock。阻塞是被动的
@@ -93,6 +115,24 @@ bg: "CS.jpg"
   - 设置了 Timeout 参数的 Object.wait() 方法
   - 设置了 Timeout 参数的 Thread.join() 方法
 - 死亡（TERMINATED）
+
+#### 1.3 线程常用方法
+- `run()` `start()` 把需要处理的代码放到 run() 方法中，start() 方法启动线程将自动调用 run() 方法。并且 run() 方法必需是 public 访问权限，返回值类型为 void。
+- `currentThread()` 当前正在运行的线程
+- `interrupted`
+  - `void interrupt()` 中断操作，设置中断标志位为 1；
+  - `boolean interrupted()` 判断调用该线程的中断标志位是否为 1，并取消中断标志位；
+  - `boolean isInterrupted()` 判断当前线程的中断标志位是否为 1；
+  - 当抛出 InterruptedException 时候，会清除中断标志位。
+- `join()` 使调用该方法的线程在此之前执行完毕，即等待该方法的线程执行完毕后再往下继续执行。该方法需要捕捉异常。
+  - `isAlive()` 是核心方法，用来判断当前线程是否已经结束。
+- `sleep()` 使当前线程（即调用该方法的线程）暂停执行一段时间，让其他线程有机会继续执行，但它并不释放对象锁。即如果有synchronized 同步块，其他线程仍然不能访问共享数据。该方法要捕捉异常。
+  - sleep() 是 Thread 的静态方法，而 wait() 是 Object 的方法；
+  - sleep() 方法在任何地方都可以使用，但是 wait() 方法必须在同步方法或同步块中使用，并且前提是该对象已经获得了锁；
+  - sleep() 方法不会释放锁，只会让出 CPU 给其他线程执行，而wait()方法会释放锁，重新进入到等待池中等待被唤醒等待获取下一次的资源；
+  - sleep() 方法不会放弃这个对象的监视器，wait() 方法会放弃这个对象的监视器。
+- `yield()` 使当前线程让出 CPU 占有权，但让出的时间是不可设定的，同时不会释放锁标志。声明了当前线程已经完成了生命周期中最重要的部分，可以切换给相同优先级的其它线程来执行。
+- `getStackTrace()` `getAllStackTraces()` 获取堆栈的情况/获取所有栈的情况
 
 #### 1.4 两类线程
 1. **User Thread（用户线程）**：就是我们平时线程池或者创建线程start后的线程，没有设置 setDaemon(true)
@@ -124,11 +164,19 @@ bg: "CS.jpg"
 
 
 
-### 2 原子操作CAS
+### 2 synchronized
+作用范围
+- 同步一个代码块或方法 —— 作用于同一个对象
+- 同步一个类或静态方法 —— 作用于整个类
+- 原则：同步的范围越小越好。
+
+synchronized优化：原子操作CAS
 `CAS` 是 `compare and swap` 的缩写，即比较和交换。是 CPU 底层的一种技术，是一条 CPU 的原子指令。一种基于锁的操作，而且是乐观锁。指令级别保证这是一个原子操作.
 - CAS 操作包含三个操作数 —— 内存位置（V）、预期原值（A）和新值（B）
 - 如果内存地址里面的值和 A 的值是一样的，那么就将内存里面的值更新成 B。
 - CAS是通过无限循环来获取数据的，若果在第一轮循环中，a 线程获取地址里面的值被 b 线程修改了，那么 a 线程需要自旋，到下次循环才有可能机会执行。
+
+CAS 和 synchronized 的主要区别：如果使用 synchronized 关键字，当有多个线程竞争临界区资源的时候，当一个线程获得了监视器锁，其他线程则会进入阻塞状态。而 CAS 操作，当多个线程竞争的时候，当 CAS 操作失败时，并不是立即挂起，而是会进行一些重试操作。
 
 CAS 的问题
 - CAS 容易造成 ABA 问题：如果一个变量初次读取的时候是 A 值，它的值被改成了 B，后来又被改回为 A，那 CAS 操作就会误认为它从来没有被改变过。
@@ -305,6 +353,11 @@ Java 中读写锁的主要实现为 `ReentrantReadWriteLock`，实现自 `ReadWr
 ### 6 线程安全
 **线程安全**：当多个线程访问某个类时，这个类始终都能表现出正确的行为。
 
+线程不安全的原因
+1. 主内存和工作内存中的数据不一致
+2. 对于程序代码指令重排序导致的
+想要避免这两个问题，那就需要知道：1)、线程之间如何通信。2)、线程之间如何完成同步
+
 线程安全有以下几种实现方式：
 - 不可变（Immutable）的对象一定是线程安全的：final 关键字修饰的基本数据类型、String、枚举类型、Number 部分子类
 - 互斥同步 Synchronized 和 ReentrantLock。
@@ -330,7 +383,7 @@ Java 中读写锁的主要实现为 `ReentrantReadWriteLock`，实现自 `ReadWr
 
 
 
-### 7 Java内存模型
+#### 6.1 Java内存模型
 Java 内存模型（Java Memory Model，JMM）试图屏蔽各种硬件和操作系统的内存访问差异，以实现让 Java 程序在各种平台下都能达到一致的内存访问效果。
 - 主内存（Main Memory）与工作内存（Local Memory）
   - 所有的变量都存储在主内存中，每个线程还有自己的工作内存，工作内存存储在高速缓存或者寄存器中。
@@ -344,14 +397,19 @@ Java 内存模型（Java Memory Model，JMM）试图屏蔽各种硬件和操作�
 - 内存模型三大特性：原子性、可见性、有序性
 - JVM 规定了先行发生原则，让一个操作无需控制就能先于另一个操作完成。
 
-#### 7.1 JVM对synchronized的优化
+- as-if-serial 原则：不管怎么重排序，单线程程序的执行结果不能被改变。编译器，runtime 和处理器都必须遵守 as-if-serial 语义。
+- happens-before 原则：
+  - JMM 可以通过 happens-before 关系向程序员提供跨线程的内存可见性保证；
+  - 两个操作之间存在 happens-before 关系，并不意味着 Java 平台的具体实现必须要按照 happens-before 关系指定的顺序来执行。如果重排序之后的执行结果，与 happens-before 关系来执行的结果一致，那么这种重排序也合法。
+
+#### 6.1 JVM对synchronized的优化
 - 自旋锁：让一个线程在请求一个共享数据的锁时执行忙循环（自旋）一段时间，如果在这段时间内能获得锁，就可以避免进入阻塞状态。
 - 锁消除：对于被检测出不可能存在竞争的共享数据的锁进行消除。
 - 锁粗化：如果虚拟机探测到由这样的一串零碎的操作都对同一个对象加锁，将会把加锁的范围扩展（粗化）到整个操作序列的外部。
 - 轻量级锁：是相对于传统的重量级锁而言，它使用 CAS 操作来避免重量级锁使用互斥量的开销。
 - 偏向锁：是偏向于让第一个获取锁对象的线程，这个线程在之后获取该锁就不再需要进行同步操作。
 
-#### 7.2 建议
+#### 6.2 建议
 - 给线程起个有意义的名字；
 - 缩小同步范围，从而减少锁争用；
 - 多用同步工具少用 wait() 和 notify()；
