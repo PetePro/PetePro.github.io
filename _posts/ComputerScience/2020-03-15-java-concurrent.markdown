@@ -164,7 +164,9 @@ Callable 和 Runnable 的异同
 
 
 
-### 2 synchronized
+### 2 关键字
+
+#### 2.1 synchronized
 作用范围
 - 同步一个代码块或方法 —— 作用于同一个对象
 - 同步一个类或静态方法 —— 作用于整个类
@@ -183,13 +185,35 @@ CAS 的问题
 - 不能保证代码块的原子性，只能保证一个共享变量的原子操作。
 - CAS 造成 CPU 利用率增加：CAS 操作长期不成功，CPU 不断的循环。
 
-#### 2.1 原子操作类
-从 Java1.5 开始，jdk 提供了 `java.util.concurrent.atomic` 包，使用 CAS 无锁技术保证变量的操作在多线程环境下正常，比 Synchronized 控制的更细，量级更轻。atomic 包里面一共提供了 13 个类，分为 4 种类型。
-- 原子更新基本类型：AtomicInteger、AtomicLong、AtomicBoolean
-  - int addAndGet(int delta)：以原子的方式将输入的值与实例中的值相加，并把结果返回，可以解决 ABA 问题
-- 原子更新数组：AtomicIntegerArray、AtomicLongArray、AtomicReferenceArray
-- 原子更新引用：AtomicReference、AtomicReferenceFieldUpdater、AtomicMarkableReference
-- 原子更新属性：AtomicIntegerFieldUpdater、AtomicLongFieldUpdater、AtomicStampedReference
+JVM对synchronized的优化
+- 自旋锁：让一个线程在请求一个共享数据的锁时执行忙循环（自旋）一段时间，如果在这段时间内能获得锁，就可以避免进入阻塞状态。
+- 锁消除：对于被检测出不可能存在竞争的共享数据的锁进行消除。
+- 锁粗化：如果虚拟机探测到由这样的一串零碎的操作都对同一个对象加锁，将会把加锁的范围扩展（粗化）到整个操作序列的外部。
+- 轻量级锁：是相对于传统的重量级锁而言，它使用 CAS 操作来避免重量级锁使用互斥量的开销。
+- 偏向锁：是偏向于让第一个获取锁对象的线程，这个线程在之后获取该锁就不再需要进行同步操作。
+
+#### 2.2 volatile
+volatile 是 JVM 提供的最轻量级的同步机制。
+被 volatile 修饰的变量能够保证每个线程能够获取该变量的最新值，从而避免数据出现脏读的现象。
+流程：
+1. 被标记为 volatile 的共享变量被一个处理器修改。
+2. jvm 会发送 Lock 前缀指令引起该处理器将工作缓存中的数据写回到主内存中。
+3. 其他处理器通过嗅探机制会发现自己缓存的数据失效了，于是将该缓存行标记为无效状态。
+4. 在其他处理器执行修改操作的时候，会强制重新从主内存中读取数据。
+
+Java 编译器会在生成指令序列时在适当的位置会插入内存屏障来禁止特定类型的处理器进行重排序。规则：
+1. 在每个 volatile 写操作的前面插入一个 StoreStore 屏障，防止前面的普通写和后面的 volatile 写重排序；
+2. 在每个 volatile 写操作的后面插入一个 StoreLoad 屏障，防止前面的 volatile 写与后面可能有的 volatile 读/写重排序；
+3. 在每个 volatile 读操作的后面插入一个 LoadLoad 屏障，防止后面所有的普通读操作和前面的 volatile 读重排序；
+4. 在每个 volatile 读操作的后面插入一个 LoadStore 屏障，防止后面所有的普通写操作和前面的 volatile 读重排序。
+
+#### 2.3 多线程下的final
++ 基本数据类型：
+  + final 域写：禁止在构造方法中的 final 域写被重排序到构造方法之外
+  + final 域读：禁止初次读对象的引用域读取该对象的 final 域的重排序
++ 引用数据类型：
+  + 在上面两个规则的基础上增加的规则：禁止在构造函数中对于 final 域的成员变量的写与在构造方法之外的对象的引用赋值给引用变量进行重排序。
+
 
 
 
@@ -249,10 +273,20 @@ Java 中读写锁的主要实现为 `ReentrantReadWriteLock`，实现自 `ReadWr
 #### 3.3 JUC与AQS
 `J.U.C` 即 `java.util.concurrent` 工具包，这是一个处理线程的工具包，大大提高了并发性能，AQS 是 J.U.C 的核心。
 
-`AQS` 是 `AbustactQueuedSynchronizer` 的简称，它是一个 Java 提高的底层同步工具类，用一个 int 类型的变量表示同步状态，并提供了一系列的 CAS 操作来管理这个同步状态。AQS 使用的设计模式为模板模式。AQS 是一个用来构建锁和同步器的框架，使用 AQS 能简单且高效地构造出应用广泛的大量的同步器。AQS 同步方式：
-1. 独占式 ReentrantLock
-2. 共享式 Semaphore、CountDownLatch
-3. 组合式 ReentrantReadWriteLock
+`AQS` 是 `AbustactQueuedSynchronizer` 的简称，它是一个 Java 提高的底层同步工具类，用一个 int 类型的变量表示同步状态，并提供了一系列的 CAS 操作来管理这个同步状态。AQS 使用的设计模式为模板模式。AQS 是一个用来构建锁和同步器的框架，使用 AQS 能简单且高效地构造出应用广泛的大量的同步器。AQS 的实现：
+1. 独占锁：每次只能有一个线程持有锁。ReentrantLock 就是通过独占锁实现互斥性的。
+2. 共享锁：允许多个线程同时获取锁，并发地访问资源。如 ReentrantReadWriteLock。
+
+AQS 内部实现：AQS 的实现是底层底层维护了一个先进先出(FIFO)的双向队列，这个队列是基于链表实现的。如果线程竞争锁失败，那么就会进入到这个同步队列中进行等待。当获得锁的线程释放锁之后，会从队列中唤醒一个线程。
+
+获取独占锁：将获取锁的线程放在同步队列的首部，然后其他等待的线程就通过LockSupport的park()方法进行阻塞。
+1. 从acquire()方法开始，该方法调用 tryAcquire(arg)，尝试获得锁，进入临界区
+2. tryAcquire() 方法获取锁失败，就会进入 addWaiter() 方法，将线程封装成 Node 节点并加入到同步队列中
+3. 调用acquireQueued()，尝试成为头节点，通过自旋去尝试获取锁。
+
+获取共享锁：
+1. 从acquireShared() 方法开始，首先调用了tryAcquireShared方法，尝试获得共享锁
+2. 接着调用了doAcquireShared()，这个方法的主要功能是尝试获得共享锁
 
 
 
@@ -388,7 +422,7 @@ Java 内存模型（Java Memory Model，JMM）试图屏蔽各种硬件和操作�
 - 主内存（Main Memory）与工作内存（Local Memory）
   - 所有的变量都存储在主内存中，每个线程还有自己的工作内存，工作内存存储在高速缓存或者寄存器中。
   - 线程只能直接操作工作内存中的变量，不同线程之间的变量值传递需要通过主内存来完成。
-- Java 内存模型定义了 8 个操作来完成主内存和工作内存的交互操作
+- Java 内存模型定义了 8 个原子操作来完成主内存和工作内存的交互操作
   - 作用于主内存的变量：read、write、lock、unlock
   - 作用于线程的工作内存的变量：load、use、assign、store
 - 关键字 volatile 是 Java 虚拟机中提供的最轻量级的同步机制
@@ -402,14 +436,29 @@ Java 内存模型（Java Memory Model，JMM）试图屏蔽各种硬件和操作�
   - JMM 可以通过 happens-before 关系向程序员提供跨线程的内存可见性保证；
   - 两个操作之间存在 happens-before 关系，并不意味着 Java 平台的具体实现必须要按照 happens-before 关系指定的顺序来执行。如果重排序之后的执行结果，与 happens-before 关系来执行的结果一致，那么这种重排序也合法。
 
-#### 6.1 JVM对synchronized的优化
-- 自旋锁：让一个线程在请求一个共享数据的锁时执行忙循环（自旋）一段时间，如果在这段时间内能获得锁，就可以避免进入阻塞状态。
-- 锁消除：对于被检测出不可能存在竞争的共享数据的锁进行消除。
-- 锁粗化：如果虚拟机探测到由这样的一串零碎的操作都对同一个对象加锁，将会把加锁的范围扩展（粗化）到整个操作序列的外部。
-- 轻量级锁：是相对于传统的重量级锁而言，它使用 CAS 操作来避免重量级锁使用互斥量的开销。
-- 偏向锁：是偏向于让第一个获取锁对象的线程，这个线程在之后获取该锁就不再需要进行同步操作。
+具体规则：
+1. 程序顺序原则：一个线程内保证语义的串行性。
+2. volatile 规则：volatile 变量的写先于读发生，这保证了 volatile 变量的可见性。
+3. 锁规则：解锁必然发生在随后的加锁前。
+4. 传递性：A 先于 B，B 先于 C，那么 A 必然先于 C。
+5. 线程的 start() 方法先于它的每一个动作。
+6. 线程的所有操作先于线程的终结（Thread.join()）
+7. 线程的中断（interrupt()）先于被中断线程的代码。
+8. 对象的构造函数的执行、结束先于 finalize() 方法。
 
-#### 6.2 建议
+
+
+#### 原子操作类
+从 Java1.5 开始，jdk 提供了 `java.util.concurrent.atomic` 包，使用 CAS 无锁技术保证变量的操作在多线程环境下正常，比 Synchronized 控制的更细，量级更轻。atomic 包里面一共提供了 13 个类，分为 4 种类型。
+- 原子更新基本类型：AtomicInteger、AtomicLong、AtomicBoolean
+  - int addAndGet(int delta)：以原子的方式将输入的值与实例中的值相加，并把结果返回，可以解决 ABA 问题
+- 原子更新数组：AtomicIntegerArray、AtomicLongArray、AtomicReferenceArray
+- 原子更新引用：AtomicReference、AtomicReferenceFieldUpdater、AtomicMarkableReference
+- 原子更新属性：AtomicIntegerFieldUpdater、AtomicLongFieldUpdater、AtomicStampedReference
+
+
+
+#### 建议
 - 给线程起个有意义的名字；
 - 缩小同步范围，从而减少锁争用；
 - 多用同步工具少用 wait() 和 notify()；
