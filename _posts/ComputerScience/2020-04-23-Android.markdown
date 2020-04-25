@@ -1,0 +1,76 @@
+---
+layout: post
+title:  "【Android】Android 总结 01 基础"
+crawlertitle: "Android"
+summary: "Android"
+date:   2020-04-23 10:00:00 +0800
+categories: posts
+tags: 'CS'
+author: xusc
+bg: "CS.jpg"
+---
+
+安卓开发
+
+### 1 四大组件
+
+#### 1.1 Activity
+- 启动模式
+  - 标准模式（standard）：可以有多个相同的实例，也允许多个相同 Activity 叠加。
+  - 栈顶复用模式（singleTop）：可以有多个实例，但是不允许多个相同 Activity 叠加。如果 Activity 在栈顶，启动相同的 Activity，不会创建新的实例，而会调用其 onNewIntent 方法。
+  - 栈内复用模式（singleTask）：只有一个实例。在同一个应用程序中启动 Activity，若 Activity 不存在则会在当前 task 创建一个新的实例，若存在则会把 task 中在其之上的其它 Activity destory 掉并调用它的 onNewIntent 方法。
+  - 单例模式（singleInstance）：只有一个实例，并且这个实例独立运行在一个 task 中，不允许有别的 Activity 存在。
+- 生命周期
+  - 完整生命周期：完整生命周期始于 `onCreate()` 方法回调，止于 `onDestroy()` 方法回调
+    - `onCreate()` 生命周期的第一个方法，表示 Activity 正在创建/启动
+    - `onDestroy()` 生命周期的最后一个方法，表示 Activity 即将被销毁
+  - 可见周期：可见周期始于 `onStart()` 方法回调，止于 `onStop()` 方法回调
+    - `onStart()` Activity 可见时调用，此时 Activity 尚未处于前台
+    - `onStop()` Activity 由可见到不可见时回调此方法
+    - `onRestart()` 该方法触发的前提是 onStop 方法被调用
+  - 前台周期：前台周期始于 `onResume()` 方法回调，止于 `onPause()` 方法回调
+    - `onResume()` 该方法的回调标识 Activity 处于前台
+    - `onPause()` Activity 即将进入后台时回调此方法
+
+#### 1.2 Service
+服务是Android中实现程序后台运行的解决方案，服务依赖于创建服务时所在的应用程序进程。分为本地服务和远程服务。
+
+生命周期：服务的整个生命周期从调用 onCreate() 开始起，到 onDestroy() 返回时结束。
+- 绑定模式：从调用 bindService() 开始，执行的方法依次为 onCreate()、onBind()，解除绑定的时候依次执行 onUnbind()、onDestory()。
+- 非绑定模式：从调用 startService() 开始，执行的方法依次为 onCreate()、onStartCommand()，Service 关闭的时候调用 onDestory()。
+
+#### 1.3 BroadcastReciver
+主要用于对广播消息（Intent）的过滤并响应的控件。可以理解为全局的监听器。
+
+生命周期：广播接收者的生命周期非常短暂的，在接收到广播的时候创建，onReceive() 方法结束之后销毁。
+
+类型
+- 有序广播：按照被接收者的优先级顺序，在被接收者中依次传播，每个对象有权终止广播。
+- 无序广播：完全异步，逻辑上可以被任何广播接收者接收到。优点是效率较高。缺点是一个接收者不能将处理结果传递给下一个接收者，并无法终止广播 intent 的传播。（标准广播）
+
+注册方式
+- 静态广播：不管应用程序是否处于活动状态，都会进行监听。每次触发都会建立新的 Receiver 对象。
+- 动态广播：代码中进行注册，然后添加不同的 Action。动态注册的广播一定要取消注册，在 onDestroy() 方法中调用 unregisterReceiver()。
+
+发送广播： 发送广播前，要先定义一个接收器，先确定目标，然后再发送。
+
+#### 1.4 ContentProvide
+ContentProvider 是应用程序之间共享数据的接口，进程间进行数据交互和共享，即跨进程通信。ContentProvider 的底层是采用 Android 中的 Binder 机制。
++ 统一资源标识符（URI）
++ MIME 数据类型：多功能 Internet 邮件扩充服务
+
+使用的时候首先自定义一个类继承 ContentProvider，然后覆写 query()、insert()、update()、delete()、onCreate()、getType() 方法。
+
+
+
+### 2 UI控件
+
+#### 2.1 View
+View 大致被分为两类 ViewGroup、View。ViewGroup 作为容器管理 View。
+
+RecyclerView 是 Google 推出用来代替 ListView 组件的。RecyclerView 强制使用了 ViewHolder，直接把 viewholder 的实现封装起来，用户只要实现自己的 viewholder 就可以了，该组件会自动帮你回收复用每一个 item。
+
+View 的绘制
+1. Measure：计算 View 的实际大小，获得高宽存入 mMeasuredHeight 和 mMeasureWidth 传入 measure()。measure() 方法不可被重写，自定义时需要重写的是 onMeasure()。
+2. Layout：Layout 方法就是用来确定 View 布局的位置
+3. Draw：绘制，重点是调用 onDraw()。
