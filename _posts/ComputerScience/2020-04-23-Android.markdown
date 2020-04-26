@@ -66,11 +66,82 @@ ContentProvider 是应用程序之间共享数据的接口，进程间进行数�
 ### 2 UI控件
 
 #### 2.1 View
-View 大致被分为两类 ViewGroup、View。ViewGroup 作为容器管理 View。
+View 是用户接口的基础构件，Android 应用的所有 UI 组件都是继承了 View 类。表示屏幕上的一块矩形区域，负责绘制这个区域和事件处理。View 默认为可见的，不是默认值时先调用 onVisibilityChanged()。
+
+分类
+- View
+  - 继承 View 重写 onDraw()
+  - 继承特定的 View：TextView、Button、EditText、Progressbar、ImageView
+- ViewGroup
+  - 继承 ViewGroup 派生特殊的 Layout
+  - 继承特定的 ViewGroup：LinearLayout、RelativeLayout、ConstraintLayout 等
+
+View 生命周期
+1. Creation（创建）：`onFinishInflate()`
+2. Layout（布局）
+   + `onMeasure(int, int)`
+   + `onLayout(boolean, int, int, int, int)`
+   + `onSizeChanged(int, int, int, int)`
+3. Drawing（绘制）
+   + `onDraw(android.graphics.Canvas)`
+4. Event processing（事件处理）
+5. Focus（聚焦）
+6. Attaching（附用）
+   + `onAttachedToWindow()`
+   + `onDetachedFromWindow()`
+
+主要组件
++ MotionEvent：当手指触摸屏幕时，将产生 Touch 事件。Touch 事件的相关细节被封装成 MotionEvent 对象。
++ TouchSlop：系统所能识别出的被认为是滑动的最小距离
++ VelocityTracker：速度追踪，用于追踪手指在滑动中的速度
++ GestureDetector：手势检测，用于辅助检测用的单击，滑动，长按，双击等行为
+
+View 的滑动
+1. scrollTo 与 scrollBy
+2. 改变布局参数 LayoutParams：重写 onTouchEvent()
+3. Scroller 类实现平滑滑动，本身并不能实现滑动，需要配合 View 的 computeScroll() 方法，不断的让 View 重绘
+   + startScroll() 开启平滑移动过程
+   + computeScrollOffset() 判断是否完成了滑动
+   + getCurrX() 和getCurrY() 获取当前滑动坐标
+
+- 继承已有的 View
+  1. 重写 onMeasure()
+  2. 用 getMeasuredWidth() 和 getMearsureHeight() 获取测量到的尺寸
+  3. 计算出最终要的尺寸
+  4. setMeasuredDimension(w, h) 保存结果
+- 完全自定义 View
+  1. 重写 onMeasure()
+  2. 计算出自己的尺寸 MeasureSpec.getSize(widthMeasureSpec); MeasureSpec.getSize(heightMeasureSpec);
+  3. 用 resolveSize() 或 resolvesizeAndState() 修正结果
+  4. setMeasuredDimension(w, h) 保存结果
+- 自定义 Layout：重写 onMeasure()、onLayout()
 
 RecyclerView 是 Google 推出用来代替 ListView 组件的。RecyclerView 强制使用了 ViewHolder，直接把 viewholder 的实现封装起来，用户只要实现自己的 viewholder 就可以了，该组件会自动帮你回收复用每一个 item。
 
-View 的绘制
-1. Measure：计算 View 的实际大小，获得高宽存入 mMeasuredHeight 和 mMeasureWidth 传入 measure()。measure() 方法不可被重写，自定义时需要重写的是 onMeasure()。
-2. Layout：Layout 方法就是用来确定 View 布局的位置
-3. Draw：绘制，重点是调用 onDraw()。
+#### 2.2 Menu
+分类
+- 选项菜单 OptionMenu
+- 上下文菜单 ContextMenu
+
+使用
+1. 在xml文件中定义布局文件
+2. 重写 onCreateOptionsMenu() 或 onCreateContextMenu()，创建目录
+3. 重写 onOptionsItemSelected() 或 onContextItemSelected()，响应目录的点击事件
+
+
+
+### 3 Adapter
+使用 ListView 需要三个元素：
+1. ListView 控件：展示每条数据的框架；
+2. Adapter 适配器：连接数据与展示 ListView 的中介，通知 View 绘制多少 View，每条 View 怎么绘制，View 内部事件如何响应；
+3. 数据：具体被映射的字符串、图片、状态等信息，有特定的格式要求，具体视 Adapter 实现而定；
+
+`Adapter` 接口
+- `ListAdapter` 接口：连接 ListView 和数据
+- `SpinnerAdapter` 接口
+- `BaseAdapter` 抽象类，实现自 ListAdapter 接口和 SpinnerAdapter 接口
+  - `ArrayAdapter<T>`：用于显示一行文字
+  - `SimpleAdapter`：可以展现很多种数据，默认只允许显示 Checkable、TextView、ImageView 的数据
+  - `CursorAdapter`
+  - `自定义 Adapter`
+
