@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "【Java】Java 总结 04 并发编程"
+title:  "【Java】Java 总结 04 Java并发"
 crawlertitle: "Java并发编程"
 summary: "Java Concurrency"
 date:   2020-03-15 09:00:00 +0800
