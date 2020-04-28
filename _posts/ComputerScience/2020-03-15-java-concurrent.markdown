@@ -53,40 +53,8 @@ bg: "CS.jpg"
 #### 1.1 启动和终止线程
 线程的实现方式：线程类的构造方法、静态块是被 new 这个线程类所在的线程所调用的，而 run 方法里面的代码才是被线程自身所调用的。线程中抛出的异常需要在本地进行处理。
 1. 继承 `Thread` 类—— Thread 类也实现了 Runable 接口；
-  ```java
-  Thread thread = new Thread(){
-    @Override
-    public void run() {
-      // to do
-    }
-  };
-  thread.start();
-  ```
-2. 实现 `Runnable` 接口；
-  ```java
-  Runnable run = new Runnable() {
-    @Override
-    public void run() {
-      // to do
-    }
-  };
-  Thread thread = new Thread(run);
-  thread.start();
-  ```
+2. 实现 `Runnable` 接口，实现 Runnable 接口会创建一个 Thread 对象，并将 Runnable 对象与 Thread 对象关联；
 3. 实现 `Callable` 接口；
-  ```java
-  Callable<String> call = new Callable<String>() {
-    String s = 0;
-    @Override
-    public String call() throws Exception {
-      s = "Callable";
-      return s;
-    }
-  };
-  FutureTask futureTask = new FutureTask(call);
-  Thread thread = new Thread(futureTask);
-  thread.start();
-  ```
 4. 线程池 —— Executor 框架。
 
 Callable 和 Runnable 的异同
