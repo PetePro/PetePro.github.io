@@ -10,7 +10,7 @@ author: xusc
 bg: "CS.jpg"
 ---
 
-安卓开发
+Android 是一个开源的，基于 Linux 的移动设备操作系统。Android 编程是基于 Java 的，因此理解 Java 将利于更好得进行 Android 应用程序开发。
 
 ### 1 四大组件
 
