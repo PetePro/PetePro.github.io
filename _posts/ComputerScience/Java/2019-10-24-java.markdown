@@ -147,6 +147,8 @@ System.out.println(s5 == s6); // true
 
 `Collections` 工具类：提供常用的集合操作方法，和集合的同步实现。
 
+![](#/assets/images/2019/JavaContainer.png)
+
 #### 1.2.1 ArrayList
 - 数组的默认大小为 10
 - 添加元素时使用 ensureCapacityInternal() 方法来保证容量足够，如果不够时，需要使用 grow() 方法进行扩容，新容量的大小为旧容量的 1.5 倍。扩容操作需要调用 Arrays.copyOf() 把原数组整个复制到新数组中，这个操作代价很高，因此最好在创建 ArrayList 对象时就指定大概的容量大小，减少扩容操作的次数。
