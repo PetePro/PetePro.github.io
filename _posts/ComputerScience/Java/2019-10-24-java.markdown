@@ -118,7 +118,7 @@ System.out.println(s5 == s6); // true
 
 
 
-### [1.2 Java容器](#0-目录)
+### [1.2 Java容器](https://petepro.github.io/posts/java-container/)
 
 
 
@@ -335,15 +335,15 @@ Java 中的异常体系
 
 
 
-### 3.2 JavaIO
+### 3.2 [JavaIO](https://petepro.github.io/posts/java-io/)
 
 
 
-### 3.3 Java虚拟机
+### 3.3 [Java虚拟机](https://petepro.github.io/posts/jvm/)
 
 
 
-### 3.4 Java并发
+### 3.4 [Java并发](https://petepro.github.io/posts/java-concurrent/)
 
 
 

@@ -41,10 +41,10 @@ Java 的容器框架和底层实现，
 
 #### ArrayList
 类描述
-+ 继承了 AbstractList 抽象类，实现了 List 接口。它是一个数组队列，提供了相关的添加、删除、修改、遍历等功能。
-+ 实现了 RandmoAccess 接口。即提供了随机访问功能。
-+ 实现了 Cloneable 接口。即覆盖了函数 clone()，能被克隆。
-+ 实现 java.io.Serializable 接口。这意味着 ArrayList 支持序列化，*只序列化数组中有元素填充那部分内容*。
++ 继承了 `AbstractList` 抽象类，实现了 List 接口。它是一个数组队列，提供了相关的添加、删除、修改、遍历等功能。
++ 实现了 `RandmoAccess` 接口。即提供了随机访问功能。
++ 实现了 `Cloneable` 接口。即覆盖了函数 clone()，能被克隆。
++ 实现了 `Serializable` 接口。这意味着 ArrayList 支持序列化，*只序列化数组中有元素填充那部分内容*。
 
 构造器
 + `ArrayList()` 构造一个空列表
@@ -67,10 +67,10 @@ Java 的容器框架和底层实现，
 
 #### LinkedList
 类描述
-+ 继承了 AbstractSequentialList 抽象类，实现了 List 接口。
-+ 实现了 Cloneable 接口。它支持克隆
-+ 实现了 Deque 接口。实现了 Deque 所有的可选的操作。
-+ 实现了 Serializable 接口。表明它支持序列化。
++ 继承了 `AbstractSequentialList` 抽象类，实现了 List 接口。
++ 实现了 `Cloneable` 接口。它支持克隆
++ 实现了 `Deque` 接口。实现了 Deque 所有的可选的操作。
++ 实现了 `Serializable` 接口。表明它支持序列化。
 
 构造器
 + `LinkedList()` 空构造器
@@ -87,18 +87,18 @@ Java 的容器框架和底层实现，
 
 #### HashMap
 类描述
-+ 继承了 AbstractMap 抽象类，实现了 Map 接口。
-+ 实现了 Cloneable 接口。它支持克隆。
-+ 实现了 Serializable 接口。表明它支持序列化。
-  + table 变量被 transient 所修饰，因此 HashMap 并没有使用默认的序列化机制，而是通过实现 readObject/writeObject 两个方法自定义了序列化的内容。
++ 继承了 `AbstractMap` 抽象类，实现了 Map 接口。
++ 实现了 `Cloneable` 接口。它支持克隆。
++ 实现了 `Serializable` 接口。表明它支持序列化。
+  + table 变量被 transient 所修饰，因此 HashMap 并没有使用默认的序列化机制，而是通过实现 readObject / writeObject 两个方法自定义了序列化的内容。
 
 存储结构：内部包含了一个 Node 类型的数组，继承自 Map 接口的 Entry。Entry 存储着键值对。它包含了四个字段，从 next 字段我们可以看出 Entry 是一个链表。
 
 构造方法
-+ HashMap() 
-+ HashMap(int initialCapacity) 构造一个具有初始容量值得空哈希表。
-+ HashMap(int initialCapacity, float loadFactor) 构造一个具有初始容量值和指定负载因子的空哈希表。
-+ HashMap(Map<? extends K, ? extends V> m) 构造一个包含指定元素的哈希表。
++ `HashMap()`
++ `HashMap(int initialCapacity)` 构造一个具有初始容量值得空哈希表。
++ `HashMap(int initialCapacity, float loadFactor)` 构造一个具有初始容量值和指定负载因子的空哈希表。
++ `HashMap(Map<? extends K, ? extends V> m)` 构造一个包含指定元素的哈希表。
 
 操作
 + 插入
@@ -136,10 +136,10 @@ SynchronizedList 是 java.util.Collections 中的一个静态内部类，使用 
 
 
 ##### HashTable与ConcurrentHashMap
-HashTable
+`HashTable`
 - 数组 + 链表实现，无论key还是value都不能为null，线程安全，实现线程安全的方式是在修改数据时锁住整个 HashTable，效率低。
 - 已弃用。
 
-ConcurrentHashMap
+`ConcurrentHashMap`
 - 使用的 CAS 编程方式控制线程安全， 必要时也会使用 synchronized 代码块保证线程安全。
 - 读不加锁，写加锁。

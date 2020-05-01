@@ -357,7 +357,7 @@ es.shutdown();
 - `ThreadLocal` 主要用于将私有线程和该线程存放的副本对象做一个映射，各个线程之间的变量互不干扰，在高并发场景下，可以实现无状态的调用，特别适用于各个线程依赖不同的变量值完成操作的场景。
   - ThreadLocal 数据其实都放在了 ThreadLocalMap 中，ThreadLocalMap 是 ThreadLocal 一个静态内部类，内部维护了一个 Entry 类型的 table 数组。
 
-#### 5.2 并发容器
+#### [5.2 并发容器](https://petepro.github.io/posts/java-container/#线程安全的容器)
 
 #### 5.3 阻塞队列
 `BlockingQueue` 阻塞队列：当队列空时，读线程会等待队列变为非空；当队列满时，写线程会等待队列变为可用。适用于生产者-消费者场景。
