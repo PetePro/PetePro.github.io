@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "【Java】Java 总结 04 Java并发与生产者消费者"
+title:  "【Java】Java 总结 05 Java并发与生产者消费者"
 crawlertitle: "生产者消费者"
 summary: "Producer and Consumer"
 date:   2020-03-15 10:00:00 +0800

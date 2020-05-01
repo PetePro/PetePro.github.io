@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "【Java】Java 总结 04 Java并发"
+title:  "【Java】Java 总结 05 Java并发"
 crawlertitle: "Java并发编程"
 summary: "Java Concurrency"
 date:   2020-03-15 09:00:00 +0800
@@ -358,16 +358,6 @@ es.shutdown();
   - ThreadLocal 数据其实都放在了 ThreadLocalMap 中，ThreadLocalMap 是 ThreadLocal 一个静态内部类，内部维护了一个 Entry 类型的 table 数组。
 
 #### 5.2 并发容器
-- `CopyOnWriteArrayList`
-  - 写时复制：对集合元素进行写操作时，首先复制一个副本；
-  - 适用于读多写少的情况。
-- `ConcurrentHashMap`
-  - 链地址法解决冲突
-  - 由 **Segment 数组结构**（继承自可重入锁 ReentrantLock，扮演锁的角色）和 **HashEntry 数组结构**（存储键值对数据）组成，每个 HashEntry 是一个链表结构的元素。
-  - JDK1.8 已经抛弃了 Segment 分段锁机制，利用 CAS + Synchronized 来保证并发更新的安全。数据结构采用：数组 + 链表 + 红黑树。
-    - 什么时候链表转红黑树？当 key 值相等的元素形成的链表中元素个数超过 8 的时候。
-- `ConcurrentSkipListMap`：TreeMap 和 TreeSet 的并发版本
-- `ConcurrentLinkedQueue`：无界非阻塞队列，底层是个链表，遵循先进先出原则。
 
 #### 5.3 阻塞队列
 `BlockingQueue` 阻塞队列：当队列空时，读线程会等待队列变为非空；当队列满时，写线程会等待队列变为可用。适用于生产者-消费者场景。
