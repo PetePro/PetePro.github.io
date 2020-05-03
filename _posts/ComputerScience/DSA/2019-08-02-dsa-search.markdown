@@ -198,28 +198,7 @@ B+ 树的优点在于：
 
 
 
-### 4 并查集
-并查集是一种树型的数据结构，用于处理一些不相交集合的合并及查询问题。常常在使用中以森林来表示。
-1. 合并(Union/Merge)：合并两个集合。
-    ```java
-    int Find(int x) {
-        if(x == pre[x])
-            return x;
-        return pre[x] = Find(pre[x]);
-    }
-    ```
-2. 查询(Find/Get)：查询元素所属集合。
-    ```java
-    void merge(int x, int y) {
-        int fx = Find(x), fy = Find(y);
-        if(fx != fy)
-            pre[fx] = fy;
-    }
-    ```
-
-
-
-### 5 总结
+### 4 总结
 各种符号表实现的性能总结
 <table align="center" border="1">
     <thead>
@@ -301,3 +280,90 @@ B+ 树的优点在于：
         </tr>
     </tbody>
 </table>
+
+### 5 并查集
+并查集是一种树型的数据结构，用于处理一些不相交集合的合并及查询问题。常常在使用中以森林来表示。
+
+**合并（Union / Merge）**：合并两个集合。
+```java
+    int Find(int x) {
+        if(x == pre[x])
+            return x;
+        return pre[x] = Find(pre[x]);
+    }
+```
+
+**查询（Find / Get）**：查询元素所属集合。
+```java
+    void merge(int x, int y) {
+        int fx = Find(x), fy = Find(y);
+        if(fx != fy)
+            pre[fx] = fy;
+    }
+```
+
+### 6 Trie（前缀树）
+**Trie 树的结点结构**：Trie 树是一个有根的树，其结点具有以下字段：
++ 最多 R 个指向子结点的链接，其中每个链接对应字母表数据集中的一个字母。假定 R 为 26，小写拉丁字母的数量。
++ 布尔字段，以指定节点是对应键的结尾还是只是键前缀。
+
+```java
+class TrieNode {
+    private TrieNode[] links;
+    private final int R = 26;
+    private boolean isEnd;
+}
+```
+
+**插入**：从根开始搜索它对应于第一个键字符的链接。有两种情况：
+- 链接存在。沿着链接移动到树的下一个子层。算法继续搜索下一个键字符。
+- 链接不存在。创建一个新的节点，并将它与父节点的链接相连，该链接与当前的键字符相匹配。
+
+重复以上步骤，直到到达键的最后一个字符，然后将当前节点标记为结束节点，算法完成。
+
+```java
+	public void insert(String word) {
+        TrieNode node = root;
+        for (int i = 0; i < word.length(); i++) {
+            char currentChar = word.charAt(i);
+            if (!node.containsKey(currentChar)) {
+                node.put(currentChar, new TrieNode());
+            }
+            node = node.get(currentChar);
+        }
+        node.setEnd();
+    }
+```
+
+**查找单词和前缀匹配**：检查当前节点中与键字符对应的链接。有两种情况：
+- 存在链接。我们移动到该链接后面路径中的下一个节点，并继续搜索下一个键字符。
+- 不存在链接。若已无键字符，且当前结点标记为 isEnd，则返回 true。否则有两种可能，均返回 false :
+  - 还有键字符剩余，但无法跟随 Trie 树的键路径，找不到键。
+  - 没有键字符剩余，但当前结点没有标记为 isEnd。也就是说，待查找键只是Trie树中另一个键的前缀。
+
+前缀匹配与在 Trie 树中搜索键时使用的方法非常相似，因为我们搜索的是键的前缀，而不是整个键。
+
+```java
+	private TrieNode searchPrefix(String word) {
+        TrieNode node = root;
+        for (int i = 0; i < word.length(); i++) {
+           char curLetter = word.charAt(i);
+           if (node.containsKey(curLetter)) {
+               node = node.get(curLetter);
+           } else {
+               return null;
+           }
+        }
+        return node;
+    }
+
+    public boolean search(String word) {
+       TrieNode node = searchPrefix(word);
+       return node != null && node.isEnd();
+    }
+
+	public boolean startsWith(String prefix) {
+        TrieNode node = searchPrefix(prefix);
+        return node != null;
+    }
+```
