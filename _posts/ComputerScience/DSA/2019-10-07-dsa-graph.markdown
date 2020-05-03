@@ -22,15 +22,56 @@ bg: "CS.jpg"
 1. 用的数组存储每个节点；
 2. 数组中的每个节点的所有邻接点组成一个链表，这个邻接表就是顶点的出度表。
 
+```java
+public class Graph {
+	private int V;
+	private int E;
+	private ArrayList<Integer>[] adj;
+}
+```
+
 ### 2 图的遍历
 
 #### 2.1 深度优先遍历（DFS）
 
+```java
+private boolean[] marked = new boolean[G.V()];
+private int[] edgeTo = new int[G.V()];
+private void dfs(Graph G, int v) {
+	marked[v] = true;
+	for (int w : G.adj(v))
+		if (!marked[w]) {
+			edgeTo[w] = v;
+			dfs(G, w);
+		}
+}
+```
+
 #### 2.2 广度优先遍历（BFS）
+
+```java
+private boolean[] marked = new boolean[G.V()];
+private int[] edgeTo = new int[G.V()];
+private void bfs(Graph G, int s) {
+	Queue<Integer> queue = new LinkedList<Integer>();
+	marked[s] = true;
+	queue.offer(s);
+	while (!queue.isEmpty()) {
+		int v = queue.poll();
+		for (int w : G.adj(v))
+			if (!marked[w]) {
+				edgeTo[w] = v;
+				marked[w] = true;
+				queue.offer(w);
+			}
+	}
+}
+```
+
 
 
 ### 3 最小生成树
-用n-1条边把n个顶点连接起来，且连接起来的权值最小。我们把构造联通网的最小代价生成树称为最小生成树。
+用 n - 1 条边把 n 个顶点连接起来，且连接起来的权值最小。我们把构造联通网的最小代价生成树称为最小生成树。
 
 #### 3.1 Prim算法
 
