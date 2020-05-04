@@ -12,7 +12,7 @@ bg: "CS.jpg"
 
 `图`是由一组顶点和一组能够将两个顶点相连的边组成的。
 
-### 1 图的存储
+### 1 图的存储和遍历
 
 **邻接矩阵**：V * V 的矩阵。适合稠密图。
 1. 二维数组中的对角线为 0；
@@ -30,9 +30,7 @@ public class Graph {
 }
 ```
 
-### 2 图的遍历
-
-#### 2.1 深度优先遍历（DFS）
+#### 1.1 深度优先遍历（DFS）
 
 ```java
 private boolean[] marked = new boolean[G.V()];
@@ -47,7 +45,7 @@ private void dfs(Graph G, int v) {
 }
 ```
 
-#### 2.2 广度优先遍历（BFS）
+#### 1.2 广度优先遍历（BFS）
 
 ```java
 private boolean[] marked = new boolean[G.V()];
@@ -70,7 +68,41 @@ private void bfs(Graph G, int s) {
 
 
 
-### 3 最小生成树
+### 2 有向图和拓扑排序
+有向图的逆后序序列，就是拓扑排序序列。
+
+```java
+public class DepthFirstOrder {
+	private boolean[] marked;
+	private Queue<Integer> pre;			// 前序排列
+	private Queue<Integer> post; 		// 后序排列
+	private Stack<Integer> reversePost; // 逆后序排列，即为拓扑排序
+	public DepthFirstOrder(Digraph G) {
+		pre = new LinkedList<>();
+		post = new LinkedList<>();
+		reversePost = new Stack<>();
+		marked = new boolean[G.V()];
+		for (int v = 0; v < G.V(); v++)
+			if (!marked[v])
+				dfs(G, v);
+	}
+	private void dfs(Digraph G, int v) {
+		pre.offer(v);
+		for (int w : G.adj(v))
+			if (!marked[w])
+				dfs(G, w);
+		post.offer(v);
+		reversePost.push(v);
+	}
+	public Iterable<Integer> topological(Digraph G) {
+		return new DepthFirstOrder(G).reversePost;
+	}
+}
+```
+
+
+
+### 3 加权图和最小生成树
 用 n - 1 条边把 n 个顶点连接起来，且连接起来的权值最小。我们把构造联通网的最小代价生成树称为最小生成树。
 
 #### 3.1 Prim算法
@@ -78,15 +110,10 @@ private void bfs(Graph G, int s) {
 #### 3.2 Kruskal算法
 
 
-### 4 最短路径
-
-#### 4.1 Dijkstra算法
-
-#### 4.2 Floyd算法
+### 4 加权有向图和最短路径
+Dijkstra 算法
 
 
-### 5 拓扑排序
 
-
-### 6 关键路径
+### 5 关键路径
 
