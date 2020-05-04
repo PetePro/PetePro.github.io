@@ -1,0 +1,20 @@
+---
+layout: post
+title:  "【Tools】Git"
+crawlertitle: "Git"
+summary: "Git"
+date:   2020-01-12 10:00:00 +0800
+categories: posts
+tags: 'SE'
+author: xusc
+bg: "SE.jpg"
+---
+
+Git 是分布式版本控制系统（DVCS）。它可以跟踪文件的更改，并允许你恢复到任何特定版本的更改。
+
+#### 开始
+创建新仓库：git init
+克隆仓库（本地或服务器）：git clone
+
+#### 命令汇总
+![](/assets/images/git%20sheet.jpg)

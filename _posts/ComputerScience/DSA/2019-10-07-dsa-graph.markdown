@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "【DSA】数据结构与算法 总结 04 图"
-crawlertitle: "树"
+crawlertitle: "图"
 summary: "Data Structures and Algorithm —— Graph"
 date:   2019-10-07 14:00:00  +0800
 categories: posts
