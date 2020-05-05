@@ -21,6 +21,7 @@ bg: "CS.jpg"
 **邻接表**：以顶点为索引的列表数组。适合稀疏图。
 1. 用的数组存储每个节点；
 2. 数组中的每个节点的所有邻接点组成一个链表，这个邻接表就是顶点的出度表。
+3. 以下算法均基于邻接表实现。
 
 ```java
 public class Graph {
@@ -74,8 +75,8 @@ private void bfs(Graph G, int s) {
 ```java
 public class DepthFirstOrder {
 	private boolean[] marked;
-	private Queue<Integer> pre;			// 前序排列
-	private Queue<Integer> post; 		// 后序排列
+	private Queue<Integer> pre;	// 前序排列
+	private Queue<Integer> post; // 后序排列
 	private Stack<Integer> reversePost; // 逆后序排列，即为拓扑排序
 	public DepthFirstOrder(Digraph G) {
 		pre = new LinkedList<>();
@@ -106,14 +107,98 @@ public class DepthFirstOrder {
 用 n - 1 条边把 n 个顶点连接起来，且连接起来的权值最小。我们把构造联通网的最小代价生成树称为最小生成树。
 
 #### 3.1 Prim算法
+加点法：一开始这棵树只有一个顶点，然后会向它添加 V - 1 条边，每次总是将吓一跳连接树中的顶点与不在树中的顶点且权重最小的边加入树中。
+
+```java
+public class PrimMST {
+	private Edge[] edgeTo; // 从树顶点到非树顶点的最短边
+	private double[] distTo; // 最短边权重
+	private boolean[] marked;
+	private Map<Integer, Double> pq;
+	public PrimMST(EdgeWeightedGraph G) {
+		edgeTo = new Edge[G.V()];
+		distTo = new double[G.V()];
+		marked = new boolean[G.V()];
+		for (int v = 0; v < G.V(); v++)
+			distTo[v] = Double.POSITIVE_INFINITY;
+		pq = new HashMap<>();
+		distTo[0] = 0.0;
+		pq.put(0, 0.0);
+		while (!pq.isEmpty())
+			visit(G, delMin(pq));
+	}
+	private void visit(EdgeWeightedGraph G, int v) {
+		marked[v] = true;
+		for (Edge e : G.adj(v)) {
+			int w = e.other(v);
+			if (marked[w])
+				continue;
+			if (e.weight() < distTo[w]) {
+				edgeTo[w] = e;
+				distTo[w] = e.weight();
+				pq.put(w, distTo[w]);
+			}
+		}
+	}
+}
+```
 
 #### 3.2 Kruskal算法
+加边法：按照边的权重顺序加入到最小生成树中，加入的边不会与已加入的边构成环，直到树中含有 V - 1 条边。
+
+```java
+public class KruskalMST {
+	private Queue<Edge> mst;
+	public KruskalMST(EdgeWeightedGraph G) {
+		ArrayList<Edge> pq = new ArrayList<Edge>();
+		for (Edge e : G.edges())
+			pq.add(e);
+		UF uf = new UF(G.V());
+		while (!pq.isEmpty() && mst.size() < G.V() - 1) {
+			Edge e = delMin(pq);
+			int v = e.either();
+			int w = e.other(v);
+			if (uf.find(v) != uf.find(w)) {
+				uf.union(v, w);
+				mst.offer(e);
+			}
+		}
+	}
+}
+```
+
 
 
 ### 4 加权有向图和最短路径
-Dijkstra 算法
+Dijkstra 算法：每次为最短路径树添加一条边，该边由一个树中的顶点指向一个非树顶点 w 且它是到 s 最近的顶点。
 
+```java
+public class DijkstraSP {
+	private DirectedEdge[] edgeTo;
+	private double[] distTo;
+	private Map<Integer, Double> pq;
+	public DijkstraSP(EdgeWeightedDigraph G, int s) {
+		edgeTo = new DirectedEdge[G.V()];
+		distTo = new double[G.V()];
+		pq = new HashMap<>(G.V());
+		for (int v = 0; v < G.V(); v++)
+			distTo[v] = Double.POSITIVE_INFINITY;
+		distTo[s] = 0.0;
+		pq.put(s, 0.0);
+		while (!pq.isEmpty())
+			relax(G, delMin(pq));
+	}
+	private void relax(EdgeWeightedDigraph G, int v) {
+		for (DirectedEdge e : G.adj(v)) {
+			int w = e.to();
+			if (distTo[w] > distTo[v] + e.weight()) {
+				distTo[w] = distTo[v] + e.weight();
+				edgeTo[w] = e;
+				pq.put(w, distTo[w]);
+			}
+		}
+	}
+}
+```
 
-
-### 5 关键路径
 
