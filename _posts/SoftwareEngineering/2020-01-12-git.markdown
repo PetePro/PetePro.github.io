@@ -13,8 +13,21 @@ bg: "SE.jpg"
 Git 是分布式版本控制系统（DVCS）。它可以跟踪文件的更改，并允许你恢复到任何特定版本的更改。
 
 #### 开始
-创建新仓库：git init
-克隆仓库（本地或服务器）：git clone
++ `git init` 创建新仓库
++ `git clone` 克隆仓库（本地或服务器）
++ `git pull` 更新本地仓库至最新改动
++ `git fetch` 从远程获取最新到本地，不会自动 merge，相比 pull 更安全
+
+#### 工作流
++ **工作目录**：实际文件。git add 添加到暂存区。
++ **暂存区（Index）**：缓存区域，临时保存改动。git commit 提交到 HEAD。
++ **HEAD**：指向最后一次提交的结果。git push 提交到远端仓库。
+
+#### 分支
+分支是用来将特性开发绝缘开来的。在其他分支上进行开发，完成后再将它们合并到主分支上。在你创建仓库的时候，master 是默认分支。
+- `git checkout` 切换分支
+- `git branch` 编辑分支
+- `git merge` 合并分支
 
 #### 命令汇总
 ![](/assets/images/git%20sheet.jpg)
