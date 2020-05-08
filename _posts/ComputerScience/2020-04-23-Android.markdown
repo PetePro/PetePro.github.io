@@ -145,3 +145,9 @@ RecyclerView 是 Google 推出用来代替 ListView 组件的。RecyclerView 强
   - `CursorAdapter`
   - `自定义 Adapter`
 
+
+
+### 4 安卓通信机制
+1. 标准 Java 接口（java.NET）
+2. Apache 接口（org.apache.http）
+3. Android.net 网络接口
