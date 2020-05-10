@@ -7,7 +7,7 @@ date:   2019-12-21 09:00:00 +0800
 categories: posts
 tags: '影视'
 author: xusc
-bg: "book.png"
+bg: "Movie.png"
 ---
 
 21世纪10年代即将过去，借此介绍个人心目中2010年代最佳导演、十佳电影、十佳长片动画、十佳美剧。

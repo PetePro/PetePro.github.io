@@ -7,7 +7,7 @@ date:   2019-09-30 05:30:00 +0800
 categories: posts
 tags: '游戏'
 author: xusc
-bg: "blizzard.jpg"
+bg: "Game.png"
 ---
 
 守望先锋联赛（Overwatch League）是暴雪组织的全球性的守望先锋赛事，从2018年开始每年一届。

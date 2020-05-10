@@ -30,4 +30,4 @@ Git 是分布式版本控制系统（DVCS）。它可以跟踪文件的更改，
 - `git merge` 合并分支
 
 #### 命令汇总
-![](/assets/images/git%20sheet.jpg)
+![](/assets/images/2020/git%20sheet.jpg)

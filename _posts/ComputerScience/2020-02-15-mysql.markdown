@@ -100,7 +100,7 @@ bg: "CS.jpg"
 #### 3.1 工作流程
 查询操作：建立连接 -> 查询缓存 -> SQL 解析 -> SQL 优化 -> 执行查询
 
-![](/assets/images/MySQL查询流程.png)
+![](/assets/images/2020/MySQL查询流程.png)
 
 更新操作
 1. 【Service 层】请求获取数据行（省略解析、优化部分）
