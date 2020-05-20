@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "【OO】面向对象 总结 01 面向对象方法"
+title:  "【OO】面向对象 01 面向对象方法"
 crawlertitle: "面向对象"
 summary: "Object Oriented"
 date:   2019-10-24 09:00:00 +0800

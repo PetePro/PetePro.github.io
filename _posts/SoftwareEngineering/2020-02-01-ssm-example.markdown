@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "【Java】Jee框架 01 SSM示例"
+title:  "【Java】Jee 02 SSM示例"
 crawlertitle: "SSM简单示例"
 summary: "Spring + SpringMVC + Mybatis"
 date:   2020-02-01 10:00:00 +0800

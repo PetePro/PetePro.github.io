@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "【OO】面向对象 总结 02 设计模式"
+title:  "【OO】面向对象 02 设计模式"
 crawlertitle: "设计模式"
 summary: "Design Pattern"
 date:   2020-02-02 09:00:00 +0800

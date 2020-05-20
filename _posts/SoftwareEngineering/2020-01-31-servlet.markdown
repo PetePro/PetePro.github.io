@@ -1,0 +1,35 @@
+---
+layout: post
+title:  "【Java】Jee 01 Servlet"
+crawlertitle: "Servlet"
+summary: "Servlet"
+date:   2020-01-31 09:00:00 +0800
+categories: posts
+tags: 'SE'
+author: xusc
+bg: "SE.jpg"
+---
+
+Java Servlet 是运行在 Web 服务器或应用服务器上的程序，它是作为来自 Web 浏览器或其他 HTTP 客户端的请求和 HTTP 服务器上的数据库或应用程序之间的中间层。Servlet 可以使用 javax.servlet 和 javax.servlet.http 包创建。
+
+Servlet 任务
+- 读取客户端（浏览器）发送的显式的数据。
+- 读取客户端（浏览器）发送的隐式的 HTTP 请求数据。
+- 处理数据并生成结果。
+- 发送显式的数据（即文档）到客户端（浏览器）。
+- 发送隐式的 HTTP 响应到客户端（浏览器）。
+
+Servlet 生命周期
+1. `init ()` 方法进行初始化。
+2. `service()` 方法来处理客户端的请求。
+   - `doGet()` 和 `doPost() `方法是每次服务请求中最常用的方法。下面是这两种方法的特征。
+3. `destroy()` 方法终止（结束）。
+4. 由 JVM 的垃圾回收器进行垃圾回收的。
+
+#### Cookie
+通过 Servlet 设置 Cookie
+1. 创建一个 Cookie 对象：`Cookie cookie = new Cookie("key","value");`
+2. 设置最大生存周期：`cookie.setMaxAge(60*60*24);`
+3. 发送 Cookie 到 HTTP 响应头：`response.addCookie(cookie);`
+4. 读取 Cookie：调用 HttpServletRequest 的 `getCookies()` 方法创建一个 javax.servlet.http.Cookie 对象的数组。然后循环遍历数组，并使用 `getName()` 和 `getValue()` 方法来访问每个 cookie 和关联的值。
+5. 删除 Cookie：读取 Cookie，使用 `setMaxAge() `方法设置 cookie 的年龄为零。
