@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "【Java】Java 总结 02 Java容器"
+title:  "【Java】Java 02 Java容器"
 crawlertitle: "Java容器"
 summary: "Java Containers"
 date:   2019-12-21 09:00:00 +0800

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "【OS】Linux系统 总结"
+title:  "【OS】Linux系统"
 crawlertitle: "Linux"
 summary: "Linux"
 date:   2019-09-30 10:00:00 +0800

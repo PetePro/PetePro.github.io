@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "【Java】Java 总结 01 Java基础"
+title:  "【Java】Java 01 Java基础"
 crawlertitle: "Java"
 summary: "Java"
 date:   2019-10-24 09:00:00 +0800

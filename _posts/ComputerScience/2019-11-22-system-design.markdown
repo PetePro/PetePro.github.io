@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "【OS】系统设计 总结"
+title:  "【OS】系统设计"
 crawlertitle: "系统设计"
 summary: "System Design"
 date:   2019-11-22 10:00:00 +0800

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "【OS】计算机网络 总结"
+title:  "【OS】计算机网络"
 crawlertitle: "计算机网络"
 summary: "Computer Networking"
 date:   2019-09-01 10:00:00 +0800

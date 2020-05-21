@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "【DSA】数据结构与算法 总结 07 动态规划"
+title:  "【DSA】数据结构与算法 07 动态规划"
 crawlertitle: "动态规划"
 summary: "Data Structures and Algorithm —— Dynamic Programming"
 date:   2020-03-01 10:00:00 +0800

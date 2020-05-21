@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "【OS】操作系统 总结"
+title:  "【OS】操作系统"
 crawlertitle: "操作系统"
 summary: "Operating System"
 date:   2019-09-01 10:00:00 +0800
