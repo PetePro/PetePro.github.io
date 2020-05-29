@@ -48,12 +48,28 @@ bg: "SE.jpg"
 #### [1.1 单例模式](#0-分类)
 [Singleton Pattern](https://github.com/PetePro/DesignPattern-in-Java/tree/master/src/creational/singleton)
 - 定义：确保一个类只有一个实例，并提供该实例的全局访问点。实现方式：
-  1. 懒汉式-线程不安全
-  2. 饿汉式-线程安全
-  3. 懒汉式-线程安全
-  4. 双重校验锁-线程安全
-  5. 静态内部类
-  6. 枚举
+  1. 懒汉式：默认不会实例化，用的时候实例化。线程不安全，加同步机制来解决。
+   ```java
+  public class Lazy {
+    private Lazy() {}
+    private static Lazy lazy = null; //默认不会实例化
+    public static synchronized Lazy getInstance() {
+      if(lazy == null)
+        lazy = new Lazy();
+      return lazy;
+    }
+  }
+   ```
+  2. 饿汉式：类加载的时候就实例化，并且创建单例对象。线程安全。
+   ```java
+  public class Hungry {
+    private Hungry() {}
+    private static final Hungry hungry = new Hungry();
+    public static Hungry getInstance(){
+      return hungry;
+    }
+  }
+   ```
 - 角色：使用一个私有构造函数、一个私有静态变量以及一个公有静态函数来实现。
 - 优点：提供了对唯一实例的受控访问；可以节约系统资源。
 - 缺点：因为缺少抽象层而难以扩展；单例类职责过重。
@@ -71,6 +87,8 @@ bg: "SE.jpg"
   - 工厂类负责创建的对象比较少；
   - 客户端只知道传入工厂类的参数，对于如何创建对象不关心。
 
+![](/assets/images/2020/dp/Simple-Factory.jpg)
+
 #### [1.3 工厂方法模式](#0-分类)
 [Factory Pattern](https://github.com/PetePro/DesignPattern-in-Java/tree/master/src/creational/factorymethod)
 - 定义：定义了一个创建对象的接口，但由子类决定要实例化哪个类。工厂方法把实例化操作推迟到子类。
@@ -81,6 +99,8 @@ bg: "SE.jpg"
   - 一个类不知道它所需要的对象的类；
   - 一个类通过其子类来指定创建哪个对象；
   - 将创建对象的任务委托给多个工厂子类中的某一个，客户端在使用时可以无须关心是哪一个工厂子类创建产品子类，需要时再动态指定。
+
+![](/assets/images/2020/dp/Factory.jpg)
 
 #### [1.4 抽象工厂模式](#0-分类)
 [Abstract Factory Pattern](https://github.com/PetePro/DesignPattern-in-Java/tree/master/src/creational/abstractfactory)
@@ -93,6 +113,8 @@ bg: "SE.jpg"
   - 系统中有多于一个的产品族，而每次只使用其中某一产品族；
   - 属于同一个产品族的产品将在一起使用；
   - 系统提供一个产品类的库，所有的产品以同样的接口出现，从而使客户端不依赖于具体实现。
+
+![](/assets/images/2020/dp/Abstract-Factory.jpg)
 
 #### [1.5 原型模式](#0-分类)
 [Prototype Pattern](https://github.com/PetePro/DesignPattern-in-Java/tree/master/src/creational/prototype)
