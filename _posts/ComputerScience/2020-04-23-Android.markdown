@@ -54,7 +54,7 @@ Android 是一个开源的，基于 Linux 的移动设备操作系统。Android 
 
 发送广播： 发送广播前，要先定义一个接收器，先确定目标，然后再发送。
 
-#### 1.4 ContentProvide
+#### 1.4 ContentProvider
 ContentProvider 是应用程序之间共享数据的接口，进程间进行数据交互和共享，即跨进程通信。ContentProvider 的底层是采用 Android 中的 Binder 机制。
 + 统一资源标识符（URI）
 + MIME 数据类型：多功能 Internet 邮件扩充服务
@@ -148,6 +148,12 @@ RecyclerView 是 Google 推出用来代替 ListView 组件的。RecyclerView 强
 
 
 ### 4 安卓通信机制
-1. 标准 Java 接口（java.NET）
-2. Apache 接口（org.apache.http）
-3. Android.net 网络接口
+进程通信方式
+- Bundle - 四大组件间的进程间通信
+- 文件共享 - 交换简单的数据，对实时性要求不高
+- ContentProvider - 一对多的进程间数据共享
+- BroadcastReceiver - 一对多的低频率单向通信
+- Socket - 网络间的数据交换
+  - 标准 Java 接口（java.NET）
+  - Apache 接口（org.apache.http）
+  - Android.net 网络接口

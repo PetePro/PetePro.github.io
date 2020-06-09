@@ -51,23 +51,23 @@ bg: "SE.jpg"
   1. 懒汉式：默认不会实例化，用的时候实例化。线程不安全，加同步机制来解决。
    ```java
   public class Lazy {
-    private Lazy() {}
-    private static Lazy lazy = null; //默认不会实例化
-    public static synchronized Lazy getInstance() {
-      if(lazy == null)
-        lazy = new Lazy();
-      return lazy;
-    }
+      private Lazy() {}
+      private static Lazy lazy = null; //默认不会实例化
+      public static synchronized Lazy getInstance() {
+          if(lazy == null)
+              lazy = new Lazy();
+          return lazy;
+      }
   }
    ```
   2. 饿汉式：类加载的时候就实例化，并且创建单例对象。线程安全。
    ```java
   public class Hungry {
-    private Hungry() {}
-    private static final Hungry hungry = new Hungry();
-    public static Hungry getInstance(){
-      return hungry;
-    }
+      private Hungry() {}
+      private static final Hungry hungry = new Hungry();
+      public static Hungry getInstance(){
+          return hungry;
+      }
   }
    ```
 - 角色：使用一个私有构造函数、一个私有静态变量以及一个公有静态函数来实现。
