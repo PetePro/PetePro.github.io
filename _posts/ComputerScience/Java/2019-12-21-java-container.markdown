@@ -39,6 +39,13 @@ Java 的容器框架和底层实现，
 
 ![](#/assets/images/2019/JavaContainer.png)
 
+比较|List|Set
+:-:|:-:|:-:
+重复|允许|不允许
+null|多个|一个
+顺序|保证插入顺序|不保证插入顺序<br/>通过 Comparator 或 Comparable 维护了一个排序顺序
+
+
 #### ArrayList
 类描述
 + 继承了 `AbstractList` 抽象类，实现了 List 接口。它是一个数组队列，提供了相关的添加、删除、修改、遍历等功能。
