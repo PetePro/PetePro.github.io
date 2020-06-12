@@ -12,7 +12,7 @@ bg: "CS.jpg"
 
 Java 的容器框架和底层实现，
 
-- `Collection`：Collection 继承了 Iterable 接口，其中 iterator() 方法能够产生一个 Iterator 对象，通过这个对象就可以迭代遍历 Collection 中的元素。属于*迭代器模式*。
+- `Collection`：继承了 Iterable 接口，其中 iterator() 方法能够产生一个 Iterator 对象，可以迭代遍历 Collection 中的元素。属于*迭代器模式*。
   - `Set`：无序、数据不重复
     - `TreeSet`：基于红黑树实现。有序。
     - `HashSet`：基于哈希表实现。无序。读取快，查找的时间复杂度为 O(1)。
@@ -37,13 +37,11 @@ Java 的容器框架和底层实现，
 
 `Collections` 工具类：提供常用的集合操作方法，和集合的同步实现。
 
-![](#/assets/images/2019/JavaContainer.png)
-
 比较|List|Set
 :-:|:-:|:-:
-重复|允许|不允许
-null|多个|一个
-顺序|保证插入顺序|不保证插入顺序<br/>通过 Comparator 或 Comparable 维护了一个排序顺序
+**重复**|允许|不允许
+**null**|多个|一个
+**顺序**|保证插入顺序|不保证插入顺序<br/>通过 Comparator 或 Comparable 维护了一个排序顺序
 
 
 #### ArrayList
@@ -66,11 +64,11 @@ null|多个|一个
 
 操作|数组|ArrayList
 :-:|:-:|:-:
-创建|`int[] a = new int[10]`|`List<Integer> list = new ArrayList<Integer>()`
-大小|`a.length`|`list.size()`
-排序|`Arrays.sort(a)`|`Collections.sort(list)`
-添删改|相当复杂|相应函数
-访问元素|`a[0]`|`list.get(0)`
+**创建**|`int[] a = new int[10]`|`List<Integer> list = new ArrayList<Integer>()`
+**大小**|`a.length`|`list.size()`
+**排序**|`Arrays.sort(a)`|`Collections.sort(list)`
+**添删改**|相当复杂|相应函数
+**访问元素**|`a[0]`|`list.get(0)`
 
 #### LinkedList
 类描述
@@ -99,7 +97,7 @@ null|多个|一个
 + 实现了 `Serializable` 接口。表明它支持序列化。
   + table 变量被 transient 所修饰，因此 HashMap 并没有使用默认的序列化机制，而是通过实现 readObject / writeObject 两个方法自定义了序列化的内容。
 
-存储结构：内部包含了一个 Node 类型的数组，继承自 Map 接口的 Entry。Entry 存储着键值对。它包含了四个字段，从 next 字段我们可以看出 Entry 是一个链表。
+存储结构：内部包含了一个 Node 类型的数组，继承自 Map 接口的 Entry。Entry 存储着键值对。它包含了四个字段，next 字段指向下一个 Entry。
 
 构造方法
 + `HashMap()`
@@ -115,10 +113,10 @@ null|多个|一个
   + 一个桶存储的链表长度大于等于 8 时会将链表转换为红黑树。
 + 扩容
   + 相关参数
-    + capacity：table 的容量大小，默认为 16。需要注意的是 capacity 必须保证为 2 的 n 次方。
-    + size：键值对数量。
-    + threshold：size 的临界值，默认为 0.75f。
-    + loadFactor：负载因子，table 能够使用的比例，threshold = (int)(capacity * loadFactor)。
+    + `capacity`：table 的容量大小，默认为 16。需要注意的是 capacity 必须保证为 2 的 n 次方。
+    + `size`：键值对数量。
+    + `threshold`：size 的临界值，默认为 0.75f。
+    + `loadFactor`：负载因子，table 能够使用的比例，threshold = (int)(capacity * loadFactor)。
   + 当需要扩容时，原来的两倍。
   + 扩容操作同样需要把 oldTable 的所有键值对重新插入 newTable 中，这一步很费时。
 + 计算哈希值 —— 无符号右移 16 位后做异或运算：将高低位二进制特征混合起来
@@ -131,11 +129,11 @@ null|多个|一个
 
 比较|ArrayList|Vector
 :-:|:-:|:-:
-是否线程安全|否|是<br/>使用 synchronized 同步**方法**
-无参构造初始化容量|0|10
-扩容|1.5 倍|默认 2 倍<br/>可设置
+**是否线程安全**|否|是<br/>使用 synchronized 同步**方法**
+**无参构造初始化容量**|0|10
+**扩容**|1.5 倍|默认 2 倍<br/>可设置
 
-SynchronizedList 是 java.util.Collections 中的一个静态内部类，使用 synchronized 同步**代码块**。在多线程的场景中可以直接使用 Vector 类；也可以使用 Collections.synchronizedList(List list) 方法来返回一个线程安全的 List，但在遍历的时候要手动进行同步。
+**`SynchronizedList`** 是 java.util.Collections 中的一个静态内部类，使用 synchronized 同步**代码块**。在多线程的场景中可以直接使用 Vector 类；也可以使用 Collections.synchronizedList(List list) 方法来返回一个线程安全的 List，但在遍历的时候要手动进行同步。
 
 ##### CopyOnWriteArrayList
 - 写时复制：对集合元素进行写操作时，首先复制一个副本；
@@ -144,7 +142,7 @@ SynchronizedList 是 java.util.Collections 中的一个静态内部类，使用 
 
 ##### HashTable与ConcurrentHashMap
 `HashTable`
-- 数组 + 链表实现，无论key还是value都不能为null，线程安全，实现线程安全的方式是在修改数据时锁住整个 HashTable，效率低。
+- 数组 + 链表实现，无论 key 还是 value 都不能为 null，线程安全，实现线程安全的方式是在修改数据时锁住整个 HashTable，效率低。
 - 已弃用。
 
 `ConcurrentHashMap`
