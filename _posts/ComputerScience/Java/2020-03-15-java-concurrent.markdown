@@ -29,7 +29,6 @@ bg: "CS.jpg"
   - [2.1 synchronized](#21-synchronized)
     - [2.1.1 CAS](#211-cas)
   - [2.2 volatile](#22-volatile)
-  - [2.3 多线程下的final](#23-多线程下的final)
 - [3 锁和AQS](#3-锁和aqs)
   - [3.1 锁分类](#31-锁分类)
   - [3.2 JUC](#32-juc)
@@ -79,7 +78,9 @@ Callable 和 Runnable 的异同
 终止线程：每个线程都有自己的中断策略，因此除非你知道中断对该线程的含义，否则就不应该中断这个线程。
 1. 自然执行完；
 2. `stop()` `resume()` `suspend()` 过时的方法，不建议使用；
-3. `interrupt()` 并不是立即停止目标线程正在进行的工作，而是传递了请求中断的消息。
+3. `interrupt()` 并不是立即停止目标线程正在进行的工作，而是传递了请求中断的消息；
+4. 通过 `Future.cancel()` 来实现取消；
+5. 通过 `ExecutorService.shutdown()` 来关闭。
 
 #### 1.2 线程状态
 - 新建（NEW）
@@ -97,7 +98,7 @@ Callable 和 Runnable 的异同
 #### 1.3 线程常用方法
 - `run()` `start()` 把需要处理的代码放到 run() 方法中，start() 方法启动线程将自动调用 run() 方法。并且 run() 方法必需是 public 访问权限，返回值类型为 void。
 - `currentThread()` 当前正在运行的线程
-- `interrupted` 中断
+- `interrupted` 中断。中断不会真正中断一个正在运行的线程，而只是发出中断请求。
   - `void interrupt()` 中断操作，设置中断标志位为 true；
   - `boolean interrupted()` 判断当前线程的中断标志位是否为 true，并取消中断标志位；
   - `boolean isInterrupted()` 判断当前线程的中断标志位是否为 true，但不清除中断标志位；
@@ -112,13 +113,13 @@ sleep() 与 wait() 对比
 
 对比|sleep()|wait()
 :-:|:-:|:-:
-提供者|Thread|Object
-方法属性|静态方法|实例方法
-使用|任何地方|同步方法或块
-作用对象|当前线程|当前对象
-唤醒条件|超时或调用 interrupt()|notify() 或 notifyAll()
-释放锁资源|否|是
-对象监视器|不放弃|放弃
+**提供者**|Thread|Object
+**方法属性**|静态方法|实例方法
+**使用**|任何地方|同步方法或块
+**作用对象**|当前线程|当前对象
+**唤醒条件**|超时或调用 interrupt()|notify() 或 notifyAll()
+**释放锁资源**|否|是
+**对象监视器**|不放弃|放弃
 
 
 #### 1.4 两类线程
@@ -133,6 +134,8 @@ sleep() 与 wait() 对比
 ### 2 关键字
 
 #### 2.1 synchronized
+synchronized 是 Java 提供的一种内置锁机制来支持原子性，是可重入的。
+
 作用范围
 - 同步一个代码块或方法 —— 作用于同一个对象
 - 同步一个类或静态方法 —— 作用于整个类
@@ -140,6 +143,7 @@ sleep() 与 wait() 对比
 
 ##### 2.1.1 CAS
 synchronized 优化：**原子操作CAS**
+
 `CAS` 是 `compare and swap` 的缩写，即比较和交换。是 CPU 底层的一种技术，是一条 CPU 的原子指令。一种基于锁的操作，而且是乐观锁。指令级别保证这是一个原子操作.
 - CAS 操作包含三个操作数 —— 内存位置（V）、预期原值（A）和新值（B）
 - 如果内存地址里面的值和 A 的值是一样的，那么就将内存里面的值更新成 B。
@@ -170,12 +174,10 @@ volatile 是 JVM 提供的最轻量级的同步机制。被 volatile 修饰的�
 3. 其他处理器通过嗅探机制会发现自己缓存的数据失效了，于是将该缓存行标记为无效状态。
 4. 在其他处理器执行修改操作的时候，会强制重新从主内存中读取数据。
 
-#### 2.3 多线程下的final
-+ 基本数据类型：
-  + final 域写：禁止在构造方法中的 final 域写被重排序到构造方法之外。
-  + final 域读：禁止初次读对象的引用域读取该对象的 final 域的重排序。
-+ 引用数据类型：
-  + 在上面两个规则的基础上增加的规则：禁止在构造函数中对于 final 域的成员变量的写与在构造方法之外的对象的引用赋值给引用变量进行重排序。
+使用 volatile 的场景
+- 对变量的写入操作不依赖变量的当前值，或只有单个线程更新变量的值。
+- 该变量不会与其它状态变量一起纳入不变性条件中。
+- 在访问变量时不需要加锁。
 
 
 
@@ -245,13 +247,13 @@ AQS 的实现：
 
 比较|synchronized|ReentrantLock
 :-:|:-:|:-:
-本质区别|关键字|类
-实现|JVM|JDK
-可否中断|不可|可以
-是否公平锁|非公平|非公平，也可以公平
-是否独占锁|是|是
-加锁解锁|自动|手动
-可否重入|可以|可以
+**本质区别**|关键字|类
+**实现**|JVM|JDK
+**可否中断**|不可|可以
+**是否公平锁**|非公平|非公平，也可以公平
+**是否独占锁**|是|是
+**加锁解锁**|自动|手动
+**可否重入**|可以|可以
 
 Java 中读写锁的主要实现为 `ReentrantReadWriteLock`，实现自 `ReadWriteLock` 接口。其提供了以下特性：
 - 公平锁：支持公平与非公平（默认）的锁获取方式，吞吐量非公平优先于公平。
@@ -265,12 +267,12 @@ Java 中读写锁的主要实现为 `ReentrantReadWriteLock`，实现自 `ReadWr
 
 比较|Object|Condition
 :-:|:-:|:-:
-提供者|JVM|JDK
-等待通信方法|wait()<br/>notify()<br/>notifyAll()|await()<br/>signal()<br/>signalAll()
-配合对象|对象监视器|Lock
-超时设置|不支持|支持
-**不**相应中断|不支持|支持
-等待队列|一个|多个
+**提供者**|JVM|JDK
+**等待通信方法**|wait()<br/>notify()<br/>notifyAll()|await()<br/>signal()<br/>signalAll()
+**配合对象**|对象监视器|Lock
+**超时设置**|不支持|支持
+***不*相应中断**|不支持|支持
+**等待队列**|一个|多个
 
 LockSupport 是用来阻塞线程的工具，park()方法用来阻塞线程，unpark()方法用来唤醒线程。
 
@@ -278,12 +280,12 @@ LockSupport 是用来阻塞线程的工具，park()方法用来阻塞线程，un
 
 ### 4 线程池
 线程池优点
-1. 减少资源消耗：重用存在的线程，减少对象创建销毁的开销。
+1. 减少资源消耗：重用存在的线程，减少对象创建或销毁的开销。
 2. 可有效的控制最大并发线程数，提高系统资源的使用率，同时避免过多资源竞争，避免堵塞。
 3. 提供定时执行、定期执行、单线程、并发数控制等功能。
 
 #### 4.1 Executor框架
-Executor 框架基于生产者-消费者模式。
+Executor 框架基于生产者-消费者模式。任务是一组逻辑工作单元，而线程则是使任务异步执行的机制。
 
 主要组成
 + 任务：包括被执行的任务需要实现的接口：`Runnable` 接口、`Callable` 接口。
@@ -295,21 +297,21 @@ Executor 框架基于生产者-消费者模式。
   + `AbstractExecutorService` 类：提供 ExecutorService 执行方法的默认实现。
   + `ScheduledExecutorService` 接口： 一个特殊的 ExecutorService，提供了可安排在给定的延迟后运行或定期执行的命令。
 + 任务的异步计算结果： 包括 Future 接口和实现 `Future` 接口的 `FutureTask` 类、`ForkJoinTask` 类。
-  + `Future<V>` **接口**对具体的 Runnable 或者 Callable 任务的执行结果进行取消、查询是否完成、获取结果。Future只是一个接口，我们无法直接创建对象。
+  + `Future<V>` **接口**对具体的 Runnable 或者 Callable 任务的执行结果进行取消、查询是否完成、获取结果。Future 表示一个任务的生命周期，get 方法的行为取决于任务的状态。。
   + `FutureTask` **类**实现了 RunnableFuture 接口，该接口继承自 Runnable 和 Future 接口，这使得 FutureTask 既可以当做一个任务执行，也可以有返回值获取执行结果。
   + `ForkJoinPool` 是 Fork/Join 框架里面的管理者。它负责控制整个 Fork/Join 有多少个 ForkJoinWorkerThread，掌控 ForkJoinWorkerThread 的创建和激活。
 
 ```java
+ExecutorService es = Executors.newSingleThreadExecutor();
+MyCallable myCall = new MyCallable();
+
 // Callable + Future 获取执行结果
-ExecutorService es = Executors.newSingleThreadExecutor();
-MyCallable myCall = new MyCallable();
 Future<Integer> future = es.submit(myCall);
-es.shutdown();
+
 // Callable + FutureTask 获取执行结果
-ExecutorService es = Executors.newSingleThreadExecutor();
-MyCallable myCall = new MyCallable();
 FutureTask<Integer> futureTask = new FutureTask<>(myCall);
 es.submit(futureTask);
+
 es.shutdown();
 ```
 
@@ -342,8 +344,8 @@ es.shutdown();
   - 调用者策略
 
 关闭线程池，ExecutorService 接口
-- `shutdown()` 只会中断所有没有执行任务的线程
-- `shutdownNow()` 还会尝试停止正在运行或者暂停任务的线程
+- `shutdown()` 平缓的关闭：完成所有已经启动的任务，不再接受任何新任务
+- `shutdownNow()` 粗暴的关闭：尝试取消所有已经启动的任务，不再接受任何新任务
 
 
 
@@ -353,8 +355,7 @@ es.shutdown();
 - `CountDownLatch` 能够使一个线程在等待另外一些线程完成各自工作之后，再继续执行。可以理解为加强版的 join()。
 - `CyclicBarrier` 让一组线程达到某个屏障被阻塞，一直到组内最后一个线程达到屏障时，屏障开放，所有被阻塞的线程会继续运行。
 - `Semaphore` 控制同时访问某个特定资源的线程数量，用在流量控制。
-- `ThreadLocal` 主要用于将私有线程和该线程存放的副本对象做一个映射，各个线程之间的变量互不干扰，在高并发场景下，可以实现无状态的调用，特别适用于各个线程依赖不同的变量值完成操作的场景。
-  - ThreadLocal 数据其实都放在了 ThreadLocalMap 中，ThreadLocalMap 是 ThreadLocal 一个静态内部类，内部维护了一个 Entry 类型的 table 数组。
+- `ThreadLocal` 是维持线程封闭性的一种规范方法，它提供了 get 和 set 等访问接口或方法，这些方法为每个使用该变量的线程都存有一份独立的副本。
 
 #### [5.2 并发容器](https://petepro.github.io/posts/java-container/#线程安全的容器)
 
@@ -367,11 +368,12 @@ es.shutdown();
     - 按照先进先出原则，可不设定初始大小。用了两个锁。插入元素需要转换。
   - `PriorityBlockingQueue`：一个支持优先级排序的无界阻塞队列。
     - 默认情况下，按照自然顺序，或者实现 compareTo() 方法。
+- `SynchronousQueue`：一个不存储元素的阻塞队列。
+  - 它维护一组线程，降低了将数据从生产者移动到消费者的延迟。
+  - 仅当有足够多的消费者，并且总有一个消费者准备好获取交付的工作时使用。
 - `DelayQueue`：一个使用优先级队列实现的无界阻塞队列。
   - 支持延时获取的元素的阻塞队列，元素必须要实现 Delayed 接口。
   - 适用场景：实现自己的缓存系统，订单到期，限时支付等等。
-- `SynchronousQueue`：一个不存储元素的阻塞队列。
-  - 每一个 put 操作都要等待一个 take 操作
 - `LinkedTransferQueue`：一个由链表结构组成的无界阻塞队列。
 - `LinkedBlockingDeque`：一个由链表结构组成的双向阻塞队列。
   - 队列的头和尾都可以插入和移除元素，实现工作密取，方法名带 First 对头部操作，带 last 对尾部操作。
@@ -393,13 +395,13 @@ es.shutdown();
 线程不安全的原因
 1. 主内存和工作内存中的数据不一致
 2. 对于程序代码指令重排序导致的
-想要避免这两个问题，那就需要知道：1)、线程之间如何通信。2)、线程之间如何完成同步
 
 线程安全有以下几种实现方式：
 - 不可变（Immutable）的对象一定是线程安全的：final 关键字修饰的基本数据类型、String、枚举类型、Number 部分子类
 - 互斥同步 Synchronized 和 ReentrantLock。
 - 加锁和 CAS
 - 安全发布
+  - 发布：使对象能够在当前作用域之外的代码中使用
 - 无同步方案
   - 栈封闭：多个线程访问同一个方法的局部变量时，不会出现线程安全问题，因为局部变量存储在虚拟机栈中，属于线程私有的。
   - 线程本地存储：可以使用 java.lang.ThreadLocal 类来实现线程本地存储功能。
@@ -416,7 +418,7 @@ es.shutdown();
   - 在声明的时候就 new 这个类的实例
 - 懒汉式单例模式：非线程安全。
   - 在单例类的内部由一个私有静态内部类来持有这个单例类的实例。
-- 双检锁单例模式：线程安全
+  - 可以通过加同步机制，或双重校验机制来解决。
 
 #### 6.1 Java内存模型
 ***Java 内存模型（Java Memory Model，JMM）***试图屏蔽各种硬件和操作系统的内存访问差异，以实现让 Java 程序在各种平台下都能达到一致的内存访问效果。

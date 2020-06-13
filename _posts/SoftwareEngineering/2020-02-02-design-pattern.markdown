@@ -48,7 +48,7 @@ bg: "SE.jpg"
 #### [1.1 单例模式](#0-分类)
 [Singleton Pattern](https://github.com/PetePro/DesignPattern-in-Java/tree/master/src/creational/singleton)
 - 定义：确保一个类只有一个实例，并提供该实例的全局访问点。实现方式：
-  1. 懒汉式：默认不会实例化，用的时候实例化。线程不安全，加同步机制来解决。
+  1. 懒汉式：默认不会实例化，用的时候实例化。线程不安全，加同步机制来解决，或双重校验机制。
    ```java
   public class Lazy {
       private Lazy() {}
