@@ -61,6 +61,7 @@ Java 的容器框架和底层实现，
 - 添加元素时使用 ensureCapacityInternal() 方法来保证容量足够，如果不够时，需要使用 grow() 方法进行扩容，新容量的大小为旧容量的 **1.5** 倍。扩容操作需要调用 Arrays.copyOf() 把原数组整个复制到新数组中，这个操作代价很高，因此最好在创建 ArrayList 对象时就指定大概的容量大小，**减少扩容**操作的次数。
 - 删除元素需要调用 System.arraycopy() 将 index + 1 后面的元素都复制到 index 位置上。
 - 迭代器两种，一种是指提供向后遍历的 Iterator，另一种是List的专有迭代器 ListIterator。
+- 一边遍历一边删除：Iterator.remove()
 
 操作|数组|ArrayList
 :-:|:-:|:-:
@@ -111,6 +112,11 @@ Java 的容器框架和底层实现，
   + 使用链表的头插法，也就是新的键值对插在链表的头部。
   + HashMap 使用第 0 个桶存放键为 null 的键值对。
   + 一个桶存储的链表长度大于等于 8 时会将链表转换为红黑树。
++ 遍历
+  + `map.keySet()`
+  + `Iterator`
+  + `map.entrySet()`
+  + `map.values()`
 + 扩容
   + 相关参数
     + `capacity`：table 的容量大小，默认为 16。需要注意的是 capacity 必须保证为 2 的 n 次方。

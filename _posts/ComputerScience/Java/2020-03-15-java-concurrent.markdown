@@ -333,6 +333,12 @@ es.shutdown();
    - 创建一个定长线程池，支持定时及周期性任务执行
    - 适合适度控制后台线程数量
 
+常见参数：
+- corePoolSize：核心线程数量
+- maximumPoolSize：线程最大线程数
+- keepAliveTime：线程没有任务时最多保持多久时间终止
+- workQueue：阻塞队列，存储等待执行的任务
+
 任务提交
 - `void execute(Runnable command)`
 - `Future submit(Callable task)`
