@@ -29,7 +29,7 @@ bg: "CS.jpg"
   - 聚集操作：分组：`GROUP BY`；条件：`HAVING`、`WHERE`；平均值：`AVG`；最值：`MIN`、`MAX`；总和：`SUM`；计数：`COUNT`；
     - 先根据 WHERE 筛选，再进行行分组，最后根据 HAVING 筛选
   - 嵌套子查询：包含：`IN`、`NOT IN`；比较：`SOME`、`ALL`；全称：`ALL`；特称：`SOME`；存在：`EXIST`；重复：`UNIQUE`、`NOT UNIQUE`；
-  - 死循环插入：`INWERT INTO TABLE SELECT * FROM TABLE`；
+  - 死循环插入：`INSERT INTO TABLE SELECT * FROM TABLE`；
   - 连接操作：内连接：`INNER JOIN`；左连接：`LEFT JOIN`；右连接：`RIGHT JOIN`；全连接：`FULL OUTER JOIN`；外连接：`OUTER JOIN`。
 
 ![](/assets/images/2020/SQL_JOINS.jpg)
