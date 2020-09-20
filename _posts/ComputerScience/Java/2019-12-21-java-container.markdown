@@ -16,7 +16,7 @@ Java 的容器框架和底层实现，
   - `Set`：无序、数据不重复
     - `TreeSet`：基于红黑树实现。有序。
     - `HashSet`：基于哈希表实现。无序。读取快，查找的时间复杂度为 O(1)。
-      - `LinkedHashSet`：按照元素添加顺序保存，具有 HashSet 的查找效率。
+    - `LinkedHashSet`：这个是一个 HashSet + LinkedList 的结构，特点就是既拥有了 O(1) 的时间复杂度，又能够保留插入的顺序。
   - `List`：有序、数据可重复
     - [`ArrayList`](#arraylist)：基于动态数组实现，支持随机访问。异步，非线程安全。
     - [`LinkedList`](#linkedlist)：基于双向链表实现，只能顺序访问。异步，非线程安全。
@@ -28,8 +28,8 @@ Java 的容器框架和底层实现，
     - `PriorityQueue`：基于堆结构实现，可以用它来实现优先队列。
 - `Map`
   - `TreeMap`：基于红黑树实现。有序。
-  - [`HashMap`](#hashmap)：基于哈希表实现。
-    - `LinkedHashMap`：继承自 HashMap。使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。
+  - [`HashMap`](#hashmap)：基于哈希表实现。无序。读取快，查找的时间复杂度为 O(1)。
+  - `LinkedHashMap`：这是一个HashMap + 双向链表 的结构，落脚点是 HashMap，所以既拥有 HashMap 的所有特性还能有顺序。
   - `ConcurrentHashMap`：和 HashMap 实现上类似。线程安全。采用了分段锁（Segment），每个分段锁维护着几个桶（HashEntry），多个线程可以同时访问不同分段锁上的桶，从而使其并发度更高。
   - `HashTable`：和 HashMap 类似，但它是线程安全的。它是遗留类，已弃用，而是使用 ConcurrentHashMap 来支持线程安全。
   - `IdentityHashMap`：使用 `==` 替代 `equals()` 对键进行比较
