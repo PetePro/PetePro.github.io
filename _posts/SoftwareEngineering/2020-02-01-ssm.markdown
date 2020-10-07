@@ -73,10 +73,17 @@ DI：IoC 的另一种表达形式。相对于 IoC 而言，这种表达更直接
 
 ##### 1.2.1 bean
 bean 生命周期（IoC 容器容器管理）
-1. 实例化
-2. 初始化
-3. 使用
-4. 销毁
+1. Bean 的定义：通过配置文件定义 Bean
+2. Bean 的初始化
+   - 在配置文档中指定 init-method 属性
+   - 实现 org.springframwork.beans.factory.InitializingBean 接口，并且增加 afterPropertiesSet() 方法
+3. Bean 的调用
+   1. 使用 BeanWrapper
+   2. 使用 BeanFactory
+   3. 使用 ApplicationContext
+4. Bean 的销毁
+   - 在配置文档中指定 destory-method 属性
+   - 实现 org.springframwork.bean.factory.DisposebleBean 接口
 
 两种类型的 IoC 容器实现，Spring Bean 的创建是典型的工厂模式
 - `BeanFactory` 是 Spring 中比较原始、比较古老的 Factory。

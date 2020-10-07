@@ -14,8 +14,8 @@ Java 的容器框架和底层实现，
 
 - `Collection`：继承了 Iterable 接口，其中 iterator() 方法能够产生一个 Iterator 对象，可以迭代遍历 Collection 中的元素。属于*迭代器模式*。
   - `Set`：无序、数据不重复
-    - `TreeSet`：基于红黑树实现。有序。
-    - `HashSet`：基于哈希表实现。无序。读取快，查找的时间复杂度为 O(1)。
+    - `TreeSet`：基于红黑树实现。有序，Key 值实现 java.lang.Comparable。
+    - `HashSet`：基于哈希表实现。无序，Key 值实现 hashCode()。读取快，查找的时间复杂度为 O(1)。
     - `LinkedHashSet`：这个是一个 HashSet + LinkedList 的结构，特点就是既拥有了 O(1) 的时间复杂度，又能够保留插入的顺序。
   - `List`：有序、数据可重复
     - [`ArrayList`](#arraylist)：基于动态数组实现，支持随机访问。异步，非线程安全。
