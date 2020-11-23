@@ -123,7 +123,7 @@ sleep() 与 wait() 对比
 
 
 #### 1.4 两类线程
-1. **User Thread（用户线程）**：就是我们平时线程池或者创建线程start后的线程，没有设置 setDaemon(true)
+1. **User Thread（用户线程）**：就是我们平时线程池或者创建线程 start() 后的线程，没有设置 setDaemon(true)
 2. **Daemon Thread（守护线程）**：为其他线程服务的线程。所有非守护线程都执行完毕后，无论有没有守护线程，虚拟机都会自动退出。
    - `thread.setDaemon(true)` 必须在thread.start() 之前设置，否则会出现 IllegalThreadStateException 异常。不能把正在运行的常规线程设置为守护线程。
    - 在 Daemon 线程中产生的新线程也是 Daemon 的
@@ -341,7 +341,14 @@ es.shutdown();
 - corePoolSize：核心线程数量
 - maximumPoolSize：线程最大线程数
 - keepAliveTime：线程没有任务时最多保持多久时间终止
-- workQueue：阻塞队列，存储等待执行的任务
+- unit：空间线程存活时间单位，keepAliveTime 的计量单位
+- workQueue：工作队列，存储等待执行的任务
+- threadFactory：线程工厂
+- handler：拒绝策略
+  - CallerRunsPolicy
+  - AbortPolicy
+  - DiscardPolicy
+  - DiscardOldestPolicy
 
 任务提交
 - `void execute(Runnable command)`
