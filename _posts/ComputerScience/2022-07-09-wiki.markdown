@@ -1,0 +1,95 @@
+---
+layout: post
+title:  "【Wiki】Engineering Wiki"
+crawlertitle: "Engineering Wiki"
+summary: "Engineering Wiki"
+date:   2022-07-30 05:30:00 +0800
+categories: posts
+tags: 'CS'
+author: xusc
+bg: "CS.jpg"
+---
+
+# 1 后端开发
+
+## 1.1 Java
+
+### 1.1.1 JavaSE
+- Java语法
+- 面向对象
+- Exception
+- Collections
+- I/O
+- 多线程 & JUC
+- JVM
+
+### 1.1.2 编码规范
+
+### 1.1.3 代码静态扫描
+sonar
+
+## 1.2 JavaWeb
+
+## 1.3 Spring
+- SpringBoot
+- SpringSecurity
+- SpringCloud
+
+## 1.4 微服务
+
+# 2 数据库
+
+## 2.1 MySQL
+
+## 2.2 Oracle
+
+## 2.3 ORM框架
+- JDBC
+- Mybatis & MybatisPlus
+- Hibernate
+
+# 3 中间件
+
+## 3.1 注册中心
+- Zookeeper
+- Dubbo
+
+## 3.2 异步消息
+- RabbitMQ
+- Kafka
+
+## 3.3 缓存
+Redis
+
+## 3.4 存储
+
+## 3.5 全文搜索
+ElasticSearch
+
+## 3.6 负载均衡
+- F5
+- Nginx
+
+# 4 项目管理
+
+## 4.1 Git
+
+## 4.2 Maven
+
+## 4.3 持续集成
+Jenkins
+
+# 5 运维
+
+## 5.1 Linux
+
+## 5.2 容器
+
+# 6 前端
+
+## 6.1 语言基础
+- HTML5
+- CSS3
+- JavaScript
+
+## 6.2 Vue
